@@ -23,7 +23,7 @@ class ProfileController extends Controller
      */
     public function getProfilesAction()
     {
-        
+        //$userManager = $container->get('fos_user.user_manager');
     }
 
     /**

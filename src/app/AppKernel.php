@@ -22,6 +22,7 @@ class AppKernel extends Kernel
             // console generate:bundle --namespace=Digitalwert/Symfony2/Bundle/Monodi/FrontendBundle --bundle-name=MonodiFrontendBundle --format=annotation --structure=yes --dir=src\src,
             
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
             /*
              * 
              */
