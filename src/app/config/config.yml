@@ -63,3 +63,8 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
+    
+# ApiDoc
+# @see http://knpbundles.com/nelmio/NelmioApiDocBundle
+nelmio_api_doc:
+    name: Monodi-Api Version 1

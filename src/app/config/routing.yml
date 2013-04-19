@@ -1,2 +1,18 @@
+digitalwert_monodi_frontend:
+    resource: "@DigitalwertMonodiFrontendBundle/Controller/"
+    type:     annotation
+    prefix:   /
 
+digitalwert_monodi_api:
+    resource: "@DigitalwertMonodiApiBundle/Controller/"
+    type:     annotation
+    prefix:   /api/v1
+    
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
 
+#digitalwert_monodi_common:
+#    resource: "@DigitalwertMonodiCommonBundle/Controller/"
+#    type:     annotation
+#    prefix:   /

@@ -19,7 +19,15 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
-            // console generate:bundle --namespace=Digitalwert/Symfony2/Bundle/Monodi/FrontendBundle --bundle-name=MonodiFrontendBundle --format=annotation --structure=yes --dir=src\src
+            // console generate:bundle --namespace=Digitalwert/Symfony2/Bundle/Monodi/FrontendBundle --bundle-name=MonodiFrontendBundle --format=annotation --structure=yes --dir=src\src,
+            
+            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+            /*
+             * 
+             */
+            new Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\DigitalwertMonodiCommonBundle(),
+            new Digitalwert\Symfony2\Bundle\Monodi\FrontendBundle\DigitalwertMonodiFrontendBundle(),
+            new Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\DigitalwertMonodiApiBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
