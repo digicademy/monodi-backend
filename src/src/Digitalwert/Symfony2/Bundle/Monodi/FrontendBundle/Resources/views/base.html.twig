@@ -1,4 +1,7 @@
-{% extends 'MopaBootstrapBundle::base.html.twig' %}
+# https://github.com/phiamo/MopaBootstrapBundle/blob/master/Resources/doc/sass-configuration.md #
+{% stylesheets filter='?yui_css'
+    '@MopaBootstrapBundle/Resources/public/sass/mopabootstrapbundle.scss'
+%}
 
 {% block title %}Monodi - {% endblock %}
 
