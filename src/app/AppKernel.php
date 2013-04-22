@@ -24,6 +24,8 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            
+            new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
             /*
              * 
              */

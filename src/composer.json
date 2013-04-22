@@ -46,8 +46,8 @@
         "friendsofsymfony/rest-bundle": "*",
         "nelmio/api-doc-bundle": "dev-master",
         
-        "mopa/bootstrap-bundle": "dev-master",
         "jlong/sass-twitter-bootstrap": "dev-master",
+        "mopa/bootstrap-bundle": "dev-master",        
         
         "doctrine/oxm": "dev-master",
         "lampjunkie/xml-hitch": "*"
