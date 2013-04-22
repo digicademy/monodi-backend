@@ -4,12 +4,34 @@
     "autoload": {
         "psr-0": { "": "src/" }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/doctrine/DoctrineOXMBundle.git"
+        },
+        {
+            "type": "package",
+            "package": {                
+                "name": "lampjunkie/xml-hitch",
+                "version": "1.0.0",
+                "source": {
+                    "url": "https://github.com/lampjunkie/xml-hitch.git",
+                    "type": "git",
+                    "reference": "HEAD"
+                },
+                "autoload": {
+                    "psr-0": {"Hitch": "lib/"}
+                }
+            }
+        }
+    ],
     "require": {
         "php": ">=5.3.3",
         "symfony/symfony": "2.2.*",
         "doctrine/orm": "~2.2,>=2.2.3",
         "doctrine/doctrine-bundle": "1.2.*",
         "doctrine/doctrine-migrations-bundle": "dev-master",
+        "doctrine/doctrine-fixtures-bundle": "dev-master",
         "twig/extensions": "1.0.*",
         "symfony/assetic-bundle": "2.1.*",
         "symfony/swiftmailer-bundle": "2.2.*",
@@ -21,20 +43,31 @@
         "jms/di-extra-bundle": "1.3.*",
         
         "friendsofsymfony/user-bundle": "*",
-        "nelmio/api-doc-bundle": "dev-master"
+        "friendsofsymfony/rest-bundle": "*",
+        "nelmio/api-doc-bundle": "dev-master",
+        
+        "mopa/bootstrap-bundle": "dev-master",
+        "jlong/sass-twitter-bootstrap": "dev-master",
+        
+        "doctrine/oxm": "dev-master",
+        "lampjunkie/xml-hitch": "*"
     },
     "scripts": {
         "post-install-cmd": [
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            
+            "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrapSass"
         ],
         "post-update-cmd": [
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
-            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
+            
+            "Mopa\\Bundle\\BootstrapBundle\\Composer\\ScriptHandler::postInstallSymlinkTwitterBootstrapSass"
         ]
     },
     "config": {
