@@ -1,3 +1,8 @@
+digitalwert_monodi_admin:
+    resource: "@DigitalwertMonodiAdminBundle/Controller/"
+    type:     annotation
+    prefix:   /admin
+
 digitalwert_monodi_frontend:
     resource: "@DigitalwertMonodiFrontendBundle/Controller/"
     type:     annotation
