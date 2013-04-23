@@ -1,12 +1,12 @@
-digitalwert_monodi_client:
-    resource: "@DigitalwertMonodiClientBundle/Controller/"
-    type:     annotation
-    prefix:   /
-
 digitalwert_monodi_frontend:
     resource: "@DigitalwertMonodiFrontendBundle/Controller/"
     type:     annotation
     prefix:   /
+    
+digitalwert_monodi_client:
+    resource: "@DigitalwertMonodiClientBundle/Controller/"
+    type:     annotation
+    prefix:   /client
 
 digitalwert_monodi_api:
     resource: "@DigitalwertMonodiApiBundle/Controller/"

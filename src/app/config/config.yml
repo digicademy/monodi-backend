@@ -14,7 +14,7 @@ framework:
     csrf_protection: ~
     validation:      { enable_annotations: true }
     templating:
-        engines: ['twig']
+        engines: ['twig', 'php']
         #assets_version: SomeVersionScheme
     default_locale:  "%locale%"
     trusted_proxies: ~
@@ -30,7 +30,7 @@ twig:
 assetic:
     debug:          %kernel.debug%
     use_controller: false
-    bundles:        [ MopaBootstrapBundle, DigitalwertMonodiFrontendBundle]
+    bundles:        [ MopaBootstrapBundle, DigitalwertMonodiFrontendBundle, DigitalwertMonodiClientBundle]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
