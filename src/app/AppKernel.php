@@ -32,6 +32,7 @@ class AppKernel extends Kernel
             new Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\DigitalwertMonodiCommonBundle(),
             new Digitalwert\Symfony2\Bundle\Monodi\FrontendBundle\DigitalwertMonodiFrontendBundle(),
             new Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\DigitalwertMonodiApiBundle(),
+            new Digitalwert\Symfony2\Bundle\Monodi\ClientBundle\DigitalwertMonodiClientBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
