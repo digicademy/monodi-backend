@@ -1,8 +1,130 @@
-# https://github.com/phiamo/MopaBootstrapBundle/blob/master/Resources/doc/sass-configuration.md #
-{% stylesheets filter='?yui_css'
-    '@MopaBootstrapBundle/Resources/public/sass/mopabootstrapbundle.scss'
-%}
+{# https://github.com/phiamo/MopaBootstrapBundle/blob/master/Resources/doc/sass-configuration.md #}
 
-{% block title %}Monodi - {% endblock %}
+<!DOCTYPE html>
 
-{% block content %}{% endblock %}
+{% block html_tag %}
+<html>
+{% endblock html_tag %}
+
+{% block head %}
+<head>
+    <meta charset="UTF-8" />
+    {% block head_style %}
+    {# Override this block to add your own files! #}
+    {% stylesheets filter='?yui_css'
+        '@MopaBootstrapBundle/Resources/public/sass/mopabootstrapbundle.scss'
+        '@DigitalwertMonodiFrontendBundle/Resources/public/sass/*'
+    %}
+    <link href="{{ asset_url }}" type="text/css" rel="stylesheet" media="screen" />
+    {% endstylesheets %}
+
+    {% endblock head_style %}
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    {% block head_script %}
+    {# Overwrite this block to add your own js here, to get them generated into final files #}
+    {% endblock head_script %}
+
+    <title>{% block title %}Monodi - Frontend{% endblock title %}</title>
+    <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" />
+    {% block head_bottom %}
+    {% endblock head_bottom %}
+</head>
+{% endblock head %}
+
+{% block body_tag %}
+<body data-spy="scroll">
+{% endblock body_tag %}
+
+{% block body_start %}
+{% endblock body_start %}
+
+{% block body %}
+    {% block navbar %}
+    
+    {% endblock navbar %}
+        
+    {% block jumbotron %}
+    <header class="jumbotron subhead" id="overview">
+        <div class="container">
+          <h1>{% block jumbotron_headline %}Monodi{% endblock jumbotron_headline %}</h1>
+          <p class="lead">{% block jumbotron_lead %}{% endblock jumbotron_lead %}</p>
+        </div>
+    </header>
+    {% endblock jumbotron %}
+        
+    {% block container %}
+    <div class="{% block container_class %}container-fluid{% endblock container_class %}">
+        {% block header %}            
+        {% endblock header %}
+        <div class="content">
+            {% block page_header %}
+            <div class="page-header">
+                  <h1>{% block headline %}Welcome!{% endblock headline %}</h1>
+            </div>
+            {% endblock page_header %}
+
+            {% block flashes %}
+            {% if app.session.flashbag.peekAll|length > 0 %}
+            <div class="row-fluid">
+                <div class="span12">
+                {#{ session_flash() }#}
+                </div>
+            </div>
+            {% endif %}
+            {% endblock flashes %}
+
+            {% block content_row %}
+            <div class="row-fluid">
+                {% block content %}
+                <div class="span9">
+                    {% block content_content %}
+                    <strong>Hier könnte Ihre Werbung stehen ... </strong>
+                    {% endblock content_content %}
+                </div>
+                <div class="span3">
+                    {% block content_sidebar %}                        
+                    {% endblock content_sidebar %}
+                </div>
+                {% endblock content %}
+            </div>
+            {% endblock content_row %}
+        </div>
+        <footer>
+            {% block footer %}
+            <p>&copy; <a href="http://www.notengrafik.com/" target="_blank">notengrafik berlin wolff & okrzeja GbR</a> 2013</p>
+            {% endblock footer %}
+        </footer>
+    </div> <!-- /container -->
+    {% endblock container %}
+    {% block foot_script %}
+    {# To only use a subset or add more js overwrite and copy paste this block
+    To speed up page loads save a copy of jQuery in your project and override this block to include the correct path
+    Otherwise the regeneration is done on every load in dev more with use_controller: true
+     #}
+     
+    {% javascripts
+        'http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'
+        '@MopaBootstrapBundle/Resources/bootstrap-sass/js/bootstrap-transition.js'
+        '@MopaBootstrapBundle/Resources/bootstrap-sass/js/bootstrap-alert.js'
+        '@MopaBootstrapBundle/Resources/bootstrap-sass/js/bootstrap-modal.js'
+        '@MopaBootstrapBundle/Resources/bootstrap-sass/js/bootstrap-dropdown.js'
+        '@MopaBootstrapBundle/Resources/bootstrap-sass/js/bootstrap-scrollspy.js'
+        '@MopaBootstrapBundle/Resources/bootstrap-sass/js/bootstrap-tab.js'
+        '@MopaBootstrapBundle/Resources/bootstrap-sass/js/bootstrap-tooltip.js'
+        '@MopaBootstrapBundle/Resources/bootstrap-sass/js/bootstrap-popover.js'
+        '@MopaBootstrapBundle/Resources/bootstrap-sass/js/bootstrap-button.js'
+        '@MopaBootstrapBundle/Resources/bootstrap-sass/js/bootstrap-collapse.js'
+        '@MopaBootstrapBundle/Resources/bootstrap-sass/js/bootstrap-carousel.js'
+        '@MopaBootstrapBundle/Resources/bootstrap-sass/js/bootstrap-typeahead.js'
+        '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-collection.js'
+        '@MopaBootstrapBundle/Resources/public/js/mopabootstrap-subnav.js'
+        '@MopaBootstrapBundle/Resources/public/js/eyecon-bootstrap-datepicker.js'
+    %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock foot_script %}
+{% endblock body %}
+</body>
+</html>

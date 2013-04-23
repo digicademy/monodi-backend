@@ -1,0 +1,60 @@
+
+
+// https://github.com/joshbroton/sass-bootstrap/blob/master/sass/docs.scss
+/* Jumbotrons
+-------------------------------------------------- */
+$jumboBgColor: #6d3353;//$sassLangBrandBgDark;
+/* Base class */
+.jumbotron {
+  position: relative;
+  margin-bottom: 20px;
+  padding: 30px 15px;
+  color: #fff;
+  text-align: center;
+  background-color: $jumboBgColor;
+
+  h1 {
+    font-size: 50px;
+  }
+
+  // Link styles (used on .masthead-links as well) 
+  a {
+    color: #fff;
+    color: rgba(255,255,255,.5);
+    -webkit-transition: all .2s ease-in-out;
+       -moz-transition: all .2s ease-in-out;
+            transition: all .2s ease-in-out;
+    
+    &:hover {
+      color: #fff;
+    }
+  }
+
+ .btn {
+    padding: 18px 24px;
+    font-size: 21px;
+ }
+
+ .btn, .btn:hover, .btn:active {
+   color: $jumboBgColor;
+   background-color: #fff;
+   border-color: #fff;
+ }
+}
+
+/* Masthead (docs home)
+------------------------- */
+.masthead h1 {
+  line-height: 1;
+}
+
+/* Textual links in masthead */
+.masthead-links {
+  margin: 20px 0;
+  list-style: none;
+}
+.masthead-links li {
+  display: inline;
+  padding: 0 10px;
+  color: rgba(255,255,255,.25);
+}
