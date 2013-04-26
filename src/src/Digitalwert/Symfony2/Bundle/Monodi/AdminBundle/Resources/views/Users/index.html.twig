@@ -1,0 +1,42 @@
+{% extends 'DigitalwertMonodiAdminBundle::base.html.twig' %}
+
+{% block headline %}Nutzerverwaltung{% endblock headline %}
+
+
+{% block content_content %}
+
+    <table class="table table-striped table-bordered records_list">
+        <caption>Nutzerübersicht</caption>
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Enabled</th>
+                <th>Lastlogin</th>
+                <th>Locked</th>
+                <th>Expired</th>
+                {#
+                <th>Expiresat</th>                
+                <th>Passwordrequestedat</th>
+                <th>Credentialsexpired</th>
+                <th>Credentialsexpireat</th>
+                #}
+                <th>Id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            {{ include('DigitalwertMonodiAdminBundle:Users:listItem.html.twig', {'user': entity}) }}
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('users_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+{% endblock content_content %}

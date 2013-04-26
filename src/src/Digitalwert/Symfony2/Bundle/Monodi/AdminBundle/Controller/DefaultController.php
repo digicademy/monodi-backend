@@ -6,14 +6,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
+/**
+ * Start-Controller des Adminbereiches
+ * 
+ * https://wrapbootstrap.com/theme/black-forest-admin-template-WB019KF70
+ * 
+ * @Route("/")
+ */
 class DefaultController extends Controller
 {
     /**
-     * @Route("/hello/{name}")
+     * Dashboard
+     * 
+     * @Route("/")
      * @Template()
      */
-    public function indexAction($name)
+    public function indexAction()
     {
-        return array('name' => $name);
+        return array();
     }
 }

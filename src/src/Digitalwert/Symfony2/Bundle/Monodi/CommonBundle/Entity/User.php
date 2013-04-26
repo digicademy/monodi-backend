@@ -43,4 +43,22 @@ class User
     {
         return $this->id;
     }
+    
+    /**
+     * get expiresAt
+     * 
+     * @return \DateTime
+     */
+    public function getExpiresAt() {
+        return $this->expiresAt;
+    }
+    
+    /**
+     * get credentialsExpireAt
+     * 
+     * @return \DateTime
+     */
+    public function getCredentialsExpireAt() {
+        return $this->credentialsExpireAt;
+    }
 }
