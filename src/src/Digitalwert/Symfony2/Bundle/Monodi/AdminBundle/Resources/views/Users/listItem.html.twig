@@ -16,10 +16,15 @@
     <td>
         <ul>
             <li>
-                <a href="{{ path('users_show', { 'id': user.id }) }}">show</a>
+                <a class="btn" href="{{ path('users_show', { 'id': user.id }) }}">
+                    <i class="icon icon-search"></i>
+                    details
+                </a>
             </li>
             <li>
-                <a href="{{ path('users_edit', { 'id': user.id }) }}">edit</a>
+                <a class="btn" href="{{ path('users_edit', { 'id': user.id }) }}">
+                    <i class="icon icon-pencil"></i>bearbeiten
+                </a>
             </li>
         </ul>
     </td>

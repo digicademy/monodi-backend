@@ -2,6 +2,7 @@
 
 namespace Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="monodi_document")
  * @ORM\Entity(repositoryClass="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\DocumentRepository")
+ * @Gedmo\Loggable
  */
 class Document
 {
@@ -45,13 +47,15 @@ class Document
     /**
      * @var \DateTime
      *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="createdAt", type="datetime")
      */
     protected $createdAt;
 
     /**
      * @var \DateTime
-     *
+     * 
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="editedAt", type="datetime")
      */
     protected $editedAt;
@@ -65,7 +69,8 @@ class Document
 
     /**
      * @var string
-     *
+     * 
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="processNumber", type="string", length=255)
      */
     protected $processNumber;
@@ -89,7 +94,7 @@ class Document
     /**
      * Nutzergruppe des Dokuments
      * 
-     * @varGroup
+     * @var Group
      * @ORM\OneToOne(targetEntity="Group")
      * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
      */

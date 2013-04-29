@@ -78,4 +78,21 @@ class User
     public function getCredentialsExpireAt() {
         return $this->credentialsExpireAt;
     }
+    
+    /**
+     * 
+     * @return \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\VersionControlSystemRepos
+     */
+    public function getVersionControlSystemRepos() {
+       return $this->versionControlSystemRepos;
+    }
+    
+    /**
+     * 
+     * @param \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\VersionControlSystemRepos $repos
+     * @return void
+     */
+    public function setVersionControlSystemRepos(VersionControlSystemRepos $repos) {
+       $this->versionControlSystemRepos = $repos;
+    }
 }

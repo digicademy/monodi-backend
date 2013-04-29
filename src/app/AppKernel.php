@@ -26,6 +26,9 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
+            
+            // Für Geomon DoctrineExtensions
+            new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             /*
              * 
              */

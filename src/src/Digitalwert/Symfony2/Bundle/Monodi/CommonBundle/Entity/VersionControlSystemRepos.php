@@ -3,6 +3,7 @@
 namespace Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * VersionControlSystemRepos
@@ -25,28 +26,33 @@ class VersionControlSystemRepos
 
     /**
      * @var string
-     *
+     * 
+     * @Assert\NotBlank()
      * @ORM\Column(name="username", type="string", length=255)
      */
     protected $username;
 
     /**
      * @var string
-     *
+     * 
+     * @Assert\NotBlank()
      * @ORM\Column(name="password", type="string", length=255)
      */
     protected $password;
 
     /**
      * @var string
-     *
+     * 
+     * @Assert\NotBlank()
      * @ORM\Column(name="uri", type="string", length=255)
      */
     protected $uri;
     
     /**
      * @var string
-     *
+     * 
+     * @Assert\NotBlank()
+     * @Assert\Choice(choices = {"git"})
      * @ORM\Column(name="type", type="string", length=255)
      */
     protected $type;
