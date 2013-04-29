@@ -24,9 +24,26 @@ class User
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     protected $id;
-
+    
     /**
+     * @ORM\ManyToMany(targetEntity="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Group")
+     * @ORM\JoinTable(name="fos_user_user_group",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     */
+    protected $groups;
+    
+    /**
+     * @var VersionControlSystemRepos
      * 
+     * @ORM\OneToOne(targetEntity="VersionControlSystemRepos")
+     * @ORM\JoinColumn(name="version_control_system_repos_id", referencedColumnName="id")
+     */
+    protected $versionControlSystemRepos;
+    
+    /**
+     * Konstruktor
      */
     public function __construct()
     {

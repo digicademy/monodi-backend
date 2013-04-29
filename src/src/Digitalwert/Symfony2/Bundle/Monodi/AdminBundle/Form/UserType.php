@@ -22,7 +22,12 @@ class UserType
             ->add('lastLogin')
             ->add('locked')
             ->add('expired')
-            ->add('expiresAt', 'date', array('datepicker' => true))
+            ->add('expiresAt', 'date', 
+              array(
+//                'widget' => 'single_text', 
+//                'datepicker' => true
+              )
+            )
             ->add('confirmationToken')
             ->add('passwordRequestedAt')
             ->add('roles')

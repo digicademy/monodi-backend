@@ -19,64 +19,90 @@ class Document
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(name="filename", type="string", length=255)
      */
-    private $filename;
+    protected $filename;
 
     /**
      * @var string
      *
      * @ORM\Column(name="rev", type="string", length=64)
      */
-    private $rev;
-
+    protected $rev;
+        
     /**
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
      */
-    private $title;
+    protected $title;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="createdAt", type="datetime")
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="editedAt", type="datetime")
      */
-    private $editedAt;
+    protected $editedAt;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="updatedAt", type="datetime")
      */
-    private $updatedAt;
+    protected $updatedAt;
 
     /**
      * @var string
      *
      * @ORM\Column(name="processNumber", type="string", length=255)
      */
-    private $processNumber;
+    protected $processNumber;
 
     /**
      * @var integer
      *
      * @ORM\Column(name="editionNumber", type="integer")
      */
-    private $editionNumber;
-
+    protected $editionNumber;
+    
+    /**
+     * Besitzer des Dokuments (Datenbank)
+     * 
+     * @var User
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
+     */
+    protected $owner;    
+    
+    /**
+     * Nutzergruppe des Dokuments
+     * 
+     * @varGroup
+     * @ORM\OneToOne(targetEntity="Group")
+     * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
+     */
+    protected $group;
+    
+    /**
+     * letzter Bearbeiter des Dokuments (Datenbank)
+     * 
+     * @var User
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="editor_id", referencedColumnName="id")
+     */
+    protected $editor;
 
     /**
      * Get id

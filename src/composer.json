@@ -49,7 +49,9 @@
         "jlong/sass-twitter-bootstrap": "dev-master",
         "mopa/bootstrap-bundle": "dev-master",        
         
-        "lampjunkie/xml-hitch": "*"
+        "lampjunkie/xml-hitch": "*",
+        
+        "stof/doctrine-extensions-bundle": "*"
     },
     "scripts": {
         "post-install-cmd": [
