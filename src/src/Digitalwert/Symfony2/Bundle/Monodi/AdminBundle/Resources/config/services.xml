@@ -17,4 +17,13 @@
         </service>
     </services>
     -->
+    <!-- 
+        https://github.com/FriendsOfSymfony/FOSUserBundle/blob/master/Resources/doc/overriding_forms.md
+    -->
+    <services>
+        <service id="digitalwert_monodi_admin_user.group.form.type" class="Digitalwert\Symfony2\Bundle\Monodi\AdminBundle\Form\GroupType">
+          <tag name="form.type" alias="digitalwert_monodi_admin_grouptype" />
+          <argument>%fos_user.model.group.class%</argument>
+        </service>
+    </services>
 </container>

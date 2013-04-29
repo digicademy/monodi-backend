@@ -51,7 +51,6 @@ class VersionControlSystemRepos
     /**
      * @var string
      * 
-     * @Assert\NotBlank()
      * @Assert\Choice(choices = {"git"})
      * @ORM\Column(name="type", type="string", length=255)
      */

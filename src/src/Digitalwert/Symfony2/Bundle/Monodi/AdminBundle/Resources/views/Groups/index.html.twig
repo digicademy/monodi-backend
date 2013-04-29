@@ -1,0 +1,50 @@
+{% extends 'DigitalwertMonodiAdminBundle::base.html.twig' %}
+
+{% block headline %}Gruppenverwaltung{% endblock headline %}
+
+
+{% block content_content %}
+
+    <table class="table table-striped table-bordered records_list">
+        <caption>Gruppenübersicht</caption>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Roles</th>
+                <th>Id</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for group in groups %}
+            <tr>
+                <td><a href="{{ path('groups_show', { 'id': group.id }) }}">{{ group.name }}</a></td>
+                <td>
+                {% for role in group.roles %} 
+                    {{ role }}
+                {%endfor %}
+                </td>
+                <td>{{ group.id }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('groups_show', { 'id': group.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('groups_edit', { 'id': group.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+     <ul>
+        <li>
+            <a class="btn" href="{{ path('groups_new') }}">
+                <i class="icon-group icon"></i>Neue Gruppe erstellen
+            </a>
+        </li>
+    </ul>
+{% endblock %}

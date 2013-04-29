@@ -1,0 +1,55 @@
+{% extends '::base.html.twig' %}
+
+{% block body -%}
+    <h1>Document list</h1>
+
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Filename</th>
+                <th>Rev</th>
+                <th>Title</th>
+                <th>Createdat</th>
+                <th>Editedat</th>
+                <th>Updatedat</th>
+                <th>Processnumber</th>
+                <th>Editionnumber</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for entity in entities %}
+            <tr>
+                <td><a href="{{ path('documents_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td>{{ entity.filename }}</td>
+                <td>{{ entity.rev }}</td>
+                <td>{{ entity.title }}</td>
+                <td>{% if entity.createdAt %}{{ entity.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.editedAt %}{{ entity.editedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{% if entity.updatedAt %}{{ entity.updatedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>{{ entity.processNumber }}</td>
+                <td>{{ entity.editionNumber }}</td>
+                <td>
+                <ul>
+                    <li>
+                        <a href="{{ path('documents_show', { 'id': entity.id }) }}">show</a>
+                    </li>
+                    <li>
+                        <a href="{{ path('documents_edit', { 'id': entity.id }) }}">edit</a>
+                    </li>
+                </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+        <ul>
+        <li>
+            <a href="{{ path('documents_new') }}">
+                Create a new entry
+            </a>
+        </li>
+    </ul>
+    {% endblock %}

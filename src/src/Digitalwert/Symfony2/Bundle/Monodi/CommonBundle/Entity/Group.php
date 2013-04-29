@@ -17,4 +17,33 @@ class Group extends BaseGroup
      * @ORM\GeneratedValue(strategy="AUTO")
      */
      protected $id;
+     
+     
+     /**
+      * @var array
+      */
+     protected $roles;
+     
+     /**
+      * 
+      * @param string $name
+      * @param array $roles
+      */
+     public function __construct($name, $roles = array()) {
+       parent::__construct($name, $roles);
+       if(empty($this->roles)) {
+           $this->roles = array();
+       }
+     }
+     
+     /**
+      * für String-Konvertierung
+      * 
+      * @return string
+      */
+     public function __toString() {
+         return (string)$this->getName();
+     }
+     
+     
 }

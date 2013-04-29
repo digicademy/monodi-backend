@@ -91,3 +91,5 @@ fos_user:
     user_class: Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\User
     group:
         group_class: Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Group
+        form:
+          type: digitalwert_monodi_admin_grouptype
