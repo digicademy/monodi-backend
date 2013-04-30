@@ -19,6 +19,7 @@ class DocumentType extends AbstractType
             ->add('updatedAt')
             ->add('processNumber')
             ->add('editionNumber')
+            ->add('content', 'text')
             ->add('owner')
             ->add('group')
             ->add('editor')

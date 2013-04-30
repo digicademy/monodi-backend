@@ -1,9 +1,12 @@
-{% extends '::base.html.twig' %}
+{% extends 'DigitalwertMonodiAdminBundle::base.html.twig' %}
 
-{% block body -%}
-    <h1>Document list</h1>
+{% block headline %}Dokumentenverwaltung{% endblock headline %}
 
-    <table class="records_list">
+
+{% block content_content %}
+
+    <table class="table table-striped table-bordered records_list">
+        <caption>Dokumente</caption>
         <thead>
             <tr>
                 <th>Id</th>
@@ -45,11 +48,11 @@
         </tbody>
     </table>
 
-        <ul>
+    <ul>
         <li>
             <a href="{{ path('documents_new') }}">
                 Create a new entry
             </a>
         </li>
     </ul>
-    {% endblock %}
+{% endblock %}

@@ -57,7 +57,7 @@ class GroupsController extends Controller
 
         $process = $formHandler->process();
         if ($process) {
-            //$this->setFlash('fos_user_success', 'group.flash.created');
+            $this->setFlash('fos_user_success', 'group.flash.created');
             $parameters = array(
 //                'groupname' => $form->getData('group')->getName(),
                 'id' => $form->getData('group')->getId(),
@@ -82,9 +82,8 @@ class GroupsController extends Controller
      */
     public function newAction()
     {
-        $form   = $this->createForm(new GroupType());
         
-//        $form = $this->container->get('fos_user.group.form');
+        $form = $this->container->get('fos_user.group.form');
 //        $formHandler = $this->container->get('fos_user.group.form.handler');
 
         return array(
@@ -121,12 +120,18 @@ class GroupsController extends Controller
     public function editAction($id)
     {
         $group = $this->findGroupBy('id', $id);
-
-        $editForm = $this->createForm(new GroupType(), $entity);
+        
+        $form = $this->container->get('fos_user.group.form');
+        $formHandler = $this->container->get('fos_user.group.form.handler');
+        
+        $form->setData($group);
+//        $process = $formHandler->process($group);
+        
+        $editForm = $form; 
         $deleteForm = $this->createDeleteForm($id);
 
         return array(
-            'entity'      => $entity,
+            'group'      => $group,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -139,23 +144,32 @@ class GroupsController extends Controller
      * @Method("PUT")
      * @Template("DigitalwertMonodiCommonBundle:Group:edit.html.twig")
      */
-    public function updateAction(Request $request, $id)
-    {
+    public function updateAction(Request $request, $id) {
+        
+        $em = $this->getDoctrine()->getManager();
+        
         $group = $this->findGroupBy('id', $id);
-
+        
+        $form = $this->container->get('fos_user.group.form');
+        
+//        $formHandler = $this->container->get('fos_user.group.form.handler');
+//        $process = $formHandler->process($group);
+        
+        $form->setData($group);
+        $editForm = $form; //$this->createForm($form, $group);
+        
         $deleteForm = $this->createDeleteForm($id);
-        $editForm = $this->createForm(new GroupType(), $group);
         $editForm->bind($request);
-
         if ($editForm->isValid()) {
-            $em->persist($entity);
+            
+            $em->persist($group);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('groups_edit', array('id' => $id)));
         }
 
         return array(
-            'entity'      => $entity,
+            'group'      => $group,
             'edit_form'   => $editForm->createView(),
             'delete_form' => $deleteForm->createView(),
         );
@@ -164,7 +178,7 @@ class GroupsController extends Controller
     /**
      * Deletes a Group entity.
      *
-     * @Route("/{id}", name="_delete")
+     * @Route("/{id}", name="groups_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -209,8 +223,10 @@ class GroupsController extends Controller
      */
     protected function findGroupBy($key, $value)
     {
+        $manager = $this->container->get('fos_user.group_manager');
         if (!empty($value)) {
-            $group = $this->container->get('fos_user.group_manager')->{'findGroupBy'.ucfirst($key)}($value);
+
+            $group = $manager->{'findGroupBy'.ucfirst($key)}($value);
         }
 
         if (empty($group)) {
@@ -218,5 +234,14 @@ class GroupsController extends Controller
         }
 
         return $group;
+    }
+    
+    /**
+     * @param string $action
+     * @param string $value
+     */
+    protected function setFlash($action, $value)
+    {
+        $this->container->get('session')->setFlash($action, $value);
     }
 }

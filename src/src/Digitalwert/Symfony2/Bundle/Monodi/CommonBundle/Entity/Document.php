@@ -325,4 +325,12 @@ class Document
     {
         return $this->editionNumber;
     }
+    
+    public function getContent() {
+        
+    }
+    
+    public function setContent() {
+        
+    }
 }
