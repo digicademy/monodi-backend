@@ -96,10 +96,23 @@ fos_user:
 # REST
 # @see https://github.com/FriendsOfSymfony/FOSRestBundle/blob/master/Resources/doc/index.md
 fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    format_listener: true
     routing_loader:
-        default_format: json
+        default_format: xml
     view:
-        view_response_listener: force
+        view_response_listener: 'force'
+        formats:
+            rss: false
+            xml: true
+            json: true
+            html: false
+        templating_formats:
+            html: true
+        force_redirects:
+            html: true
+        failed_validation: HTTP_BAD_REQUEST
 
 sensio_framework_extra:
     view:    { annotations: false }

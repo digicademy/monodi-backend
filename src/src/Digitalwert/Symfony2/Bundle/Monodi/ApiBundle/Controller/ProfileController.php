@@ -12,7 +12,8 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 /**
  * @Route("/profile")
  */
-class ProfileController extends Controller
+class ProfileController 
+  extends Controller
 {
     /**
      * Gibt die Liste der Profile zurück
@@ -42,7 +43,8 @@ class ProfileController extends Controller
      * 
      * @Route("/{slug}")
      * @Method({"POST"})
-     * @Template()
+     * 
+     * Rest\View(serializerGroups={"profile"})
      */
     public function getProfileAction($slug)
     {

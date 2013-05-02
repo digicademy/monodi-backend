@@ -84,6 +84,13 @@ class Folder implements \Gedmo\Tree\Node
      */
     private $children;
     
+    
+    /**
+     *
+     * @ORM\OneToMany(targetEntity="Document", mappedBy="folder_id")
+     */
+    protected $documents;
+    
     /**
      * Get id
      *

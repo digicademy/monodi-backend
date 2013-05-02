@@ -14,7 +14,7 @@ digitalwert_monodi_client:
     prefix:   /client
 
 digitalwert_monodi_api_document:
-    resource: "@DigitalwertMonodiApiBundle/Controller/DocumentController"
+    resource: Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Controller\DocumentController
     type:     rest
     prefix:   /api/v1/documents
 

@@ -4,6 +4,7 @@ namespace Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Document
@@ -12,6 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\DocumentRepository")
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
+ * 
+ * @Serializer\XmlRoot(name="document")
  */
 class Document
 {
@@ -21,6 +24,10 @@ class Document
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * 
+     * @Serializer\Expose
+     * @Serializer\Groups({"list","detail"})
+     * @Serializer\XmlAttribute
      */
     protected $id;
 
@@ -28,6 +35,9 @@ class Document
      * @var string
      *
      * @ORM\Column(name="filename", type="string", length=255)
+     * 
+     * @Serializer\Expose
+     * @Serializer\Groups({"list","detail"})
      */
     protected $filename;
 
@@ -35,6 +45,10 @@ class Document
      * @var string
      *
      * @ORM\Column(name="rev", type="string", length=64)
+     * 
+     * @Serializer\Expose
+     * @Serializer\Groups({"list","detail"})
+     * @Serializer\XmlAttribute
      */
     protected $rev;
         
@@ -42,6 +56,9 @@ class Document
      * @var string
      *
      * @ORM\Column(name="title", type="string", length=255)
+     * 
+     * @Serializer\Expose
+     * @Serializer\Groups({"detail"})
      */
     protected $title;
 
@@ -50,6 +67,9 @@ class Document
      *
      * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="createdAt", type="datetime")
+     * 
+     * @Serializer\Expose
+     * @Serializer\Groups({"detail"})
      */
     protected $createdAt;
 
@@ -58,6 +78,9 @@ class Document
      * 
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="editedAt", type="datetime")
+     * 
+     * @Serializer\Expose
+     * @Serializer\Groups({"detail"})
      */
     protected $editedAt;
 
@@ -65,6 +88,9 @@ class Document
      * @var \DateTime
      *
      * @ORM\Column(name="updatedAt", type="datetime")
+     *
+     * @Serializer\Expose
+     * @Serializer\Groups({"detail"})
      */
     protected $updatedAt;
 
@@ -73,6 +99,9 @@ class Document
      * 
      * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="processNumber", type="string", length=255)
+     * 
+     * @Serializer\Expose
+     * @Serializer\Groups({"detail"})
      */
     protected $processNumber;
 
@@ -80,6 +109,9 @@ class Document
      * @var integer
      *
      * @ORM\Column(name="editionNumber", type="integer")
+     * 
+     * @Serializer\Expose
+     * @Serializer\Groups({"detail"})
      */
     protected $editionNumber;
     
@@ -87,7 +119,7 @@ class Document
      * Besitzer des Dokuments (Datenbank)
      * 
      * @var User
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="owner_id")
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
      */
     protected $owner;    
@@ -96,7 +128,7 @@ class Document
      * Nutzergruppe des Dokuments
      * 
      * @var Group
-     * @ORM\OneToOne(targetEntity="Group")
+     * @ORM\ManyToOne(targetEntity="Group", inversedBy="group_id")
      * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
      */
     protected $group;
@@ -105,7 +137,7 @@ class Document
      * letzter Bearbeiter des Dokuments (Datenbank)
      * 
      * @var User
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="editor_id")
      * @ORM\JoinColumn(name="editor_id", referencedColumnName="id")
      */
     protected $editor;
@@ -114,7 +146,7 @@ class Document
      * Gibt an in welchem Verzeichnis sich das Dokument befindet
      * 
      * @var Folder
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="Folder", inversedBy="folder_id")
      * @ORM\JoinColumn(name="folder_id", referencedColumnName="id")
      */
     protected $folder;
@@ -336,8 +368,13 @@ class Document
         return $this->editionNumber;
     }
     
+    /**
+     * 
+     * @Serializer\VirtualProperty
+     * @Serializer\Groups({"detail"})
+     */
     public function getContent() {
-        
+        return '<mei></mei>';
     }
     
     public function setContent() {

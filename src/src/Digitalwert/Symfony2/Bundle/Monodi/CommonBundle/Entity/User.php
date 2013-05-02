@@ -4,6 +4,7 @@ namespace Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity;
 
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * User
@@ -22,6 +23,10 @@ class User
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * 
+     * @Serializer\Expose
+     * @Serializer\Groups({"list","detail","profile"})
+     * @Serializer\XmlAttribute
      */
     protected $id;
     

@@ -8,14 +8,38 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use JMS\DiExtraBundle\Annotation as DI;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use FOS\RestBundle\View\View;
+use FOS\RestBundle\Controller\FOSRestController;
+
+use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document;
 
 /**
+ * 
+ * http://williamdurand.fr/2012/08/02/rest-apis-with-symfony2-the-right-way/
+ * https://github.com/FriendsOfSymfony/FOSRestBundle/blob/master/Resources/doc/index.md
+ * 
  * @Route("/documents")
  */
 class DocumentController 
-  extends Controller
+//  extends 
+//  extends FOSRestController
 {   
+    
+    /** @DI\Inject("doctrine.orm.entity_manager") */
+    private $em;
+
+    /** @DI\Inject("session") */
+    private $session;
+    
+    /**
+     * @var \Symfony\Component\Security\Core\SecurityContextInterface
+     * @DI\Inject("security.context", required = false)
+     */
+    private $securityContext;
+
+    
     /**
      * 
      * @ApiDoc()
@@ -59,15 +83,36 @@ class DocumentController
      *   ressource=true
      * )
      * 
-     * @Route("/{id}")
+     * @Route("/{id}.{_format}", requirements={"_format" = "(xml|json)"}, defaults={"_format" = "xml"})
      * ParamConverter("post", class="DigitalwertMonodiCommonBundle:Document", options={}
      * @Method({"GET"})
-     * @Rest\View()
+     * 
+     * @Rest\View(serializerGroups={"detail"})
      */
     public function getDocumentAction($id)
     {
+        //$user = $securityContext->getToken()->getUser();
         
-        return array('test' => array(1,2,3,4));
+        //$user = $this->securityContext->getUser();
+        //$this->em->getReposetory('')->findOneByIdForUser($id, $user);
+        
+        $document = new Document();
+        $document->setRev('cfeacede1212');
+        $document->setTitle('Test des Titles');
+        $document->setFilename('fobar.buz.mei');
+        $document->setProcessNumber(123434);
+        $document->setCreatedAt(new \DateTime('yesterday'));
+        $document->setEditedAt(new \DateTime('now'));
+        $document->setEditionNumber(123456700);
+        
+        
+        $data = $document;
+        
+        return $data;
+//        $view = View::create();
+//        //$view->setFormat('xml');
+//        $view->setData($data);
+//        return $view;
     }
     /**
      * Aktualisiert ein Dokument
