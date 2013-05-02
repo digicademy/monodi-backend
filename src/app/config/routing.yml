@@ -13,6 +13,11 @@ digitalwert_monodi_client:
     type:     annotation
     prefix:   /client
 
+digitalwert_monodi_api_document:
+    resource: "@DigitalwertMonodiApiBundle/Controller/DocumentController"
+    type:     rest
+    prefix:   /api/v1/documents
+
 digitalwert_monodi_api:
     resource: "@DigitalwertMonodiApiBundle/Controller/"
     type:     annotation

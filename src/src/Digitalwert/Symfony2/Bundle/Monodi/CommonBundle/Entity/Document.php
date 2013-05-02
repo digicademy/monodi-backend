@@ -10,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="monodi_document")
  * @ORM\Entity(repositoryClass="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\DocumentRepository")
+ * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  */
 class Document
@@ -108,7 +109,16 @@ class Document
      * @ORM\JoinColumn(name="editor_id", referencedColumnName="id")
      */
     protected $editor;
-
+    
+    /**
+     * Gibt an in welchem Verzeichnis sich das Dokument befindet
+     * 
+     * @var Folder
+     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="folder_id", referencedColumnName="id")
+     */
+    protected $folder;
+    
     /**
      * Get id
      *
@@ -331,6 +341,48 @@ class Document
     }
     
     public function setContent() {
+        
+    }
+    
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function preSaveGit() {
+        //        $git->add();
+//        $git->commit("");
+        $this->rev;
+    }
+    
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function saveExistDb() {
+        //$existDb->save($content);                
+    }
+    
+    /**
+     * @ORM\PostPersist()
+     * @ORM\PostUpdate()
+     */
+    public function saveGit() {
+
+//        $git->push();
+//
+    }
+    
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeExistDb() {
+        
+    }
+    
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeGit() {
         
     }
 }

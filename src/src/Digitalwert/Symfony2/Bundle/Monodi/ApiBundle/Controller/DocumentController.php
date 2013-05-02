@@ -5,9 +5,10 @@ namespace Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use FOS\RestBundle\Controller\Annotations as Rest;
 
 /**
  * @Route("/documents")
@@ -61,9 +62,12 @@ class DocumentController
      * @Route("/{id}")
      * ParamConverter("post", class="DigitalwertMonodiCommonBundle:Document", options={}
      * @Method({"GET"})
+     * @Rest\View()
      */
     public function getDocumentAction($id)
     {
+        
+        return array('test' => array(1,2,3,4));
     }
     /**
      * Aktualisiert ein Dokument

@@ -51,7 +51,8 @@
         
         "lampjunkie/xml-hitch": "*",
         
-        "stof/doctrine-extensions-bundle": "dev-master"
+        "stof/doctrine-extensions-bundle": "dev-master",
+        "jms/serializer-bundle": "*"
     },
     "scripts": {
         "post-install-cmd": [

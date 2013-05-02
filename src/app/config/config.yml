@@ -93,3 +93,14 @@ fos_user:
         group_class: Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Group
         form:
           type: digitalwert_monodi_admin_grouptype
+# REST
+# @see https://github.com/FriendsOfSymfony/FOSRestBundle/blob/master/Resources/doc/index.md
+fos_rest:
+    routing_loader:
+        default_format: json
+    view:
+        view_response_listener: force
+
+sensio_framework_extra:
+    view:    { annotations: false }
+    router:  { annotations: true }

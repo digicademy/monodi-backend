@@ -9,6 +9,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
+/**
+ * @Route("/profile")
+ */
 class ProfileController extends Controller
 {
     /**
@@ -17,7 +20,7 @@ class ProfileController extends Controller
      * @ApiDoc(
      * )
      * 
-     * @Route("/profile")
+     * @Route("/")
      * @Method({"GET"})
      * @Template()
      */
@@ -30,20 +33,30 @@ class ProfileController extends Controller
      * Gibt ein einzelnes Profile zurück
      * 
      * @ApiDoc(
+     *   statusCodes={
+     *     200="Returned when successful",
+     *     403="Returned when the user is not authorized to access the profile",
+     *     404="Returned when the given profile was not found"     
+     *   }
      * )
      * 
-     * @Route("/profile/{slug}")
+     * @Route("/{slug}")
      * @Method({"POST"})
      * @Template()
      */
     public function getProfileAction($slug)
     {
+        $user = $this->get('security.context')->getToken()->getUser();
+        //$user->getUsername();
+        
+        $userManager = $this->getUserManager();
+        $profile = $userManager->findUserBy(array('slug' => $slug));
+        
     }
 
     /**
-     * @Route("/profile/{slug}")
+     * @Route("/{slug}")
      * @Method({"POST"})
-     * @Template()
      */
     public function postProfileAction($slug)
     {
@@ -56,7 +69,6 @@ class ProfileController extends Controller
      * 
      * @Route("/profile")
      * @Method({"PUT"})
-     * @Template()
      */
     public function putProfileAction()
     {
@@ -69,10 +81,17 @@ class ProfileController extends Controller
      * 
      * @Route("/profile/{slug}")
      * @Method({"PATCH"})
-     * @Template()
      */
     public function patchProfileAction($slug)
     {
+    }
+    
+    /**
+     * 
+     * @return \FOS\UserBundle\Doctrine\UserManager
+     */
+    protected function getUserManager() {
+        return $this->container->get('fos_user.user_manager');
     }
 
 }
