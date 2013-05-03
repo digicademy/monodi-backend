@@ -24,7 +24,7 @@ use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document;
  */
 class DocumentController 
 //  extends 
-//  extends FOSRestController
+  extends FOSRestController
 {   
     
     /** @DI\Inject("doctrine.orm.entity_manager") */
@@ -80,7 +80,8 @@ class DocumentController
      * Gibt ein Dokument zurück
      * 
      * @ApiDoc(
-     *   ressource=true
+     *   ressource=true,
+     *   output="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document"
      * )
      * 
      * @Route("/{id}.{_format}", requirements={"_format" = "(xml|json)"}, defaults={"_format" = "xml"})
@@ -92,7 +93,7 @@ class DocumentController
     public function getDocumentAction($id)
     {
         //$user = $securityContext->getToken()->getUser();
-        
+        //var_dump(get_class($this->securityContext->getToken()->getUser()));
         //$user = $this->securityContext->getUser();
         //$this->em->getReposetory('')->findOneByIdForUser($id, $user);
         

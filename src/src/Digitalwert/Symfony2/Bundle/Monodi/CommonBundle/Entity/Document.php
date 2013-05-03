@@ -32,6 +32,8 @@ class Document
     protected $id;
 
     /**
+     * Referenz zur GIT Datei (Pfad rlativ zum Nutzer-Reposetory)
+     * 
      * @var string
      *
      * @ORM\Column(name="filename", type="string", length=255)
@@ -42,9 +44,11 @@ class Document
     protected $filename;
 
     /**
+     * Reversion im GIT als MD5 Hash
+     * 
      * @var string
      *
-     * @ORM\Column(name="rev", type="string", length=64)
+     * @ORM\Column(name="rev", type="string", length=64, nullable=true)
      * 
      * @Serializer\Expose
      * @Serializer\Groups({"list","detail"})
@@ -95,10 +99,11 @@ class Document
     protected $updatedAt;
 
     /**
+     * Enthält die letzte Vorgangsnummer des Dokumentes 
+     * 
      * @var string
      * 
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(name="processNumber", type="string", length=255)
+     * @ORM\Column(name="processNumber", type="string", length=255, nullable=true)
      * 
      * @Serializer\Expose
      * @Serializer\Groups({"detail"})
@@ -106,9 +111,11 @@ class Document
     protected $processNumber;
 
     /**
+     * Nummer innerhalb einer Edition
+     * 
      * @var integer
      *
-     * @ORM\Column(name="editionNumber", type="integer")
+     * @ORM\Column(name="editionNumber", type="integer", nullable=true)
      * 
      * @Serializer\Expose
      * @Serializer\Groups({"detail"})
@@ -119,6 +126,7 @@ class Document
      * Besitzer des Dokuments (Datenbank)
      * 
      * @var User
+     * 
      * @ORM\ManyToOne(targetEntity="User", inversedBy="owner_id")
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id")
      */
@@ -128,6 +136,7 @@ class Document
      * Nutzergruppe des Dokuments
      * 
      * @var Group
+     * 
      * @ORM\ManyToOne(targetEntity="Group", inversedBy="group_id")
      * @ORM\JoinColumn(name="group_id", referencedColumnName="id")
      */
@@ -137,6 +146,7 @@ class Document
      * letzter Bearbeiter des Dokuments (Datenbank)
      * 
      * @var User
+     * 
      * @ORM\ManyToOne(targetEntity="User", inversedBy="editor_id")
      * @ORM\JoinColumn(name="editor_id", referencedColumnName="id")
      */
@@ -146,10 +156,19 @@ class Document
      * Gibt an in welchem Verzeichnis sich das Dokument befindet
      * 
      * @var Folder
+     * 
      * @ORM\ManyToOne(targetEntity="Folder", inversedBy="folder_id")
      * @ORM\JoinColumn(name="folder_id", referencedColumnName="id")
      */
     protected $folder;
+    
+    
+    /**
+     * Hält den Body Temporär vor
+     * 
+     * @var string 
+     */
+    protected $content;
     
     /**
      * Get id
@@ -369,17 +388,114 @@ class Document
     }
     
     /**
+     * Setzt den Besitzer des Dokuments
+     * 
+     * @param \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\User $owner
+     * 
+     * @return Document
+     */
+    public function setOwner(User $owner) {
+        $this->owner = $owner;
+        return $this;
+    }
+    
+    /**
+     * Gibt den Besitzer des Dokuments zurück
+     * 
+     * @return \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\User
+     */
+    public function getOwner() {
+        return $this->owner;
+    }
+    
+    /**
+     * Setzt die Nutzergruppe des Dukuments
+     * 
+     * @param \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Group $group
+     * 
+     * @return Document
+     */
+    public function setGroup(Group $group) {
+        $this->group = $group;
+        return $this;
+    }
+    
+    /**
+     * Gibt die Nutzergruppe das Dokuments zurück
+     * 
+     * @return \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Group
+     */
+    public function getGroup() {
+        return $this->group;
+    }
+    
+    /**
+     * Setzt den Bearbeiter des Dukuments
+     * 
+     * @param \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\User $editor
+     * 
+     * @return \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document
+     */
+    public function setEditor(User $editor) {
+        $this->editor = $editor;
+        return $this;
+    }
+    
+    /**
+     * Gibt den letzten Bearbeiter des Dokuments zurück 
+     * 
+     * @return User
+     */
+    public function getEditor() {
+        return $this->editor;
+    }
+    
+    /**
+     * Setzt das Verzeichnis in welchem sich das Dukument befindet
+     * 
+     * @param \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Folder $folder
+     * 
+     * @return \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document
+     */
+    public function setFolder(Folder $folder) {
+        $this->folder = $folder;
+        return $this;
+    }
+    
+    /**
+     * Gibt das Verzeichnis in welchem sich das Dokument befindet zurück
+     * 
+     * @return Folder
+     */
+    public function getFolder() {
+      return $this->folder;  
+    }
+    
+    /**
      * 
      * @Serializer\VirtualProperty
      * @Serializer\Groups({"detail"})
      */
     public function getContent() {
-        return '<mei></mei>';
+        return $this->content;                
     }
     
-    public function setContent() {
-        
+    /**
+     * Set den Inhalt des Documents
+     * 
+     * @param string $content
+     * 
+     * @return Document
+     */
+    public function setContent($content) {
+        $this->content = $content;
+        return $this;
     }
+    
+    
+/*
+ * SECTION EventListeners
+ */    
     
     /**
      * @ORM\PrePersist()
@@ -421,5 +537,14 @@ class Document
      */
     public function removeGit() {
         
+    }
+    
+    /**
+     * @ORM\PostLoad()
+     */
+    public function readExistDb() {
+        $this->setContent(trim('
+<mei></mei>
+        '));
     }
 }

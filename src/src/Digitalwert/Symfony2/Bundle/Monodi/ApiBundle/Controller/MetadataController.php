@@ -34,7 +34,7 @@ class MetadataController extends Controller
      */
     public function getAction($path)
     {
-        
+        //https://github.com/l3pp4rd/DoctrineExtensions/blob/master/doc/tree.md
         return new \Symfony\Component\HttpFoundation\Response("", 200);
     }
 

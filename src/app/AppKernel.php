@@ -19,8 +19,8 @@ class AppKernel extends Kernel
             new JMS\AopBundle\JMSAopBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\SecurityExtraBundle\JMSSecurityExtraBundle(),
-            // console generate:bundle --namespace=Digitalwert/Symfony2/Bundle/Monodi/FrontendBundle --bundle-name=MonodiFrontendBundle --format=annotation --structure=yes --dir=src\src,
             
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new FOS\UserBundle\FOSUserBundle(),
@@ -40,7 +40,7 @@ class AppKernel extends Kernel
             new Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\DigitalwertMonodiApiBundle(),
             new Digitalwert\Symfony2\Bundle\Monodi\ClientBundle\DigitalwertMonodiClientBundle(),
             new Digitalwert\Symfony2\Bundle\Monodi\AdminBundle\DigitalwertMonodiAdminBundle(),
-            new Digitalwert\Symfony2\Bundle\Monodi\DummyBundle\DigitalwertMonodiDummyBundle(),
+            
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
@@ -48,6 +48,8 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+            
+            $bundles[] = new Digitalwert\Symfony2\Bundle\Monodi\DummyBundle\DigitalwertMonodiDummyBundle();
         }
 
         return $bundles;

@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * )
  * @Gedmo\Tree(type="nested")
  */
-class Folder implements \Gedmo\Tree\Node
+class Folder 
 {
     /**
      * Hook timestampable behavior
@@ -50,7 +50,7 @@ class Folder implements \Gedmo\Tree\Node
      *     @Gedmo\SlugHandlerOption(name="separator", value="/")
      *   })
      * }, separator="-", updatable=true)
-     * @ORM\Column(length=255, unique=true)
+     * @ORM\Column(length=255, unique=true, nullable=true)
      */
     private $slug;
     
@@ -71,16 +71,23 @@ class Folder implements \Gedmo\Tree\Node
      * @ORM\Column(name="lvl", type="integer")
      */
     private $lvl;
+    
+    /**
+     * @Gedmo\TreeRoot
+     * @ORM\Column(name="root", type="integer", nullable=true)
+     */
+    private $root;
 
     /**
      * @Gedmo\TreeParent
-     * @ORM\ManyToOne(targetEntity="Folder", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="Folder", inversedBy="children", cascade={"persist"})
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
      */
     private $parent;
 
     /**
      * @ORM\OneToMany(targetEntity="Folder", mappedBy="parent")
+     * @ORM\OrderBy({"lft" = "ASC"})
      */
     private $children;
     
@@ -124,18 +131,19 @@ class Folder implements \Gedmo\Tree\Node
         return $this->title;
     }
     
-    public function getSlug()
-    {
+    public function getSlug() {
         return $this->slug;
     }
-
-    public function setParent(Category $parent)
-    {
+    
+    /**
+     * 
+     * @param \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Folder $parent
+     */
+    public function setParent(Folder $parent) {
         $this->parent = $parent;    
     }
 
-    public function getParent()
-    {
+    public function getParent() {
         return $this->parent;   
     }
 }
