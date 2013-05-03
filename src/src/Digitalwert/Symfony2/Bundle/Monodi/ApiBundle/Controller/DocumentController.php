@@ -95,7 +95,7 @@ class DocumentController
         //$user = $securityContext->getToken()->getUser();
         //var_dump(get_class($this->securityContext->getToken()->getUser()));
         //$user = $this->securityContext->getUser();
-        //$this->em->getReposetory('')->findOneByIdForUser($id, $user);
+        //$this->em->getRepository('')->findOneByIdForUser($id, $user);
         
         $document = new Document();
         $document->setRev('cfeacede1212');

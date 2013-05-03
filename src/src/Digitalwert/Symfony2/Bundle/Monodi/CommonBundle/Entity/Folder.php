@@ -5,6 +5,7 @@ namespace Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Folder
@@ -14,6 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  *   repositoryClass="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\FolderRepository"
  * )
  * @Gedmo\Tree(type="nested")
+ * 
+ * @Serializer\XmlRoot(name="folder")
  */
 class Folder 
 {
@@ -29,6 +32,10 @@ class Folder
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
+     * 
+     * @Serializer\Expose
+     * @Serializer\Groups({"list","detail"})
+     * @Serializer\XmlAttribute
      */
     private $id;
 
@@ -36,6 +43,9 @@ class Folder
      * @var string
      * 
      * @ORM\Column(name="title", type="string", length=255)
+     * 
+     * @Serializer\Expose
+     * @Serializer\Groups({"list","detail"})
      */
     private $title;    
     
@@ -51,6 +61,11 @@ class Folder
      *   })
      * }, separator="-", updatable=true)
      * @ORM\Column(length=255, unique=true, nullable=true)
+     * 
+     * @Serializer\Expose
+     * @Serializer\Groups({"list","detail"})
+     * @Serializer\XmlAttribute
+     * @Serializer\SerializedName(value="path")
      */
     private $slug;
     
@@ -75,6 +90,10 @@ class Folder
     /**
      * @Gedmo\TreeRoot
      * @ORM\Column(name="root", type="integer", nullable=true)
+     * 
+     * @Serializer\Expose
+     * @Serializer\Groups({"list","detail"})
+     * @Serializer\XmlAttribute
      */
     private $root;
 
@@ -88,13 +107,22 @@ class Folder
     /**
      * @ORM\OneToMany(targetEntity="Folder", mappedBy="parent")
      * @ORM\OrderBy({"lft" = "ASC"})
+     * 
+     * @Serializer\Expose
+     * @Serializer\Groups({"list","detail"})
+     * @Serializer\XmlList(entry="folder")
+     * @Serializer\SerializedName(value="folders")
      */
     private $children;
     
     
     /**
      *
-     * @ORM\OneToMany(targetEntity="Document", mappedBy="folder_id")
+     * @ORM\OneToMany(targetEntity="Document", mappedBy="folder")
+     * 
+     * @Serializer\Expose
+     * @Serializer\Groups({"list","detail"})
+     * @Serializer\XmlList(entry="document")
      */
     protected $documents;
     
@@ -145,5 +173,35 @@ class Folder
 
     public function getParent() {
         return $this->parent;   
+    }
+    
+    public function getChildren() {
+        return $this->children;
+    }
+    
+    /**
+     * Gibt die Anzahl der Unterverzeichnisse zurück
+     * 
+     * @Serializer\Groups({"list","detail"})
+     * @Serializer\VirtualProperty
+     * @Serializer\XmlAttribute
+     * 
+     * @return integer
+     */
+    public function getChildrenCount() {
+        return (integer)count($this->children);
+    }
+    
+    /**
+     * Gibt die Anzahl der im Verzeichnis enthalten Dokumente zurück
+     * 
+     * @Serializer\Groups({"list","detail"})
+     * @Serializer\VirtualProperty
+     * @Serializer\XmlAttribute
+     * 
+     * @return integer
+     */
+    public function getDocumentCount() {
+        return (integer)count($this->documents);
     }
 }

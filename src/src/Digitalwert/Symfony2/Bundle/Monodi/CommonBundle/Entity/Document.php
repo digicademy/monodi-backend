@@ -62,7 +62,7 @@ class Document
      * @ORM\Column(name="title", type="string", length=255)
      * 
      * @Serializer\Expose
-     * @Serializer\Groups({"detail"})
+     * @Serializer\Groups({"list", "detail"})
      */
     protected $title;
 
