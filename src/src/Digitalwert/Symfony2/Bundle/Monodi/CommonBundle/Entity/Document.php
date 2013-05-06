@@ -4,6 +4,7 @@ namespace Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity;
 
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
@@ -14,6 +15,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\HasLifecycleCallbacks
  * @Gedmo\Loggable
  * 
+ * @Serializer\ExclusionPolicy("ALL")
  * @Serializer\XmlRoot(name="document")
  */
 class Document

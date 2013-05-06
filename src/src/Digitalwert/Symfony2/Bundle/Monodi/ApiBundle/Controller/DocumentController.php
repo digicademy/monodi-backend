@@ -67,7 +67,7 @@ class DocumentController
     /**
      * Aktuallisiert eine Liste von Dokumenten (diff)
      * 
-     * @ApiDoc()
+     * ApiDoc()
      * 
      * @Route("/")
      * @Method({"PATCH"})
@@ -80,63 +80,91 @@ class DocumentController
      * Gibt ein Dokument zurück
      * 
      * @ApiDoc(
-     *   ressource=true,
+     *   ressource=true,   
      *   output="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document"
      * )
      * 
-     * @Route("/{id}.{_format}", requirements={"_format" = "(xml|json)"}, defaults={"_format" = "xml"})
-     * ParamConverter("post", class="DigitalwertMonodiCommonBundle:Document", options={}
+     * @Route("/{id}.{_format}", 
+     *   requirements={
+     *     "_format" = "(xml|json)"}, 
+     *   defaults={
+     *     "_format" = "xml"
+     *   }
+     * )
+     * ParamConverter("id", class="DigitalwertMonodiCommonBundle:Document", options={}
      * @Method({"GET"})
      * 
-     * @Rest\View(serializerGroups={"detail"})
+     * @Rest\View(
+     *   serializerGroups={"detail"}
+     * )
      */
     public function getDocumentAction($id)
     {
+        $document = $this
+          ->em
+          ->getRepository('Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document')
+          ->find($id)
+        ;
+        
+        if(!$document) {
+            throw new NotFoundHttpException('Document not found');
+        }
+        
         //$user = $securityContext->getToken()->getUser();
         //var_dump(get_class($this->securityContext->getToken()->getUser()));
         //$user = $this->securityContext->getUser();
         //$this->em->getRepository('')->findOneByIdForUser($id, $user);
         
-        $document = new Document();
-        $document->setRev('cfeacede1212');
-        $document->setTitle('Test des Titles');
-        $document->setFilename('fobar.buz.mei');
-        $document->setProcessNumber(123434);
-        $document->setCreatedAt(new \DateTime('yesterday'));
-        $document->setEditedAt(new \DateTime('now'));
-        $document->setEditionNumber(123456700);
+//        $document = new Document();
+//        $document->setRev('cfeacede1212');
+//        $document->setTitle('Test des Titles');
+//        $document->setFilename('fobar.buz.mei');
+//        $document->setProcessNumber(123434);
+//        $document->setCreatedAt(new \DateTime('yesterday'));
+//        $document->setEditedAt(new \DateTime('now'));
+//        $document->setEditionNumber(123456700);
         
-        
-        $data = $document;
-        
-        return $data;
-//        $view = View::create();
-//        //$view->setFormat('xml');
-//        $view->setData($data);
-//        return $view;
+        return $document;
     }
     /**
      * Aktualisiert ein Dokument
      * 
-     * @ApiDoc()
+     * @ApiDoc(
+     *   input="Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Form\Type\DocumentFormType"
+     * )
      * 
-     * @Route("/{id}")
+     * @Route("/{id}.{_format}", 
+     *   requirements={
+     *     "_format" = "(xml|json)"}, 
+     *   defaults={
+     *     "_format" = "xml"
+     *   }
+     * )
      * @Method({"PUT"})
      */
-    public function putDocumentAction($id)
-    {
+    public function putDocumentAction($id) {
+        $document = $this
+          ->em
+          ->getRepository('Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document')
+          ->find($id)
+        ;
+        
+        if(!$document) {
+            throw new NotFoundHttpException('Document not found');
+        }
     }
 
     /**
      * Aktualisiert ein Dokument
      * 
-     * @ApiDoc()
+     * ApiDoc()
      * 
      * @Route("/{id}")
      * @Method({"PATCH"})
      */
     public function patchDocumentAction($id)
     {
+        
     }
 
     /**
@@ -144,7 +172,7 @@ class DocumentController
      * 
      * @ApiDoc(
      *   statusCodes={
-     *     201="Returned when successful",
+     *     204="Returned when successful",
      *     403="Returned when the user is not authorized to access the document",  
      *     404="Returned when the document was not found"
      *   }
@@ -152,6 +180,8 @@ class DocumentController
      * 
      * @Route("/{id}")
      * @Method({"DELETE"})
+     * 
+     * @Rest\View(statusCode=204)
      */
     public function deleteDocumentAction($id)
     {

@@ -127,10 +127,11 @@ fos_rest:
     body_listener: true
     format_listener: true
     routing_loader:
-        default_format: xml
+        default_format: json
     view:
         view_response_listener: 'force'
         formats:
+            text: false
             rss: false
             xml: true
             json: true
@@ -140,6 +141,13 @@ fos_rest:
         force_redirects:
             html: true
         failed_validation: HTTP_BAD_REQUEST
+#    format_listener:
+#        default_priorities: ['application/json']
+#        fallback_format: json
+#        prefer_extension: true
+#    body_listener:
+#        decoders:
+#            json: fos_rest.decoder.json
 
 sensio_framework_extra:
     view:    { annotations: false }
@@ -154,3 +162,13 @@ stof_doctrine_extensions:
           tree: true
           timestampable: true
           sluggable: true
+# Di
+# http://jmsyst.com/bundles/JMSDiExtraBundle/master/configuration
+jms_di_extra:
+    automatic_controller_injections:
+        properties:
+            request: "@request"
+            router: "@router"
+
+        method_calls:
+            setRouter: ["@router"]
