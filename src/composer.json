@@ -6,10 +6,6 @@
     },
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/doctrine/DoctrineOXMBundle.git"
-        },
-        {
             "type": "package",
             "package": {                
                 "name": "lampjunkie/xml-hitch",
@@ -47,12 +43,12 @@
         "nelmio/api-doc-bundle": "dev-master",
         
         "jlong/sass-twitter-bootstrap": "dev-master",
-        "mopa/bootstrap-bundle": "dev-master",        
-        
-        "lampjunkie/xml-hitch": "*",
-        
+        "mopa/bootstrap-bundle": "2.2.*@dev",  
+               
         "stof/doctrine-extensions-bundle": "dev-master",
-        "jms/serializer-bundle": "*"
+        "jms/serializer-bundle": "dev-master",
+        "simplethings/form-serializer-bundle": "dev-master"
+
     },
     "scripts": {
         "post-install-cmd": [

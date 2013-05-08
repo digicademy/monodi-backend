@@ -21,8 +21,14 @@ use JMS\Serializer\Annotation as Serializer;
 class User 
   extends BaseUser
 {
+    /**
+     * Anrede für männliche Nutzer
+     */
     const SALUTATION_Mr = 'Herr';
     
+    /**
+     * Anrede für weibliche Nutzer
+     */
     const SALUTATION_Ms = 'Frau';
     
     /**
@@ -54,6 +60,9 @@ class User
      * Nutzer-Email 
      * 
      * @var string
+     * 
+     * @Assert\NotBlank
+     * @Assert\Email
      * 
      * @Serializer\Expose
      * @Serializer\Groups({"list","detail","profile"})
@@ -119,6 +128,8 @@ class User
     protected $lastname;
     
     /**
+     * Nutzergruppen
+     * 
      * @ORM\ManyToMany(targetEntity="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Group")
      * @ORM\JoinTable(name="fos_user_user_group",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
@@ -134,6 +145,18 @@ class User
      * @ORM\JoinColumn(name="version_control_system_repos_id", referencedColumnName="id")
      */
     protected $versionControlSystemRepos;
+    
+    /**
+     * Gibt die Möglichen Anreden zurück
+     * 
+     * @return array
+     */
+    static public function getSalutations() {
+        return array(
+          self::SALUTATION_Mr,
+          self::SALUTATION_Ms,
+        );
+    }
     
     /**
      * Konstruktor
@@ -229,19 +252,7 @@ class User
     public function getFirstname() {
         return $this->firstname;
     }
-    
-    /**
-     * Gibt die Möglichen Anreden zurück
-     * 
-     * @return array
-     */
-    public function getSalutations() {
-        return array(
-          self::SALUTATION_Mr,
-          self::SALUTATION_Ms,
-        );
-    }
-    
+        
     /**
      * Setzt die Anrede des Nutzers
      * 

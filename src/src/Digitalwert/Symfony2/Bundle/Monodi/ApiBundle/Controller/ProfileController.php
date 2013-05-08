@@ -55,6 +55,7 @@ class ProfileController
      * Gibt ein einzelnes Profile zurück 
      * 
      * @ApiDoc(   
+     *   ressource=true,
      *   output="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\User",
      *   statusCodes={
      *     200="Returned when successful",
@@ -101,8 +102,7 @@ class ProfileController
      * @var string $slug 
      * 
      * @ApiDoc(
-     *   input="Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Form\Type\ProfileFormType",
-     *   output="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\User"
+     *   input="Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Form\Type\ProfileFormType"
      * )
      * 
      * @Route("/{slug}.{_format}",
@@ -121,7 +121,7 @@ class ProfileController
      */
     public function putProfileAction(Request $request, $slug) {
         
-        var_dump($request->getContent(), $slug);
+        //var_dump($request->getContent(), $request->request, $slug);
         
         $profile = $this->findUserBySlug($slug);
         
@@ -153,8 +153,11 @@ class ProfileController
      * Sucht einen Nutzer hand dessen Nutzernames
      * 
      * @param string $slug
-     * @return \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\User
+     * 
      * @throws NotFoundHttpException
+     * @throws AccessDeniedHttpException
+     * 
+     * @return \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\User
      */
     protected function findUserBySlug($slug) {
         
@@ -196,8 +199,8 @@ class ProfileController
         //var_dump($this->getRequest()->);
         
         //$form->bind($this->getRequest());
-        $form->bind($request->request);
-
+        $form->bind($request);
+        
         if ($form->isValid()) {
             
             $this->em->persist($profile);

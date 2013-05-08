@@ -6,6 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class MetadataControllerTest extends WebTestCase
 {
+    /**
+     * 
+     */
     public function testGet()
     {
         $client = static::createClient();

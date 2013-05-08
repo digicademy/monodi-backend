@@ -44,7 +44,10 @@ class MetadataController
     /**
      * Gibt Metainforamtion zu Verzeichnien oder Dateien zurück
      * 
+     * @todo dokumente sollten als referenzlinks ausgegeben werden (relationen)
+     * 
      * @ApiDoc( 
+     *   output="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Folder",
      *   statusCodes={
      *     200="Returned when successful",
      *     403="Returned when the user is not authorized to access the Ressource",

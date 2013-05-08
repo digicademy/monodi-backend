@@ -23,8 +23,17 @@ class DocumentControllerTest extends WebTestCase
     public function testPutdocument()
     {
         $client = static::createClient();
-
-        $crawler = $client->request('GET', '/document/{id}');
+      
+        $crawler = $client->request(
+            'PUT',
+            '/submit',
+            array(),
+            array(),
+            array('CONTENT_TYPE' => 'application/json'),
+            '{"document":"asdfasdf"}'
+        );       
+        
+        
     }
 
     public function testPatchdocument()

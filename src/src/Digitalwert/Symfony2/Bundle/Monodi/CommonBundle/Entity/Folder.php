@@ -16,6 +16,7 @@ use JMS\Serializer\Annotation as Serializer;
  * )
  * @Gedmo\Tree(type="nested")
  * 
+ * @Serializer\ExclusionPolicy("ALL")
  * @Serializer\XmlRoot(name="folder")
  */
 class Folder 

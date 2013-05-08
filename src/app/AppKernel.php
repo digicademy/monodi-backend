@@ -27,6 +27,7 @@ class AppKernel extends Kernel
             
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new FOS\RestBundle\FOSRestBundle(),
+            new SimpleThings\FormSerializerBundle\SimpleThingsFormSerializerBundle(),
             
             new Mopa\Bundle\BootstrapBundle\MopaBootstrapBundle(),
             
