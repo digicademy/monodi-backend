@@ -1,4 +1,16 @@
 <?php
+/**
+ * Datei für die Klasse {@link ProfileController}
+ *
+ * Lange Beschreibung der Datei (wenn vorhanden)...
+ *
+ * LICENSE: Einige Lizenz Informationen
+ *
+ * @category   Symfony
+ * @copyright  Copyright (c) 2005-2013 digitalwert
+ * @license    http://www.digitalwert.de/license
+ * @version    GIT: $Id:$
+ */
 
 namespace Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Controller;
 
@@ -22,6 +34,17 @@ use FOS\RestBundle\View\View;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 
 /**
+ * Kurze Beschreibung für die Klasse
+ *
+ * @see        Link zu einer für das Verständnis des Codes notwendigen Dokumentation
+ *
+ * @author     Invader Zim <invader.zim@earth.gl>
+ * @category   Zend
+ * @copyright  Copyright (c) 2009-2011 digitalwert (http://www.digitalwert.de)
+ * @license    http://www.digitalwert.de/license   
+ * @link       http://wiki.intern/Kategorie:${Projekt}
+ * @version    Release: @package_version@
+ * 
  * @Route("/profile")
  */
 class ProfileController 

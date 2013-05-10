@@ -24,6 +24,7 @@ class AppKernel extends Kernel
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new FOS\UserBundle\FOSUserBundle(),
+            new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
             
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new FOS\RestBundle\FOSRestBundle(),
@@ -33,6 +34,7 @@ class AppKernel extends Kernel
             
             // Für Geomon DoctrineExtensions
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+            
             /*
              * 
              */
@@ -41,6 +43,9 @@ class AppKernel extends Kernel
             new Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\DigitalwertMonodiApiBundle(),
             new Digitalwert\Symfony2\Bundle\Monodi\ClientBundle\DigitalwertMonodiClientBundle(),
             new Digitalwert\Symfony2\Bundle\Monodi\AdminBundle\DigitalwertMonodiAdminBundle(),
+            
+            new Digitalwert\Symfony2\Bundle\Monodi\UserBundle\DigitalwertMonodiUserBundle(),
+            new Digitalwert\Symfony2\Bundle\Monodi\OAuthServerBundle\DigitalwertMonodiOAuthServerBundle(),
             
         );
 

@@ -48,10 +48,28 @@ security:
 #            #anonymous: ~
 #            #http_basic:
 #            #    realm: "Secured Demo Area"
+        oauth_token:
+            pattern:    ^/oauth/v2/token
+            security:   false
+
+#        oauth_authorize:
+#            pattern:    ^/oauth/v2/auth
+#            # Add your favorite authentication process here
+#            form_login:
+#                provider: fos_userbundle
+#                check_path: /oauth/v2/auth_login_check
+#                login_path: /oauth/v2/auth_login
+#            anonymous: true
+        api_v1:
+            pattern:    ^/api/v1
+            fos_oauth:  true
+            stateless:  true
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/admin/, role: ROLE_ADMIN }
+        - { path: ^/api/v1/, roles: [ IS_AUTHENTICATED_FULLY ] }
+        - { path: ^/oauth/v2/auth_login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

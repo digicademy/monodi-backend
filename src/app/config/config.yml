@@ -180,3 +180,13 @@ jms_di_extra:
 
         method_calls:
             setRouter: ["@router"]
+# OAUTH2
+# https://github.com/FriendsOfSymfony/FOSOAuthServerBundle/blob/master/Resources/doc/index.md
+fos_oauth_server:
+    db_driver:           orm       
+    client_class:        Digitalwert\Symfony2\Bundle\Monodi\OAuthServerBundle\Entity\Client
+    access_token_class:  Digitalwert\Symfony2\Bundle\Monodi\OAuthServerBundle\Entity\AccessToken
+    refresh_token_class: Digitalwert\Symfony2\Bundle\Monodi\OAuthServerBundle\Entity\RefreshToken
+    auth_code_class:     Digitalwert\Symfony2\Bundle\Monodi\OAuthServerBundle\Entity\AuthCode
+    service:
+        user_provider: fos_user.user_manager

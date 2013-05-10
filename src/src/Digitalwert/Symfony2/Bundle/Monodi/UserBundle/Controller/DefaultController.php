@@ -1,6 +1,6 @@
 <?php
 
-namespace Digitalwert\Symfony2\Bundle\Monodi\FrontendBundle\Controller;
+namespace Digitalwert\Symfony2\Bundle\Monodi\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -9,12 +9,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/")
+     * @Route("/hello/{name}")
      * @Template()
      */
-    public function indexAction()
+    public function indexAction($name)
     {
-        $name = 'Test';
         return array('name' => $name);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace Digitalwert\Symfony2\Bundle\Monodi\FrontendBundle\Tests\Controller;
+namespace Digitalwert\Symfony2\Bundle\Monodi\UserBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
