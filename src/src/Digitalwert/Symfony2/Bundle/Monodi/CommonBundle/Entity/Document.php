@@ -13,6 +13,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Table(name="monodi_document")
  * @ORM\Entity(repositoryClass="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\DocumentRepository")
  * @ORM\HasLifecycleCallbacks
+ * 
  * @Gedmo\Loggable
  * 
  * @Serializer\ExclusionPolicy("ALL")
@@ -500,8 +501,8 @@ class Document
  */    
     
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
+     * ORM\PrePersist()
+     * ORM\PreUpdate()
      */
     public function preSaveGit() {
         //        $git->add();
@@ -510,16 +511,16 @@ class Document
     }
     
     /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
+     * ORM\PostPersist()
+     * ORM\PostUpdate()
      */
     public function saveExistDb() {
         //$existDb->save($content);                
     }
     
     /**
-     * @ORM\PostPersist()
-     * @ORM\PostUpdate()
+     * ORM\PostPersist()
+     * ORM\PostUpdate()
      */
     public function saveGit() {
 
@@ -528,21 +529,21 @@ class Document
     }
     
     /**
-     * @ORM\PostRemove()
+     * ORM\PostRemove()
      */
     public function removeExistDb() {
         
     }
     
     /**
-     * @ORM\PostRemove()
+     * ORM\PostRemove()
      */
     public function removeGit() {
         
     }
     
     /**
-     * @ORM\PostLoad()
+     * ORM\PostLoad()
      */
     public function readExistDb() {
         $this->setContent(trim('

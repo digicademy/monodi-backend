@@ -1,0 +1,39 @@
+{% extends 'DigitalwertMonodiFrontendBundle::base.html.twig' %}
+
+{% block page_header %}{% endblock page_header %}
+
+{% block content_content %}
+<div class="hero-unit">
+  <h1>Hello {{ name }}!</h1>
+  <p>Tagline</p>
+  <p>
+    <a class="btn btn-primary btn-large">
+      Learn more
+    </a>
+  </p>
+</div>
+{% endblock content_content %}
+
+{% block content_sidebar %} 
+
+<ul class="nav nav-tabs nav-stacked">
+  <li class="active"><a href="/"><i class="icon-home icon-white"></i> Home</a></li>
+  <li><a href="/app_dev.php/client"><i class="icon-pencil"></i> Client</a></li>
+  <li><a href="/app_dev.php/admin"><i class="icon-wrench"></i> Backend</a></li>  
+  <li><a href="/app_dev.php/api/doc"><i class="icon-book"></i> ApiDoc</a></li>  
+</ul>
+
+<form>
+  <fieldset>
+    <legend>Login</legend>
+    <label>Username</label>
+    <input type="text" placeholder="username">
+    <label>Password</label>
+    <input type="password" placeholder="password">
+    <label class="checkbox">
+      <input type="checkbox"> Remember me
+    </label>
+    <button type="submit" class="btn">Sign in</button>
+  </fieldset>
+</form>
+{% endblock content_sidebar %}

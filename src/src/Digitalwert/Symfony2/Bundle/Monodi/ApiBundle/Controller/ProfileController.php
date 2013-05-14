@@ -47,9 +47,7 @@ use Nelmio\ApiDocBundle\Annotation\ApiDoc;
  * 
  * @Route("/profile")
  */
-class ProfileController 
-//  extends Controller
-  extends FOSRestController
+class ProfileController extends FOSRestController
 { 
     /** @DI\Inject("doctrine.orm.entity_manager") */
     private $em;

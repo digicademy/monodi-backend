@@ -37,7 +37,7 @@ class DocumentFormType
      * {@inheritdoc}
      */
     public function getName() {
-        return 'api_monodi_document';
+        return 'document';
     }   
 }
 

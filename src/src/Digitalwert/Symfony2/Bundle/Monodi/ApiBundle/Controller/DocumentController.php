@@ -22,9 +22,7 @@ use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document;
  * 
  * @Route("/documents")
  */
-class DocumentController 
-//  extends 
-  extends FOSRestController
+class DocumentController extends FOSRestController
 {   
     
     /** @DI\Inject("doctrine.orm.entity_manager") */
@@ -38,7 +36,6 @@ class DocumentController
      * @DI\Inject("security.context", required = false)
      */
     private $securityContext;
-
     
     /**
      * 
@@ -60,8 +57,11 @@ class DocumentController
      * @Route("/")
      * @Method({"POST"})
      */
-    public function postDocumentsAction()
-    {
+    public function postDocumentsAction(Request $request) {
+        
+        $document = new Document();
+        
+        return $this->processForm($document, $request,  201);
     }
     
     /**
@@ -72,7 +72,7 @@ class DocumentController
      * @Route("/")
      * @Method({"PATCH"})
      */
-    public function patchDocumentsAction()
+    public function patchDocumentsAction(Request $request)
     {
     }
     
@@ -100,20 +100,7 @@ class DocumentController
      */
     public function getDocumentAction($id)
     {
-        $document = $this
-          ->em
-          ->getRepository('Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document')
-          ->find($id)
-        ;
-        
-        if(!$document) {
-            throw new NotFoundHttpException('Document not found');
-        }
-        
-        //$user = $securityContext->getToken()->getUser();
-        //var_dump(get_class($this->securityContext->getToken()->getUser()));
-        //$user = $this->securityContext->getUser();
-        //$this->em->getRepository('')->findOneByIdForUser($id, $user);
+        $document = $this->findDocumentById($id);      
         
 //        $document = new Document();
 //        $document->setRev('cfeacede1212');
@@ -142,16 +129,11 @@ class DocumentController
      * )
      * @Method({"PUT"})
      */
-    public function putDocumentAction($id) {
-        $document = $this
-          ->em
-          ->getRepository('Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document')
-          ->find($id)
-        ;
+    public function putDocumentAction(Request $request, $id) {
         
-        if(!$document) {
-            throw new NotFoundHttpException('Document not found');
-        }
+        $document = $this->findDocumentById($id);
+        
+        return $this->processForm($document, $request,  204);
     }
 
     /**
@@ -186,5 +168,71 @@ class DocumentController
     public function deleteDocumentAction($id)
     {
     }
+    
+    /**
+     * Sucht ein Dokument anhand der
+     * 
+     * @param type $id
+     * @return type
+     * 
+     * @throws NotFoundHttpException
+     */
+    protected function findDocumentById($id) {
+        $document = $this
+          ->em
+          ->getRepository('Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document')
+          ->find($id)
+        ;
+        
+        if(!$document) {
+            throw new NotFoundHttpException('Document not found');
+        }
+        
+        //$user = $securityContext->getToken()->getUser();
+        //$user = $securityContext->getToken()->getUser();
+        //var_dump(get_class($this->securityContext->getToken()->getUser()));
+        //$user = $this->securityContext->getUser();
+        //$this->em->getRepository('')->findOneByIdForUser($id, $user);
+        
+        return $document;
+    }
+    
+    
+    /**
+     * Validiert das gesendete Formular gibt entsprchent dem Ergebnis 
+     * den Response zurück
+     * 
+     * @param \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document $document
+     * @param integer $statusCode
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    protected function processForm(Document $document, Request $request, $statusCode = 204) {
 
+        $form = $this->createForm(new DocumentFormType(), $document);
+
+        $form->bind($request);
+        
+        if ($form->isValid()) {
+            
+            $this->em->persist($document);
+            $this->em->flush();
+
+            $response = new Response();
+            $response->setStatusCode($statusCode);
+
+            // set the `Location` header only when creating new resources
+            if (201 === $statusCode) {
+                $response->headers->set('Location',
+                    $this->generateUrl(
+                        'monodi_api_document_get', array('id' => $document->getId()),
+                        true // absolute
+                    )
+                );
+            }
+
+            return $response;
+        }
+
+        return View::create($form, 400);
+    }
 }

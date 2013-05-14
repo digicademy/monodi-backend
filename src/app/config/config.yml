@@ -180,6 +180,10 @@ jms_di_extra:
 
         method_calls:
             setRouter: ["@router"]
+    locations:
+        all_bundles: false
+        bundles: [ DigitalwertMonodiAdminBundle, DigitalwertMonodiApiBundle, DigitalwertMonodiClientBundle, DigitalwertMonodiCommonBundle, DigitalwertMonodiDummyBundle, DigitalwertMonodiFrontendBundle, DigitalwertMonodiOAuthServerBundle, DigitalwertMonodiUserBundle ]
+        directories: [ "%kernel.root_dir%/../src" ]
 # OAUTH2
 # https://github.com/FriendsOfSymfony/FOSOAuthServerBundle/blob/master/Resources/doc/index.md
 fos_oauth_server:

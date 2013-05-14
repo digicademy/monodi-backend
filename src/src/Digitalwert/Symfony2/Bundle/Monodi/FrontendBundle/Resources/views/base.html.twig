@@ -41,74 +41,63 @@
 {% endblock body_start %}
 
 {% block body %}
-    <div id="wrap" >
-        {% block navbar %}
-            
-            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
-                <a href="{{ path('fos_user_security_logout') }}">
-                    {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                </a>
-            {% else %}
-                <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-            {% endif %}
-                
-        {% endblock navbar %}
-
-        {% block jumbotron %}
-        <header class="jumbotron subhead" id="overview">
-            <div class="container">
-              <h1>{% block jumbotron_headline %}Corpus Monodicum{% endblock jumbotron_headline %}</h1>
-              <p class="lead">{% block jumbotron_lead %}{% endblock jumbotron_lead %}</p>
+    {% block navbar %}
+    
+    {% endblock navbar %}
+        
+    {% block jumbotron %}
+    <header class="jumbotron subhead" id="overview">
+        <div class="container">
+          <h1>{% block jumbotron_headline %}Monodi{% endblock jumbotron_headline %}</h1>
+          <p class="lead">{% block jumbotron_lead %}{% endblock jumbotron_lead %}</p>
+        </div>
+    </header>
+    {% endblock jumbotron %}
+        
+    {% block container %}
+    <div class="{% block container_class %}container-fluid{% endblock container_class %}">
+        {% block header %}            
+        {% endblock header %}
+        <div class="content">
+            {% block page_header %}
+            <div class="page-header">
+                  <h1>{% block headline %}Welcome!{% endblock headline %}</h1>
             </div>
-        </header>
-        {% endblock jumbotron %}
+            {% endblock page_header %}
 
-        {% block container %}
-        <div class="{% block container_class %}container-fluid{% endblock container_class %}">
-            {% block header %}            
-            {% endblock header %}
-            <div class="content">
-                {% block page_header %}
-                <div class="page-header">
-                      <h1>{% block headline %}Welcome!{% endblock headline %}</h1>
+            {% block flashes %}
+            {% if app.session.flashbag.peekAll|length > 0 %}
+            <div class="row-fluid">
+                <div class="span12">
+                {#{ session_flash() }#}
                 </div>
-                {% endblock page_header %}
+            </div>
+            {% endif %}
+            {% endblock flashes %}
 
-                {% block flashes %}
-                {% if app.session.flashbag.peekAll|length > 0 %}
-                <div class="row-fluid">
-                    <div class="span12">
-                    {#{ session_flash() }#}
-                    </div>
+            {% block content_row %}
+            <div class="row-fluid">
+                {% block content %}
+                <div class="span9">
+                    {% block content_content %}
+                    <strong>Hier könnte Ihre Werbung stehen ... </strong>
+                    {% endblock content_content %}
                 </div>
-                {% endif %}
-                {% endblock flashes %}
-
-                {% block content_row %}
-                <div class="row-fluid">
-                    {% block content %}
-                    <div class="span9">
-                        {% block content_content %}
-                        <strong>Hier könnte Ihre Werbung stehen ... </strong>
-                        {% endblock content_content %}
-                    </div>
-                    <div class="span3">
-                        {% block content_sidebar %}                        
-                        {% endblock content_sidebar %}
-                    </div>
-                    {% endblock content %}
+                <div class="span3">
+                    {% block content_sidebar %}                        
+                    {% endblock content_sidebar %}
                 </div>
-                {% endblock content_row %}
-            </div>        
-        </div> <!-- /container -->
-        {% endblock container %}
-    </div>
-    <footer>
-       {% block footer %}
-       <p>&copy; <a href="http://www.notengrafik.com/" target="_blank">notengrafik berlin wolff & okrzeja GbR</a> 2013</p>
-       {% endblock footer %}
-    </footer>
+                {% endblock content %}
+            </div>
+            {% endblock content_row %}
+        </div>
+        <footer>
+            {% block footer %}
+            <p>&copy; <a href="http://www.notengrafik.com/" target="_blank">notengrafik berlin wolff & okrzeja GbR</a> 2013</p>
+            {% endblock footer %}
+        </footer>
+    </div> <!-- /container -->
+    {% endblock container %}
     {% block foot_script %}
     {# To only use a subset or add more js overwrite and copy paste this block
     To speed up page loads save a copy of jQuery in your project and override this block to include the correct path
