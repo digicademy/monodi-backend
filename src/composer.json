@@ -19,6 +19,21 @@
                     "psr-0": {"Hitch": "lib/"}
                 }
             }
+        },
+        {
+            "type": "package",
+            "package": {                
+                "name": "kbjr/git-php",
+                "version": "1.0.0",
+                "source": {
+                    "url": "https://github.com/pwhittlesea/Git.php.git",
+                    "type": "git",
+                    "reference": "v0.2"
+                },
+                "autoload": {
+                    "files": ["Git.php"]
+                }
+            }
         }
     ],
     "require": {
@@ -52,7 +67,9 @@
                
         "stof/doctrine-extensions-bundle": "dev-master",
         "jms/serializer-bundle": "dev-master",
-        "simplethings/form-serializer-bundle": "dev-master"
+        "simplethings/form-serializer-bundle": "dev-master",
+        
+        "kbjr/git-php": "*"
 
     },
     "scripts": {
