@@ -1,0 +1,3 @@
+[submodule "src/src/Digitalwert/Symfony2/Bundle/Monodi/ClientBundle"]
+	path = src/src/Digitalwert/Symfony2/Bundle/Monodi/ClientBundle
+	url = https://mischka@bitbucket.org/mischka/monodi_client.git
