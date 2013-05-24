@@ -6,6 +6,7 @@
  */
 namespace Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Tests\Utility\Git;
 
+use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\VersionControlSystemRepos;
 use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryManager;
 use Monolog\Logger;
 
@@ -23,9 +24,16 @@ class RepositoryManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function testInitRepos() {
         
+        $repo = new VersionControlSystemRepos();
+        $repo->setUri($uri);
+        
+        
         $logger = new Logger();
                 
         $manager = new RepositoryManager($logger);
         $manager->initRepos();
+//        $manager->addDocument();
+//        $manager->findDocument();
+        
     }
 }

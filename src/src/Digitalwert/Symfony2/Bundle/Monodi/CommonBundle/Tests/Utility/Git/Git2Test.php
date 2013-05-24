@@ -61,10 +61,39 @@ class Git2Test extends \PHPUnit_Framework_TestCase
      */
     public function testAdd() {
         $repo = new \Git2\Repository(self::$path);
+        $oid = \Git2\Blob::create($repo, "Hello World");
         
-        var_dump($repo);
+        $blob = $repo->lookup($oid);
+        var_dump($blob->getSize());
+        var_dump($blob->getContent());
+        
+//        $ref = \Git2\Reference::lookup($repo, "refs/heads/master");
+//        var_dump($ref->getTarget());
+//        var_dump($ref->getName());
+//        
+//        foreach (\Git2\Reference::each($repo) as $ref) {
+//            echo $ref->getName() . PHP_EOL;
+//        }
     }
     
+    public function testCommit() {
+        
+    }
+    
+    
+    public function testMerge() {
+        
+    }
+    
+    public function testPush() {
+        
+    } 
+    
+    public function testPull() {
+        
+    }
+
+
     /**
      * Aufräumen nach test
      */

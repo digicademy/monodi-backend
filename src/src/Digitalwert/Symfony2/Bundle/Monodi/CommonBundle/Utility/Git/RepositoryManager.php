@@ -20,7 +20,7 @@ class RepositoryManager
     }
     
     
-    public function createRepo() {
+    public function createRepo(VCSRepos $repository) {
         
         $gitRepo = \Git2\Repository::init("/path/to/repo",true);
         
@@ -42,6 +42,7 @@ class RepositoryManager
     protected function fromEntityToGitRepository(VCSRepos $repository) {
         $path = $repository->getPath();
         $gitRepo = new \Git2\Repository($path);
+        
         if(!$gitRepo->exists()) {
             throw new \RuntimeException("Reposetory does not exists");
         }

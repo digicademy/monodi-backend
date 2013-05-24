@@ -480,7 +480,39 @@ class Document
      * @Serializer\Groups({"detail"})
      */
     public function getContent() {
-        return $this->content;                
+//        return $this->content;                
+        return '<?xml version="1.0" encoding="UTF-8"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title/>
+      </titleStmt>
+      <pubStmt/>
+      <sourceDesc>
+        <source/>
+      </sourceDesc>
+    </fileDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <section>
+            <staff>
+              <layer>
+                <sb label=""/>
+                <syllable>
+                  <syl></syl>
+                </syllable>
+              </layer>
+            </staff>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>';
     }
     
     /**
