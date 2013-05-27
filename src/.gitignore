@@ -9,3 +9,4 @@
 /log
 /htdocs
 /src/Acme
+/.rsync_cache

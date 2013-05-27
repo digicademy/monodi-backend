@@ -9,6 +9,6 @@ parameters:
     mailer_host: 127.0.0.1
     mailer_user: null
     mailer_password: null
-    locale: en
+    locale: de
     secret: e2669818e3134c10add6bdfec1a65c90d
     database_path: null
