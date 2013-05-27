@@ -39,7 +39,9 @@ class RepositoryManagerTest extends \PHPUnit_Framework_TestCase
         $logger = new Logger();
                 
         $manager = new RepositoryManager($remote, $logger);
+        
         $manager->createRepo($container);
+        
         
 //        $manager->addDocument();
 //        $manager->findDocument();

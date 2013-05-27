@@ -16,6 +16,8 @@ class RepositoryManager
     protected $logger;
     
     protected $remote;
+    
+    protected $localBase;
 
     
     public function __construct($remote, $logger) {
@@ -134,6 +136,13 @@ class RepositoryManager
         }
         
         return $gitRepo;
-    }   
+    }
+    
+    protected function buildPath(RepositoryContainer $container) {
+        
+//        $path = $container->getRepository()->getPath();
+        $slug = str_replace(' ', '.', strtolower($container->getDisplayName()));
+        return $this->localBase . '/'. $slug;
+    }
     
 }

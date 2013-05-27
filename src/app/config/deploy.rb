@@ -10,10 +10,11 @@ set :deploy_subdir,"src/"
 
 set :repository,  "git@bitbucket.org:digitalwert/monodi-backend.git"
 set :scm,         :git
-# Or: `accurev`, `bzr`, `cvs`, `darcs`, `subversion`, `mercurial`, `perforce`, or `none`
+set :branch,      "master"
+set :git_enable_submodules, 1
 
 set :deploy_via,  :rsync_with_remote_cache
-set :copy_exclude, [ '.git' ]
+set :copy_exclude, [ '.git', '.gitignore' ]
 
 #set :local_cache, ".rsync_cache"
 
@@ -32,8 +33,7 @@ set :use_composer, true
 #set :update_vendors,   true
 set :composer_options,      "--no-scripts --no-dev --verbose --optimize-autoloader"
 
-set :shared_children,   [app_path + "/logs", web_path + "/uploads"]
-# , "vendor"
+set :shared_children,   [app_path + "/logs", web_path + "/uploads", "vendor", "git"]
 #set :shared_files,      [app_path + "/config/parameters.yml"]
 
 set :model_manager, "doctrine"
