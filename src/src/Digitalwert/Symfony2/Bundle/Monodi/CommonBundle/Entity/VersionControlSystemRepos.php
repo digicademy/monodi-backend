@@ -135,4 +135,13 @@ class VersionControlSystemRepos
     {
         return $this->uri;
     }
+    
+    /**
+     * 
+     * return string
+     */
+    public function getPath() 
+    {
+        return '';
+    }
 }

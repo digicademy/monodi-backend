@@ -4,8 +4,9 @@
 set :application, "Monodi-Backend"
 set :domain,      "adwserv9.adwmainz.net"
 set :deploy_to,   "/var/www/vhosts/adwserv9.adwmainz.net/symfony2"
-set :app_path,    "src/app"
-set :web_path,    "src/web"
+set :app_path,    "app"
+set :web_path,    "web"
+set :deploy_subdir,"src/" 
 
 set :repository,  "git@bitbucket.org:digitalwert/monodi-backend.git"
 set :scm,         :git
@@ -29,6 +30,7 @@ set :port,              "7022"
 # Symfony2
 set :use_composer, true
 #set :update_vendors,   true
+set :composer_options,      "--no-scripts --no-dev --verbose --optimize-autoloader"
 
 set :shared_children,   [app_path + "/logs", web_path + "/uploads"]
 # , "vendor"

@@ -8,8 +8,18 @@
         <parameter key="digitalwert_monodi_common.existdb.uri">fabien@example.com</parameter>
         <parameter key="digitalwert_monodi_common.existdb.username">fabien@example.com</parameter>
         <parameter key="digitalwert_monodi_common.existdb.password">fabien@example.com</parameter>
+        <parameter key="digitalwert_monodi_common.git.remote.uri"></parameter>
+        <parameter key="digitalwert_monodi_common.git.local.base">%kernel.root_dir%/git</parameter>
+        <parameter key="digitalwert_monodi_common.git.repositorymanager.class"></parameter>
     </parameters>
-
+        
+    <services>
+        <service id="digitalwert_monodi_common.git.repositorymanager" class="%digitalwert_monodi_common.git.repositorymanager.class%">
+            <argument>%digitalwert_monodi_common.git.remote.uri%</argument>
+            <argument type="service" id="logger" />           
+        </service>
+    </services>
+    
     <!--
     <parameters>
         <parameter key="digitalwert_monodi_common.example.class">Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Example</parameter>

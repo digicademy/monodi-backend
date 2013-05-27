@@ -11,8 +11,9 @@ use Doctrine\ORM\Event\LifecycleEventArgs;
 // for doctrine 2.4: Doctrine\Common\Persistence\Event\LifecycleEventArgs;
 use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document;
 
+use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document;
+use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryManager as RepoManager;
 /**
  * Description of GitEventListener
  *
@@ -37,7 +38,7 @@ use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document;
 class GitEventListener 
 {   
     
-    protected $git;
+    private $manager;
     
     /**
      * Monolog des Systems
@@ -47,24 +48,19 @@ class GitEventListener
      */
     private $logger;
         
-//    /**
-//     * DI\InjectParams({
-//     *     "git" = DI\Inject("monodi.vcs.client")
-//     * })
-//     */
-//    public function __construct(Git $git) {
-//        $this->git = $git;
-//    } 
-    
     /**
      * 
      * @DI\InjectParams({
+     *     "manager" = @DI\Inject("digitalwert_monodi_common.git.repositorymanager")
      *     "logger" = @DI\Inject("logger")
      * })
      * 
      */
-    public function __construct(\Symfony\Component\HttpKernel\Log\LoggerInterface $logger) {
-        //$this->git = $git;
+    public function __construct(
+      \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryManager $manager, 
+      \Symfony\Component\HttpKernel\Log\LoggerInterface $logger
+    ) {
+        $this->manager = $manager;
         $this->logger = $logger;
     } 
     
@@ -78,6 +74,11 @@ class GitEventListener
 
         // perhaps you only want to act on some "Document" entity
         if ($entity instanceof Document) {
+            
+            $user = $entity->getEditor();
+            $this->manager->existsRepo($user);
+            
+            
             $this->logger->debug('prePersist Document');
         }
     }
@@ -122,5 +123,7 @@ class GitEventListener
             
         }
     }
+    
+    
 
 }

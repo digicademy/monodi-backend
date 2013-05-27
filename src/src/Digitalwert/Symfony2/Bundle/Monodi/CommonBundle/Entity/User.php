@@ -7,6 +7,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as Serializer;
 
+use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryContainer;
+
 /**
  * User
  * 
@@ -18,8 +20,7 @@ use JMS\Serializer\Annotation as Serializer;
  * @Serializer\ExclusionPolicy("ALL")
  * @Serializer\XmlRoot(name="profile")
  */
-class User 
-  extends BaseUser
+class User extends BaseUser implements RepositoryContainer
 {
     /**
      * Anrede für männliche Nutzer
@@ -291,5 +292,15 @@ class User
      */
     public function getTitle() {
         return $this->title;
+    }
+
+    public function getDisplayName() {
+        
+        return trim($this->getFirstname() . ' ' . $this->getLastname());
+    }
+    
+    
+    public function getRepository() {
+        return $this->getVersionControlSystemRepos();
     }    
 }
