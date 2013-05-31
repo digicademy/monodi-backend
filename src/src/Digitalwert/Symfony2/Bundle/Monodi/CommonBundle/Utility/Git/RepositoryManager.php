@@ -6,7 +6,7 @@ use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\VersionControlSystemR
 use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryContainer;
 /**
  * 
- * @DI\Service(name="")
+ * DI\Service(name="")
  */
 class RepositoryManager
 {   

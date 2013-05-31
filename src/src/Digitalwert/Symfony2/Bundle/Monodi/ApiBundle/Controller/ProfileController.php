@@ -26,6 +26,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\User;
 use Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Form\Type\ProfileFormType;
+use Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Form\Type\ChangePasswordFormType;
 
 use JMS\DiExtraBundle\Annotation as DI;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -119,8 +120,8 @@ class ProfileController extends FOSRestController
     /**
      * Aktualisiert ein Profil
      * 
-     * @var Request $request
-     * @var string $slug 
+     * @param Request $request
+     * @param string $slug 
      * 
      * @ApiDoc(
      *   input="Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Form\Type\ProfileFormType"
@@ -162,6 +163,60 @@ class ProfileController extends FOSRestController
     }
     
     /**
+     * Ändert das Password eines Nutzers
+     * 
+     * @param Request $request
+     * @param string $slug 
+     * 
+     * @ApiDoc(
+     *   input="Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Form\Type\ChangePasswordFormType",
+     *   statusCodes={
+     *     204="Returned when successful",
+     *     400="Returned when the validation faild",
+     *     403="Returned when the user is not authorized to access the profile",
+     *     404="Returned when the given profile was not found"     
+     *   }
+     * )
+     * 
+     * @Route("/{slug}/password.{_format}",
+     *   name="monodi_api_profile_put_password",
+     *   requirements={
+     *     "_format" = "(xml|json)",
+     *     "slug" = "[a-z_-\d]+"
+     *   }, 
+     *   defaults={"_format" = "xml"}
+     * )
+     * @Method({"PUT"})
+     * @Rest\View(
+     *   serializerGroups={"profile"},
+     *   templateVar="profile"
+     * )
+     */
+    public function putProfilePasswordAction(Request $request, $slug) {
+        
+        $profile = $this->findUserBySlug($slug);       
+        
+        $form = $this->createForm(new ChangePasswordFormType());
+        
+        $form->bind($request);
+        
+        if($form->isValid()) {
+            
+            $password = $form->getData()->new;
+            $profile->setPlainPassword($password);
+            $this->getUserManager()->updatePassword($profile);
+            $this->getUserManager()->updateUser($profile);
+            
+            $response = new Response();
+            $response->setStatusCode(204);
+            
+            return $response;
+        }       
+        
+        return View::create($form, 400);
+    }
+    
+    /**
      * 
      * @return \FOS\UserBundle\Doctrine\UserManager
      */
@@ -196,11 +251,11 @@ class ProfileController extends FOSRestController
             throw new NotFoundHttpException('Profile not found');
         }
      
-//        if(!$user->isUser($profile)) {
-//           if(!$user->isSuperAdmin()) {
-//                throw new AccessDeniedHttpException('User not allowd to access profile');
-//           }
-//        }
+        if(!$user->isUser($profile)) {
+           if(!$user->isSuperAdmin()) {
+                throw new AccessDeniedHttpException('User not allowd to access profile');
+           }
+        }
         
         return $profile;
     }
@@ -217,9 +272,6 @@ class ProfileController extends FOSRestController
 
         $form = $this->createForm(new ProfileFormType(), $profile);
         
-        //var_dump($this->getRequest()->);
-        
-        //$form->bind($this->getRequest());
         $form->bind($request);
         
         if ($form->isValid()) {

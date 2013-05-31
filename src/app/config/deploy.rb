@@ -33,7 +33,7 @@ set :use_composer, true
 #set :update_vendors,   true
 set :composer_options,      "--no-scripts --no-dev --verbose --optimize-autoloader"
 
-set :shared_children,   [app_path + "/logs", web_path + "/uploads", "vendor", "git"]
+set :shared_children,   [app_path + "/logs", web_path + "/uploads", "vendor", "git", web_path + "/status", web_path + "/dbmgm"]
 #set :shared_files,      [app_path + "/config/parameters.yml"]
 
 set :model_manager, "doctrine"

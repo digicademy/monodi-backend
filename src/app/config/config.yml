@@ -194,3 +194,10 @@ fos_oauth_server:
     auth_code_class:     Digitalwert\Symfony2\Bundle\Monodi\OAuthServerBundle\Entity\AuthCode
     service:
         user_provider: fos_user.user_manager
+#
+digitalwert_monodi_common:
+    git:
+        remote:
+            uri: "ssh://petzold@adwserv9.adwmainz.net:7022/var/git/test.git"
+        local:
+          base: "%kernel.root_dir%/../git"

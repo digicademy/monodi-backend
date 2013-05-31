@@ -11,8 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
  *
  * @author digitalwert
  */
-class ProfileFormType
-  extends AbstractType
+class ProfileFormType extends AbstractType
 {
     /**
      * {@inheritdoc}

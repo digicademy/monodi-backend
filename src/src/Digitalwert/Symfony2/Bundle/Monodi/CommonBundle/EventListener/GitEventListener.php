@@ -51,7 +51,7 @@ class GitEventListener
     /**
      * 
      * @DI\InjectParams({
-     *     "manager" = @DI\Inject("digitalwert_monodi_common.git.repositorymanager")
+     *     "manager" = @DI\Inject("digitalwert_monodi_common.git.repositorymanager"),
      *     "logger" = @DI\Inject("logger")
      * })
      * 

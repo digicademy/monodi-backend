@@ -24,9 +24,40 @@ class Configuration implements ConfigurationInterface
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for
         // more information on that topic.
+        $this->addGitSection($rootNode);
         $this->addExistDbSection($rootNode);
         
         return $treeBuilder;
+    }
+    
+    /**
+     * 
+     * @param \Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition $rootNode
+     */
+    private function addGitSection(ArrayNodeDefinition $rootNode) {
+        $rootNode
+            ->children()
+                ->arrayNode('git')
+//                    ->canBeDisabled()
+                    ->info('form configuration')
+                    ->children()
+                        ->arrayNode('remote')
+                            ->children()
+                                ->scalarNode('uri')
+                                    ->example('git@github.com:foo/bar')
+                                ->end()
+                            ->end()
+                        ->end()
+                        ->arrayNode('local')
+                            ->canBeDisabled()
+                            ->children()
+                                ->scalarNode('base')->defaultValue('%kernel.root_dir%/../git')->end()
+                            ->end()
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+        ;
     }
     
     /**
