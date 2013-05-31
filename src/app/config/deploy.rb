@@ -26,12 +26,15 @@ set :webserver_user,    "www-data"
 set :user,              "petzold"
 set :port,              "7022"
 
-#ssh_options[:port] = 7022
+ssh_options[:port] = 7022
 
 # Symfony2
 set :use_composer, true
-#set :update_vendors,   true
+set :update_vendors,   true
 set :composer_options,      "--no-scripts --no-dev --verbose --optimize-autoloader"
+
+set :assets_symlinks, true
+set :console_options, "-verbose"
 
 set :shared_children,   [app_path + "/logs", web_path + "/uploads", "vendor", "git", web_path + "/status", web_path + "/dbmgm"]
 #set :shared_files,      [app_path + "/config/parameters.yml"]
@@ -39,11 +42,11 @@ set :shared_children,   [app_path + "/logs", web_path + "/uploads", "vendor", "g
 set :model_manager, "doctrine"
 # Or: `propel`
 
-role :web,        domain                         # Your HTTP server, Apache/etc
+role :web,        "#{domain}:7022"                         # Your HTTP server, Apache/etc
 role :app,        "#{domain}:7022"               # This may be the same as your `Web` server
-role :db,         domain, :primary => true       # This is where Symfony2 migrations will run
+role :db,         "#{domain}:7022", :primary => true       # This is where Symfony2 migrations will run
 
 set  :keep_releases,  10
 
 # Be more verbose by uncommenting the following line
-# logger.level = Logger::MAX_LEVEL
+logger.level = Logger::MAX_LEVEL
