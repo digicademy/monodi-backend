@@ -7,6 +7,16 @@ framework:
         storage_id: session.storage.mock_file
     profiler:
         enabled: false
+        
+doctrine:
+    dbal:
+        driver:   %database_driver%
+        host:     mysql5.digitalwert.net
+        port:     %database_port%
+        dbname:   db257211_90
+        user:     db257211_90
+        password: wB?62$A22k#Pz
+        charset:  UTF8
 
 web_profiler:
     toolbar: false
@@ -14,3 +24,4 @@ web_profiler:
 
 swiftmailer:
     disable_delivery: true
+    

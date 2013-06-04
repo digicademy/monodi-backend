@@ -34,6 +34,11 @@
                     "files": ["Git.php"]
                 }
             }
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/seegno/SimpleThingsFormSerializerBundle.git",
+            "vendor-alias": "simplethings"
         }
     ],
     "require": {
