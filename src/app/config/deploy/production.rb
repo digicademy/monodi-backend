@@ -9,7 +9,7 @@ set :port,          "7022"
 ssh_options[:port] = 7022
 
 set :shared_children,   [app_path + "/logs", web_path + "/uploads", "vendor", "git", web_path + "/status", web_path + "/dbmgm"]
-set :shared_files,      [ web_path + "/.htacess"]
+set :shared_files,      [ web_path + "/.htaccess"]
 
 role :web,        "#{domain}:7022"                         # Your HTTP server, Apache/etc
 role :app,        "#{domain}:7022"               # This may be the same as your `Web` server
