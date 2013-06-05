@@ -69,50 +69,23 @@ class GitEventListener
      * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
      */
     public function prePersist(LifecycleEventArgs $args) {
-        $entity = $args->getEntity();
-        $entityManager = $args->getEntityManager();
-
-        // perhaps you only want to act on some "Document" entity
-        if ($entity instanceof Document) {
-            
-            $user = $entity->getEditor();
-            $this->manager->existsRepo($user);
-            
-            
-            $this->logger->debug('prePersist Document');
-        }
+        $this->preSave($args);
     }
     
     
     public function preUpdate(LifecycleEventArgs $args) {
-        $entity = $args->getEntity();
-        $entityManager = $args->getEntityManager();
-
-        // perhaps you only want to act on some "Document" entity
-        if ($entity instanceof Document) {
-            
-        }
+        $this->preSave($args);
     }
     
     public function postPersist(LifecycleEventArgs $args) {
-        $entity = $args->getEntity();
-        $entityManager = $args->getEntityManager();
-
-        // perhaps you only want to act on some "Document" entity
-        if ($entity instanceof Document) {
-            
-        }
+        $this->postSave($args);
     }
     
+    
     public function postUpdate(LifecycleEventArgs $args) {
-        $entity = $args->getEntity();
-        $entityManager = $args->getEntityManager();
-
-        // perhaps you only want to act on some "Document" entity
-        if ($entity instanceof Document) {
-            
-        }
+        $this->postSave($args);
     }
+    
     
     public function postRemove(LifecycleEventArgs $args) {
         $entity = $args->getEntity();
@@ -120,10 +93,53 @@ class GitEventListener
 
         // perhaps you only want to act on some "Document" entity
         if ($entity instanceof Document) {
-            
+            throw new \Exception('TEST des GIT');
         }
     }
     
-    
+    /**
+     * Speichert den inhalte des Documents im GitRepository
+     * 
+     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+     */
+    protected function preSave(LifecycleEventArgs $args) {
+        $entity = $args->getEntity();
+        $entityManager = $args->getEntityManager();
 
+        // perhaps you only want to act on some "Document" entity
+        if ($entity instanceof Document) {
+            
+            $user = $entity->getEditor();
+            if(!$this->manager->existsRepo($user)) {
+                //try to create
+                $this->manager->createRepo($user);
+            }
+            
+            $this->manager->pull($user);
+            
+            $this->manager->add($user, $entity);
+            $this->manager->commit($user, 'Systemcommit für ' . $user->getEmail());
+            
+            $this->logger->debug('prePersist Document');
+        }
+        
+    }
+    
+    /**
+     * Pusht den Inhalt des GitRepoitories zum Remote-Master
+     * 
+     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+     */
+    protected function postSave(LifecycleEventArgs $args) {
+        $entity = $args->getEntity();
+        $entityManager = $args->getEntityManager();
+
+        // perhaps you only want to act on some "Document" entity
+        if ($entity instanceof Document) {
+            //throw new \Exception('TEST des GIT');
+            $user = $entity->getEditor();
+            
+            $this->manager->push($user);
+        }        
+    }
 }

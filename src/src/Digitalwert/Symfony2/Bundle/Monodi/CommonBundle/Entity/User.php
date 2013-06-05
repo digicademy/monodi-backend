@@ -302,5 +302,9 @@ class User extends BaseUser implements RepositoryContainer
     
     public function getRepository() {
         return $this->getVersionControlSystemRepos();
-    }    
+    }
+    
+    public function getRepositoryPath() {
+        return $this->getUsernameCanonical();
+    }
 }

@@ -9,3 +9,4 @@
 /htdocs
 /src/Acme
 /.rsync_cache
+/git/*

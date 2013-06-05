@@ -18,11 +18,21 @@
 
 <ul class="nav nav-tabs nav-stacked">
   <li class="active"><a href="/"><i class="icon-home icon-white"></i> Home</a></li>
-  <li><a href="/app_dev.php/client"><i class="icon-pencil"></i> Client</a></li>
-  <li><a href="/app_dev.php/admin"><i class="icon-wrench"></i> Backend</a></li>  
-  <li><a href="/app_dev.php/api/doc"><i class="icon-book"></i> ApiDoc</a></li>  
+  <li><a href="/client"><i class="icon-pencil"></i> Client</a></li>
+  <li><a href="/admin"><i class="icon-wrench"></i> Backend</a></li>  
+  <li><a href="/api/doc"><i class="icon-book"></i> ApiDoc</a></li>  
 </ul>
 
+
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+   {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+    <a href="{{ path('fos_user_security_logout') }}">
+      {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+    </a>
+{% else %}
+   <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+{% endif %}
+<!--
 <form>
   <fieldset>
     <legend>Login</legend>
@@ -36,4 +46,5 @@
     <button type="submit" class="btn">Sign in</button>
   </fieldset>
 </form>
+-->
 {% endblock content_sidebar %}

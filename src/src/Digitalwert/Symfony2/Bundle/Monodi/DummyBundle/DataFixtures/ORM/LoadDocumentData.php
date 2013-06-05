@@ -12,9 +12,7 @@ use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document;
  *
  * @author digitalwert
  */
-class LoadDocumentData  
-  extends AbstractFixture 
-  implements OrderedFixtureInterface
+class LoadDocumentData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * {@inheritDoc}

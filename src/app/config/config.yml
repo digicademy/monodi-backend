@@ -109,6 +109,14 @@ swiftmailer:
 # @see http://knpbundles.com/nelmio/NelmioApiDocBundle
 nelmio_api_doc:
     name: Monodi-Api Version 1
+    sandbox:
+        authentication:
+            name: access_token
+            delivery: query # query or http_basic are supported
+#            custom_endpoint: true # default false, if true, your user will be able to specify its own endpoint
+        enabled:  true
+#        endpoint: http://sandbox.example.com/ # default: /app_dev.php, use this parameter to define which URL to call through the sandbox
+        accept_type: application/json
 #
 #
 fos_user:

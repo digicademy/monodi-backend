@@ -13,9 +13,7 @@ use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Group;
  *
  * @author digitalwert
  */
-class LoadGroupData 
-  extends AbstractFixture 
-  implements OrderedFixtureInterface
+class LoadGroupData extends AbstractFixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager) {
         // Administrator

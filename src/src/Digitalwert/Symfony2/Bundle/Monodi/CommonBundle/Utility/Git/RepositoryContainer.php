@@ -28,4 +28,13 @@ interface RepositoryContainer
      * der Reposetory-Entity
      */
     public function getRepository();
+    
+    /**
+     * Gibt den Pfad zum Repository zurück
+     * 
+     * @see ::getPath();
+     * 
+     * @return string
+     */
+    public function getRepositoryPath();
 }
