@@ -15,5 +15,6 @@ role :web,        "#{domain}:7022"                         # Your HTTP server, A
 role :app,        "#{domain}:7022"               # This may be the same as your `Web` server
 role :db,         "#{domain}:7022", :primary => true       # This is where Symfony2 migrations will run
 
+server "#{domain}:7022", :app, :web, :primary => true
 
 after 'deploy:finalize_update', 'symfony:project:clear_controllers'

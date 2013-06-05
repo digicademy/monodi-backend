@@ -17,5 +17,7 @@ role :web,        "#{domain}"                         # Your HTTP server, Apache
 role :app,        "#{domain}"               # This may be the same as your `Web` server
 role :db,         "#{domain}", :primary => true       # This is where Symfony2 migrations will run
 
+server "#{domain}", :app, :web, :primary => true
+
 # Dazu muss sass auf dem system installiert sein
 #after 'symfony:assets:install', 'symfony:assetic:dump'

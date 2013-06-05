@@ -21,7 +21,7 @@ class Version20130429102316 extends AbstractMigration
         $this->addSql("ALTER TABLE fos_user_user_group ADD CONSTRAINT FK_B3C77447A76ED395 FOREIGN KEY (user_id) REFERENCES fos_user (id)");
         $this->addSql("ALTER TABLE fos_user_user_group ADD CONSTRAINT FK_B3C77447FE54D947 FOREIGN KEY (group_id) REFERENCES fos_group (id)");
         $this->addSql("ALTER TABLE fos_user ADD version_control_system_repos_id INT DEFAULT NULL");
-        $this->addSql("ALTER TABLE fos_user ADD CONSTRAINT FK_957A6479C2ACC036 FOREIGN KEY (version_control_system_repos_id) REFERENCES VersionControlSystemRepos (id)");
+        $this->addSql("ALTER TABLE fos_user ADD CONSTRAINT FK_957A6479C2ACC036 FOREIGN KEY (version_control_system_repos_id) REFERENCES monodi_version_control_system_repos (id)");
         $this->addSql("CREATE UNIQUE INDEX UNIQ_957A6479C2ACC036 ON fos_user (version_control_system_repos_id)");
     }
 
