@@ -31,6 +31,9 @@ set :use_sudo, false
 # SSH Settings
 set :webserver_user,    "www-data"
 
+set :shared_children,   [app_path + "/logs", web_path + "/uploads", "vendor", "git", web_path + "/status", web_path + "/dbmgm"]
+set :shared_files,      [ web_path + "/.htacess"]
+
 # Symfony2
 set :use_composer, true
 #set :update_vendors,   true
