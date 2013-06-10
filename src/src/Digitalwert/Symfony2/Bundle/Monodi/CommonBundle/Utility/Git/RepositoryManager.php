@@ -233,6 +233,7 @@ class RepositoryManager
         $file = new \SplFileObject($pathname, "w");
         $file->fwrite($document->getContent());
         $file->fflush();
+        $pathname = realpath($pathname);
         unset($file);
         
         return $pathname;

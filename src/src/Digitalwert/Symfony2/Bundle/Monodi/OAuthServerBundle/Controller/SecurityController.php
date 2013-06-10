@@ -15,6 +15,7 @@ class SecurityController extends Controller
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return Response
      * 
+     * @Route("/oauth/v2/auth_login", name="fos_oauth_server_login")
      * @Template()
      */
     public function loginAction(Request $request)  
@@ -46,6 +47,12 @@ class SecurityController extends Controller
         );
     }  
       
+    /**
+     * 
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * 
+     * @Route("/oauth/v2/auth_login_check", name="fos_oauth_server_login_check")
+     */
     public function loginCheckAction(Request $request)  
     {  
           

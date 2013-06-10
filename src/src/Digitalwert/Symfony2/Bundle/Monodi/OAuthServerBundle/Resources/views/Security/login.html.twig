@@ -1,0 +1,28 @@
+{% extends 'DigitalwertMonodiFrontendBundle::base.html.twig' %}
+
+{% block body %}
+    <div class="form">  
+        <form action="{{ path('fos_oauth_server_login_check') }}" 
+            method="POST" 
+            class="vertical fos_oauth_server_login_check" >
+            <div class="form_title">  
+                OAuth Authorization  
+            </div>  
+            {% if error %}
+                <div class='form_error'>{{ error }} </div>  
+                {{ error.message }}
+            {% endif %}
+            <div class="form_item">  
+                <div class="form_label"><label for="username">Username</label>:</div>  
+                <div class="form_widget"><input type="text" id="username" name="_username" /></div>  
+            </div>  
+            <div class="form_item">  
+                <div class="form_label"><label for="password">Password</label>:</div>  
+                <div class="form_widget"><input type="password" id="password" name="_password" /></div>  
+            </div>  
+            <div class="form_button">  
+                <input type="submit" id="_submit" name="_submit" value="Log In" />  
+            </div> 
+        </form>
+    </div>
+{% endblock body%}

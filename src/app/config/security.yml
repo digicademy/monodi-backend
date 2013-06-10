@@ -1,3 +1,5 @@
+# http://symfony.com/doc/2.2/book/security.html
+#
 jms_security_extra:
     secure_all_services: false
     expressions: true
@@ -21,14 +23,7 @@ security:
 #                    user:  { password: userpass, roles: [ 'ROLE_USER' ] }
 #                    admin: { password: adminpass, roles: [ 'ROLE_ADMIN' ] }
 
-    firewalls:
-        main:
-            pattern: ^/
-            form_login:
-                provider: fos_userbundle
-                csrf_provider: form.csrf_provider
-            logout:       true
-            anonymous:    true
+    firewalls:        
 #        dev:
 #            pattern:  ^/(_(profiler|wdt)|css|images|js)/
 #            security: false
@@ -52,18 +47,27 @@ security:
             pattern:    ^/oauth/v2/token
             security:   false
 
-#        oauth_authorize:
-#            pattern:    ^/oauth/v2/auth
-#            # Add your favorite authentication process here
-#            form_login:
-#                provider: fos_userbundle
-#                check_path: /oauth/v2/auth_login_check
-#                login_path: /oauth/v2/auth_login
-#            anonymous: true
+        oauth_authorize:
+            pattern:    ^/oauth/v2/auth
+            # Add your favorite authentication process here
+            form_login:
+                provider: fos_userbundle
+                check_path: /oauth/v2/auth_login_check
+                login_path: /oauth/v2/auth_login
+                use_referer: true
+            anonymous: true
         api_v1:
             pattern:    ^/api/v1
             fos_oauth:  true
             stateless:  true
+            
+        main:
+            pattern: ^/
+            form_login:
+                provider: fos_userbundle
+                csrf_provider: form.csrf_provider
+            logout:       true
+            anonymous:    true
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
@@ -72,4 +76,5 @@ security:
         - { path: ^/admin/, role: ROLE_ADMIN }
         - { path: ^/api/v1/, roles: [ IS_AUTHENTICATED_FULLY ] }
         - { path: ^/oauth/v2/auth_login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/oauth/v2/auth, role: ROLE_USER }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

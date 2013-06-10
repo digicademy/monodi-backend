@@ -59,3 +59,9 @@ fos_oauth_server_token:
 
 fos_oauth_server_authorize:
     resource: "@FOSOAuthServerBundle/Resources/config/routing/authorize.xml"
+    
+digitalwert_monodi_oauth_server_security:
+#    resource: "@AcmeOAuthServerBundle/Resources/config/routing/security.xml"
+    resource: "@DigitalwertMonodiOAuthServerBundle/Controller/"
+    type:     annotation
+    prefix: /
