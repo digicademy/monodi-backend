@@ -11,7 +11,7 @@ set :php_bin,     "/usr/local/bin/php5-54STABLE-CLI"
 
 
 set :shared_children,   [app_path + "/logs", web_path + "/uploads", "vendor", "git", web_path + "/status", web_path + "/dbmgm"]
-set :shared_files,      [ web_path + "/.htaccess"]
+set :shared_files,      [app_path + "/config/parameters.yml", web_path + "/.htaccess"]
 
 role :web,        "#{domain}"                         # Your HTTP server, Apache/etc
 role :app,        "#{domain}"               # This may be the same as your `Web` server

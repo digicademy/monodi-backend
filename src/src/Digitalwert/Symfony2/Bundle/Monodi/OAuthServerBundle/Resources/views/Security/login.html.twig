@@ -1,6 +1,7 @@
 {% extends 'DigitalwertMonodiFrontendBundle::base.html.twig' %}
 
 {% block body %}
+{#
     <div class="form">  
         <form action="{{ path('fos_oauth_server_login_check') }}" 
             method="POST" 
@@ -25,4 +26,24 @@
             </div> 
         </form>
     </div>
+#}
+    <form action="{{ path('fos_oauth_server_login_check') }}" method="post">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3>Login</h3>
+        </div>
+        <div class="modal-body">
+            {% if error %}
+                <div class='form_error'>{{ error }} </div>  
+                {{ error.message }}
+            {% endif %}
+            <p><input type="text" id="username" name="_username" placeholder="Benutzername" /></p>
+            <p><input type="password" id="password" name="_password" placeholder="Passwort" /></p>
+        </div>
+        <div class="modal-footer">
+            <button class="btn forgot" data-dismiss="modal" aria-hidden="true">Passwort vergessen</button>
+            <button type="submit" id="_submit" name="_submit" class="btn btn-primary">Anmelden</button>
+        </div>
+    </form>
+
 {% endblock body%}
