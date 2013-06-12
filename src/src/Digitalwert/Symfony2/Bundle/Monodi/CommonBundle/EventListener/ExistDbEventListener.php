@@ -13,7 +13,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Symfony\Component\HttpKernel\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document;
-
+use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\ExistDb\ExistDbManager as Manager;
 /**
  * Description of GitEventListener
  *
@@ -43,7 +43,10 @@ use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document;
  */
 class ExistDbEventListener 
 {   
-    
+    /**
+     *
+     * @var Manager
+     */
     protected $existdb;
     
     /**
@@ -58,14 +61,15 @@ class ExistDbEventListener
      * "git" = DI\Inject("monodi.vcs.client")
      * 
      * @DI\InjectParams({
-     *   "logger" = @DI\Inject("logger")
+     *     "manager" = @DI\Inject("digitalwert_monodi_common.existdb.manager"),
+     *     "logger" = @DI\Inject("logger")
      * })
      * 
      */
-    public function __construct(LoggerInterface $logger) {
-        //$this->git = $git;
+    public function __construct(Manager $manager, LoggerInterface $logger) {
+        
         $this->logger = $logger;
-        $this->existdb;
+        $this->existdb = $manager;
     } 
     
     /**
@@ -79,6 +83,7 @@ class ExistDbEventListener
         // perhaps you only want to act on some "Document" entity
         if ($entity instanceof Document) {
             $this->logger->debug('prePersist Document');
+            
         }
     }
     
@@ -139,8 +144,8 @@ class ExistDbEventListener
         if ($entity instanceof Document) {
             
             $this->logger->debug(__METHOD__);
-            
-            $entity->setContent(trim('<mei></mei>'));
+            $entity = $this->existdb->retrieveDocument($entity);
+            //$entity->setContent(trim('<mei></mei>'));
         }
     }
 

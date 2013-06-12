@@ -35,6 +35,9 @@ class AppKernel extends Kernel
             // Für Geomon DoctrineExtensions
             new Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
             
+            // Guzzle integration
+            new Misd\GuzzleBundle\MisdGuzzleBundle(),
+            
             /*
              * 
              */

@@ -39,6 +39,10 @@
             "type": "git",
             "url": "https://github.com/seegno/SimpleThingsFormSerializerBundle.git",
             "vendor-alias": "simplethings"
+        },
+        {
+            "type": "git",
+            "url": "https://mischka@bitbucket.org/digitalwert/guzzle-existdb.git"
         }
     ],
     "require": {
@@ -74,7 +78,10 @@
         "jms/serializer-bundle": "dev-master",
         "simplethings/form-serializer-bundle": "dev-master",
         
-        "kbjr/git-php": "*"
+        "kbjr/git-php": "*",
+        
+        "digitalwert/guzzle-existdb": "dev-master",
+        "misd/guzzle-bundle": "~1.1"
 
     },
     "scripts": {

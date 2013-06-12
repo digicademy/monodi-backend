@@ -13,6 +13,7 @@ namespace Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Form\Model;
 class ChangePassword 
 {
     /**
+     * @TODO welche anforderungen muss das neue Password haben?
      * @var string
      */
     public $new;

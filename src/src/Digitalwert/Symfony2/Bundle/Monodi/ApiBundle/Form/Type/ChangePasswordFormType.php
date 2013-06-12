@@ -48,7 +48,6 @@ class ChangePasswordFormType extends AbstractType
             'label' => 'form.new_password',
             'description' => 'form.new_password',
             'translation_domain' => 'FOSUserBundle',
-            'constraints' => new UserPassword(),
         ));
     }
     

@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "751de48426b7a26765b3d2575e998d12",
+    "hash": "3d1c6b946bdec61d2e2b66c30694b983",
     "packages": [
         {
             "name": "dflydev/markdown",
@@ -58,6 +58,39 @@
                 "markdown"
             ],
             "time": "2012-01-15 19:36:37"
+        },
+        {
+            "name": "digitalwert/guzzle-existdb",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://mischka@bitbucket.org/digitalwert/guzzle-existdb.git",
+                "reference": "88579a64bd7dea09018372df4ad442f2cadf0c86"
+            },
+            "require": {
+                "guzzle/guzzle": ">=3.5.0",
+                "php": ">=5.3.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Digitalwert": "src/"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Kay Petzold",
+                    "email": "kay.petzold@digitalwert.de"
+                }
+            ],
+            "description": "Guzzle PHP client for eXist-db",
+            "homepage": "http://www.digitalwert.de/",
+            "keywords": [
+                "existdb",
+                "framework",
+                "guzzle"
+            ],
+            "time": "2013-06-12 14:29:36"
         },
         {
             "name": "doctrine/annotations",
@@ -875,12 +908,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSOAuthServerBundle.git",
-                "reference": "31c18469388159c035b34052b27e347ecefdf221"
+                "reference": "d2d96b35ed96df10f77b83298fbdff0a9e6a5cbe"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSOAuthServerBundle/zipball/31c18469388159c035b34052b27e347ecefdf221",
-                "reference": "31c18469388159c035b34052b27e347ecefdf221",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSOAuthServerBundle/zipball/d2d96b35ed96df10f77b83298fbdff0a9e6a5cbe",
+                "reference": "d2d96b35ed96df10f77b83298fbdff0a9e6a5cbe",
                 "shasum": ""
             },
             "require": {
@@ -930,7 +963,7 @@
                 "oauth2",
                 "server"
             ],
-            "time": "2013-05-17 18:56:21"
+            "time": "2013-06-06 15:08:39"
         },
         {
             "name": "friendsofsymfony/oauth2-php",
@@ -1248,6 +1281,98 @@
                 "uploadable"
             ],
             "time": "2013-05-21 12:09:55"
+        },
+        {
+            "name": "guzzle/guzzle",
+            "version": "v3.7.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "v3.7.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/v3.7.0",
+                "reference": "v3.7.0",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.2",
+                "symfony/event-dispatcher": ">=2.1"
+            },
+            "replace": {
+                "guzzle/batch": "self.version",
+                "guzzle/cache": "self.version",
+                "guzzle/common": "self.version",
+                "guzzle/http": "self.version",
+                "guzzle/inflection": "self.version",
+                "guzzle/iterator": "self.version",
+                "guzzle/log": "self.version",
+                "guzzle/parser": "self.version",
+                "guzzle/plugin": "self.version",
+                "guzzle/plugin-async": "self.version",
+                "guzzle/plugin-backoff": "self.version",
+                "guzzle/plugin-cache": "self.version",
+                "guzzle/plugin-cookie": "self.version",
+                "guzzle/plugin-curlauth": "self.version",
+                "guzzle/plugin-error-response": "self.version",
+                "guzzle/plugin-history": "self.version",
+                "guzzle/plugin-log": "self.version",
+                "guzzle/plugin-md5": "self.version",
+                "guzzle/plugin-mock": "self.version",
+                "guzzle/plugin-oauth": "self.version",
+                "guzzle/service": "self.version",
+                "guzzle/stream": "self.version"
+            },
+            "require-dev": {
+                "doctrine/cache": "*",
+                "monolog/monolog": "1.*",
+                "phpunit/phpunit": "3.7.*",
+                "psr/log": "1.0.*",
+                "symfony/class-loader": "*",
+                "zendframework/zend-cache": "2.0.*",
+                "zendframework/zend-log": "2.0.*"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.7-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Guzzle\\Tests": "tests/",
+                    "Guzzle": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                },
+                {
+                    "name": "Guzzle Community",
+                    "homepage": "https://github.com/guzzle/guzzle/contributors"
+                }
+            ],
+            "description": "Guzzle is a PHP HTTP client library and framework for building RESTful web service clients",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "time": "2013-06-11 00:24:07"
         },
         {
             "name": "jdorn/sql-formatter",
@@ -1711,19 +1836,19 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/JMSSerializerBundle.git",
-                "reference": "bc4c8ddf89c1daba6d24d696e261e088677f49af"
+                "reference": "66d2fe197bacb82f7b476099144f03596719b24d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/JMSSerializerBundle/zipball/bc4c8ddf89c1daba6d24d696e261e088677f49af",
-                "reference": "bc4c8ddf89c1daba6d24d696e261e088677f49af",
+                "url": "https://api.github.com/repos/schmittjoh/JMSSerializerBundle/zipball/66d2fe197bacb82f7b476099144f03596719b24d",
+                "reference": "66d2fe197bacb82f7b476099144f03596719b24d",
                 "shasum": ""
             },
             "require": {
                 "jms/di-extra-bundle": ">=1.3,<2.0",
-                "jms/serializer": ">=0.11.0,<0.13-dev",
+                "jms/serializer": ">=0.11.0,<1.0",
                 "php": ">=5.3.2",
-                "symfony/framework-bundle": ">=2.1,<3.0-dev"
+                "symfony/framework-bundle": ">=2.1,<3.0"
             },
             "require-dev": {
                 "doctrine/doctrine-bundle": "*",
@@ -1770,7 +1895,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2013-05-29 14:42:59"
+            "time": "2013-06-10 06:27:25"
         },
         {
             "name": "kbjr/git-php",
@@ -2092,6 +2217,76 @@
             "time": "2013-06-01 22:13:43"
         },
         {
+            "name": "misd/guzzle-bundle",
+            "version": "v1.1.1",
+            "target-dir": "Misd/GuzzleBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/misd-service-development/guzzle-bundle.git",
+                "reference": "v1.1.1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/misd-service-development/guzzle-bundle/zipball/v1.1.1",
+                "reference": "v1.1.1",
+                "shasum": ""
+            },
+            "require": {
+                "guzzle/guzzle": ">=3.0,<4.0",
+                "php": ">=5.3.3",
+                "sensio/framework-extra-bundle": ">=2.2,<3.0",
+                "symfony/framework-bundle": ">=2.2,<3.0"
+            },
+            "conflict": {
+                "jms/serializer-bundle": "<0.11-dev"
+            },
+            "require-dev": {
+                "jms/serializer-bundle": ">=0.11.0,<1.0",
+                "symfony/form": ">=2.2,<3.0",
+                "symfony/monolog-bundle": ">=2.2,<3.0",
+                "symfony/yaml": ">=2.2,<3.0"
+            },
+            "suggest": {
+                "jms/serializer-bundle": "Serialize/deserialize objects to/from XML, JSON and YAML",
+                "symfony/monolog-bundle": "Log requests"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Misd\\GuzzleBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Chris Wilkinson",
+                    "email": "chris.wilkinson@admin.cam.ac.uk"
+                }
+            ],
+            "description": "Integrates Guzzle into your Symfony2 application",
+            "homepage": "https://github.com/misd-service-development/guzzle-bundle",
+            "keywords": [
+                "Guzzle",
+                "api",
+                "bundle",
+                "client",
+                "curl",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "time": "2013-06-12 10:47:16"
+        },
+        {
             "name": "monolog/monolog",
             "version": "1.5.0",
             "source": {
@@ -2160,12 +2355,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phiamo/MopaBootstrapBundle.git",
-                "reference": "88fb6781c7cd0a73d3c7a04715647752dca681d2"
+                "reference": "ca1bc530fec294a891f7ed4ead3d5aa8b41931ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/88fb6781c7cd0a73d3c7a04715647752dca681d2",
-                "reference": "88fb6781c7cd0a73d3c7a04715647752dca681d2",
+                "url": "https://api.github.com/repos/phiamo/MopaBootstrapBundle/zipball/ca1bc530fec294a891f7ed4ead3d5aa8b41931ed",
+                "reference": "ca1bc530fec294a891f7ed4ead3d5aa8b41931ed",
                 "shasum": ""
             },
             "require": {
@@ -2213,7 +2408,7 @@
                 "form",
                 "template"
             ],
-            "time": "2013-05-31 12:41:35"
+            "time": "2013-06-10 11:47:49"
         },
         {
             "name": "mopa/composer-bridge",
@@ -3077,16 +3272,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v1.13.0",
+            "version": "v1.13.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "v1.13.0"
+                "reference": "v1.13.1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.13.0",
-                "reference": "v1.13.0",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/v1.13.1",
+                "reference": "v1.13.1",
                 "shasum": ""
             },
             "require": {
@@ -3122,7 +3317,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-05-10 15:12:43"
+            "time": "2013-06-06 06:06:01"
         }
     ],
     "packages-dev": [
@@ -3142,7 +3337,8 @@
         "mopa/bootstrap-bundle": 20,
         "stof/doctrine-extensions-bundle": 20,
         "jms/serializer-bundle": 20,
-        "simplethings/form-serializer-bundle": 20
+        "simplethings/form-serializer-bundle": 20,
+        "digitalwert/guzzle-existdb": 20
     },
     "platform": {
         "php": ">=5.3.3"

@@ -76,7 +76,7 @@ class Document
      * @ORM\Column(name="createdAt", type="datetime")
      * 
      * @Serializer\Expose
-     * @Serializer\Groups({"detail"})
+     * @Serializer\Groups({"list", "detail"})
      */
     protected $createdAt;
 
@@ -87,7 +87,7 @@ class Document
      * @ORM\Column(name="editedAt", type="datetime")
      * 
      * @Serializer\Expose
-     * @Serializer\Groups({"detail"})
+     * @Serializer\Groups({"list", "detail"})
      */
     protected $editedAt;
 

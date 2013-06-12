@@ -5,12 +5,16 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     
     <parameters>
-        <parameter key="digitalwert_monodi_common.existdb.uri">fabien@example.com</parameter>
-        <parameter key="digitalwert_monodi_common.existdb.username">fabien@example.com</parameter>
-        <parameter key="digitalwert_monodi_common.existdb.password">fabien@example.com</parameter>
+        
+        <parameter key="digitalwert_monodi_common.existdb.uri">https://adwserv9.adwmainz.net/exist/exist/rest/db</parameter>
+        <parameter key="digitalwert_monodi_common.existdb.collection">app/monodi/data</parameter>
+        <parameter key="digitalwert_monodi_common.existdb.username">monodi</parameter>
+        <parameter key="digitalwert_monodi_common.existdb.password">monodi</parameter>
+        
         <parameter key="digitalwert_monodi_common.git.remote.uri">git@github.com:mischka/monodi-test.git</parameter>
         <parameter key="digitalwert_monodi_common.git.local.base">%kernel.root_dir%/../git</parameter>
         <parameter key="digitalwert_monodi_common.git.repositorymanager.class">Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryManager</parameter>
+        <parameter key="digitalwert_monodi_common.existdb.manager.class">Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\ExistDb\ExistDbManager</parameter>
     </parameters>
         
     <services>
@@ -18,6 +22,22 @@
             <argument>%digitalwert_monodi_common.git.local.base%</argument>
             <argument>%digitalwert_monodi_common.git.remote.uri%</argument>
             <argument type="service" id="logger" />           
+        </service>
+        
+        <!-- 
+        https://github.com/misd-service-development/guzzle-bundle/blob/master/Resources/doc/clients.md
+        -->
+        <service id="existdb.client" class="%digitalwert_monodi_common.existdb.manager.class%">
+            <argument type="collection">
+                <argument key="base_url">%digitalwert_monodi_common.existdb.uri%</argument>
+                <argument key="username">%digitalwert_monodi_common.existdb.username%</argument>
+                <argument key="password">%digitalwert_monodi_common.existdb.password%</argument>
+            </argument>
+        </service>
+        
+        <service id="digitalwert_monodi_common.existdb.manager" class="%digitalwert_monodi_common.existdb.manager.class%">
+            <argument type="service" id="existdb.client" />   
+            <argument>%digitalwert_monodi_common.existdb.collection%</argument>               
         </service>
     </services>
     
