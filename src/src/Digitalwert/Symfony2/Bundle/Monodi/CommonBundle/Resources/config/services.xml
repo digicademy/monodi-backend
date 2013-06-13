@@ -6,7 +6,7 @@
     
     <parameters>
         
-        <parameter key="digitalwert_monodi_common.existdb.uri">https://adwserv9.adwmainz.net/exist/exist/rest/db</parameter>
+        <parameter key="digitalwert_monodi_common.existdb.uri">https://adwserv9.adwmainz.net/exist/rest/db</parameter>
         <parameter key="digitalwert_monodi_common.existdb.collection">app/monodi/data</parameter>
         <parameter key="digitalwert_monodi_common.existdb.username">monodi</parameter>
         <parameter key="digitalwert_monodi_common.existdb.password">monodi</parameter>
@@ -14,7 +14,10 @@
         <parameter key="digitalwert_monodi_common.git.remote.uri">git@github.com:mischka/monodi-test.git</parameter>
         <parameter key="digitalwert_monodi_common.git.local.base">%kernel.root_dir%/../git</parameter>
         <parameter key="digitalwert_monodi_common.git.repositorymanager.class">Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryManager</parameter>
+        
         <parameter key="digitalwert_monodi_common.existdb.manager.class">Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\ExistDb\ExistDbManager</parameter>
+        <parameter key="digitalwert_monodi_common.existdb.client.class">Digitalwert\Guzzle\ExistDb\ExistDbClient</parameter>
+        <parameter key="digitalwert_monodi_common.existdb.client_factory.class">Digitalwert\Guzzle\ExistDb\ExistDbClient</parameter>
     </parameters>
         
     <services>
@@ -27,7 +30,11 @@
         <!-- 
         https://github.com/misd-service-development/guzzle-bundle/blob/master/Resources/doc/clients.md
         -->
-        <service id="existdb.client" class="%digitalwert_monodi_common.existdb.manager.class%">
+        <service id="existdb.client" 
+             class="%digitalwert_monodi_common.existdb.client.class%"
+             factory-class="%digitalwert_monodi_common.existdb.client_factory.class%"
+             factory-method="factory"
+        >
             <argument type="collection">
                 <argument key="base_url">%digitalwert_monodi_common.existdb.uri%</argument>
                 <argument key="username">%digitalwert_monodi_common.existdb.username%</argument>

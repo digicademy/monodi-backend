@@ -72,81 +72,90 @@ class ExistDbEventListener
         $this->existdb = $manager;
     } 
     
+//    /**
+//     * 
+//     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+//     */
+//    public function prePersist(LifecycleEventArgs $args) {
+//        $this->preStore($args);
+//    }
+//    
+//    /**
+//     * 
+//     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+//     */
+//    public function preUpdate(LifecycleEventArgs $args) {
+//        $this->preStore($args);
+//    }
+    
     /**
      * 
      * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
      */
-    public function prePersist(LifecycleEventArgs $args) {
-        $entity = $args->getEntity();
-        $entityManager = $args->getEntityManager();
-
-        // perhaps you only want to act on some "Document" entity
-        if ($entity instanceof Document) {
-            $this->logger->debug('prePersist Document');
-            
-        }
-    }
-    
-    
-    public function preUpdate(LifecycleEventArgs $args) {
-        $entity = $args->getEntity();
-        $entityManager = $args->getEntityManager();
-        
-        $this->logger->debug(__METHOD__);
-
-        // perhaps you only want to act on some "Document" entity
-        if ($entity instanceof Document) {
-            
-        }
-    }
-    
     public function postPersist(LifecycleEventArgs $args) {
-        $entity = $args->getEntity();
-        $entityManager = $args->getEntityManager();
-        
-        $this->logger->debug(__METHOD__);
-
-        // perhaps you only want to act on some "Document" entity
-        if ($entity instanceof Document) {
-            
-        }
+        $this->postStore($args);
     }
     
+    /**
+     * 
+     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+     */
     public function postUpdate(LifecycleEventArgs $args) {
-        $entity = $args->getEntity();
-        $entityManager = $args->getEntityManager();
-        
-        $this->logger->debug(__METHOD__);
-
-        // perhaps you only want to act on some "Document" entity
-        if ($entity instanceof Document) {
-            
-        }
+        $this->postStore($args);
     }
     
+    /**
+     * Nach löschen des Datenbankeintags soll auch das Dokument in der eXistDb gelöscht werden
+     * 
+     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+     */
     public function postRemove(LifecycleEventArgs $args) {
         $entity = $args->getEntity();
-        $entityManager = $args->getEntityManager();
-        
-        $this->logger->debug(__METHOD__);
 
         // perhaps you only want to act on some "Document" entity
         if ($entity instanceof Document) {
-            
+            $this->existdb->removeDocument($entity);  
         }
     }
     
+    /**
+     * Inhalt 
+     * 
+     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+     */
     public function postLoad(LifecycleEventArgs $args) {
-        $entity = $args->getEntity();
-        $entityManager = $args->getEntityManager();       
-        
+        $entity = $args->getEntity();        
         // perhaps you only want to act on some "Document" entity
-        if ($entity instanceof Document) {
-            
-            $this->logger->debug(__METHOD__);
-            $entity = $this->existdb->retrieveDocument($entity);
-            //$entity->setContent(trim('<mei></mei>'));
+        if ($entity instanceof Document) {            
+            $entity = $this->existdb->retrieveDocument($entity);            
         }
     }
-
+    
+    
+//    /**
+//     * 
+//     * 
+//     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+//     */
+//    protected function preStore(LifecycleEventArgs $args) {
+//        $entity = $args->getEntity();
+//        $entityManager = $args->getEntityManager();
+//        if ($entity instanceof Document) {
+//
+//            //$this->existdb->retrieveDocument($entity);            
+//        }
+//    }
+    
+    /**
+     * Nach dem Speichern in die Datenbank soll auch das speichern in die eXistdb erfolgen
+     * 
+     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+     */
+    protected function postStore(LifecycleEventArgs $args) {
+        $entity = $args->getEntity();
+        $entityManager = $args->getEntityManager();
+        if ($entity instanceof Document) {
+            $this->existdb->storeDocument($entity);            
+        }
+    }
 }

@@ -3,7 +3,7 @@
         "existdb": {
             "class": "Digitalwert\\Guzzle\\ExistDb\\ExistDbClient",
             "params": {
-                "base_url": "https://adwserv9.adwmainz.net/exist/exist/rest/db",
+                "base_url": "https://adwserv9.adwmainz.net/exist/rest/db",
                 "username": "monodi",
                 "password": "monodi"
             }

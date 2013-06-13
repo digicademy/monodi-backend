@@ -65,7 +65,7 @@
             "source": {
                 "type": "git",
                 "url": "https://mischka@bitbucket.org/digitalwert/guzzle-existdb.git",
-                "reference": "88579a64bd7dea09018372df4ad442f2cadf0c86"
+                "reference": "9f839433de52c4cd9971b1e5b15dffe5a2ecaea8"
             },
             "require": {
                 "guzzle/guzzle": ">=3.5.0",
@@ -90,7 +90,7 @@
                 "framework",
                 "guzzle"
             ],
-            "time": "2013-06-12 14:29:36"
+            "time": "2013-06-13 14:48:38"
         },
         {
             "name": "doctrine/annotations",

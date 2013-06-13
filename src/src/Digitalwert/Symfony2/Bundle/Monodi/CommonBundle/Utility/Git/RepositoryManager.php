@@ -6,8 +6,9 @@ use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document;
 use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\VersionControlSystemRepos as VCSRepos;
 use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryContainer;
 use Symfony\Component\Filesystem\Filesystem;
+
 /**
- * 
+ * Klasse zum
  * DI\Service(name="")
  */
 class RepositoryManager

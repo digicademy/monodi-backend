@@ -480,39 +480,7 @@ class Document
      * @Serializer\Groups({"detail"})
      */
     public function getContent() {
-//        return $this->content;                
-        return '<?xml version="1.0" encoding="UTF-8"?>
-<mei xmlns="http://www.music-encoding.org/ns/mei">
-  <meiHead>
-    <fileDesc>
-      <titleStmt>
-        <title/>
-      </titleStmt>
-      <pubStmt/>
-      <sourceDesc>
-        <source/>
-      </sourceDesc>
-    </fileDesc>
-  </meiHead>
-  <music>
-    <body>
-      <mdiv>
-        <score>
-          <section>
-            <staff>
-              <layer>
-                <sb label=""/>
-                <syllable>
-                  <syl></syl>
-                </syllable>
-              </layer>
-            </staff>
-          </section>
-        </score>
-      </mdiv>
-    </body>
-  </music>
-</mei>';
+        return $this->content;
     }
     
     /**
@@ -527,59 +495,4 @@ class Document
         return $this;
     }
     
-    
-/*
- * SECTION EventListeners
- */    
-    
-    /**
-     * ORM\PrePersist()
-     * ORM\PreUpdate()
-     */
-    public function preSaveGit() {
-        //        $git->add();
-//        $git->commit("");
-        $this->rev;
-    }
-    
-    /**
-     * ORM\PostPersist()
-     * ORM\PostUpdate()
-     */
-    public function saveExistDb() {
-        //$existDb->save($content);                
-    }
-    
-    /**
-     * ORM\PostPersist()
-     * ORM\PostUpdate()
-     */
-    public function saveGit() {
-
-//        $git->push();
-//
-    }
-    
-    /**
-     * ORM\PostRemove()
-     */
-    public function removeExistDb() {
-        
-    }
-    
-    /**
-     * ORM\PostRemove()
-     */
-    public function removeGit() {
-        
-    }
-    
-    /**
-     * ORM\PostLoad()
-     */
-    public function readExistDb() {
-        $this->setContent(trim('
-<mei></mei>
-        '));
-    }
 }
