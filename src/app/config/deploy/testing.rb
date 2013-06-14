@@ -29,9 +29,7 @@ namespace :domainfactory do
     desc "-- setzt das AppEnv in der app.php da symlinks bei df nicht funktionieren"
     task :fix_app do
       puts "Set app.php env to #{symfony_env_prod} "
-      try_sudo <<-CMD
-        sed -i 's/\'prod\'/\'#{symfony_env_prod}\'/g' #{web_path}/app.php
-      CMD
+      try_sudo "sed -i 's/\'prod\'/\'#{symfony_env_prod}\'/g' #{latest_release}/#{web_path}/app.php"
     end
   end
 
