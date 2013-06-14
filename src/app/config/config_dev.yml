@@ -27,3 +27,7 @@ assetic:
 
 #swiftmailer:
 #    delivery_address: me@example.com
+digitalwert_monodi_common:
+    git:
+        remote:
+            uri: "git@github.com:mischka/monodi-test.git"
