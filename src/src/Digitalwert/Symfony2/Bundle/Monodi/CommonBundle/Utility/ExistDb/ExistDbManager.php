@@ -43,7 +43,7 @@ class ExistDbManager
       $defaultCollection = 'apps/monodi/data'
     ) {
         $this->client = $client;
-        $this->defaultCollection = $defaultCollection;
+        $this->defaultCollection = $defaultCollection;        
     }
     
     /**
@@ -139,7 +139,7 @@ class ExistDbManager
             // Subcollections ersteinmal verhindern
             $filename = str_replace('/', '_', $folder->getSlug()). '_' . $filename;
             
-            \Doctrine\Common\Util\Debug::dump($folder);
+            //\Doctrine\Common\Util\Debug::dump($folder);
         }
         
         return $filename;

@@ -170,9 +170,53 @@ class Document
      * Hält den Body Temporär vor
      * 
      * @var string 
+     * 
+     * @Assert\NotBlank()
      */
     protected $content;
     
+    
+    /**
+     * Konstruktor um defaults zu setzen
+     */
+    public function __construct() {
+            
+        $this->setContent('<?xml version="1.0" encoding="UTF-8"?>
+<mei xmlns="http://www.music-encoding.org/ns/mei">
+  <meiHead>
+    <fileDesc>
+      <titleStmt>
+        <title/>
+      </titleStmt>
+      <pubStmt/>
+      <sourceDesc>
+        <source/>
+      </sourceDesc>
+    </fileDesc>
+  </meiHead>
+  <music>
+    <body>
+      <mdiv>
+        <score>
+          <section>
+            <staff>
+              <layer>
+                <sb label=""/>
+                <syllable>
+                  <syl></syl>
+                </syllable>
+              </layer>
+            </staff>
+          </section>
+        </score>
+      </mdiv>
+    </body>
+  </music>
+</mei>');
+        
+    }
+
+
     /**
      * Get id
      *

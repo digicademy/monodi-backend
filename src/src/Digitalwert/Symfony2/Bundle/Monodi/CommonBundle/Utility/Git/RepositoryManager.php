@@ -130,8 +130,8 @@ class RepositoryManager
         $gitRepo = $this->fromEntityToGitRepository($container);
         
         if($this->status($container)) {
-        
-            var_dump($gitRepo->commit($message));
+            $res = $gitRepo->commit($message);
+            //var_dump($res);
         }
 
     }

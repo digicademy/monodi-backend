@@ -69,24 +69,24 @@ class ExistDbEventListener
     public function __construct(Manager $manager, LoggerInterface $logger) {
         
         $this->logger = $logger;
-        $this->existdb = $manager;
+        $this->existdb = $manager;       
     } 
     
-//    /**
-//     * 
-//     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
-//     */
-//    public function prePersist(LifecycleEventArgs $args) {
-//        $this->preStore($args);
-//    }
-//    
-//    /**
-//     * 
-//     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
-//     */
-//    public function preUpdate(LifecycleEventArgs $args) {
-//        $this->preStore($args);
-//    }
+    /**
+     * 
+     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+     */
+    public function prePersist(LifecycleEventArgs $args) {
+        $this->preStore($args);
+    }
+    
+    /**
+     * 
+     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+     */
+    public function preUpdate(LifecycleEventArgs $args) {
+        $this->preStore($args);
+    }
     
     /**
      * 
@@ -132,19 +132,19 @@ class ExistDbEventListener
     }
     
     
-//    /**
-//     * 
-//     * 
-//     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
-//     */
-//    protected function preStore(LifecycleEventArgs $args) {
-//        $entity = $args->getEntity();
-//        $entityManager = $args->getEntityManager();
-//        if ($entity instanceof Document) {
-//
-//            //$this->existdb->retrieveDocument($entity);            
-//        }
-//    }
+    /**
+     * 
+     * 
+     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+     */
+    protected function preStore(LifecycleEventArgs $args) {
+        $entity = $args->getEntity();
+        $entityManager = $args->getEntityManager();
+        if ($entity instanceof Document) {
+
+            //$this->existdb->retrieveDocument($entity);            
+        }
+    }
     
     /**
      * Nach dem Speichern in die Datenbank soll auch das speichern in die eXistdb erfolgen
