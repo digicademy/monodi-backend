@@ -27,7 +27,7 @@ namespace :domainfactory do
   
   namespace :symfony do
     desc "-- setzt das AppEnv in der app.php da symlinks bei df nicht funktionieren"
-    task :fix-app do
+    task :fix_app do
       puts "Set app.php env to #{symfony_env_prod} "
       try_sudo <<-CMD
         sed -i 's/\'prod\'/\'#{symfony_env_prod}\'/g' #{web_path}/app.php
@@ -40,7 +40,7 @@ end
 ###
 
 
-after 'deploy:update_code', 'domainfactory:symfony:fix-app'
+after 'deploy:update_code', 'domainfactory:symfony:fix_app'
 
 # Dazu muss sass auf dem system installiert sein
 #after 'symfony:assets:install', 'symfony:assetic:dump'
