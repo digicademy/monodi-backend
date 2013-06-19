@@ -5,7 +5,9 @@ namespace Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Folder
@@ -15,6 +17,8 @@ use JMS\Serializer\Annotation as Serializer;
  *   repositoryClass="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\FolderRepository"
  * )
  * @Gedmo\Tree(type="nested")
+ * 
+ * @UniqueEntity({"title","parent"})
  * 
  * @Serializer\ExclusionPolicy("ALL")
  * @Serializer\XmlRoot(name="folder")
@@ -44,6 +48,8 @@ class Folder
      * @var string
      * 
      * @ORM\Column(name="title", type="string", length=255)
+     * 
+     * @Assert\NotBlank()
      * 
      * @Serializer\Expose
      * @Serializer\Groups({"list","detail"})
@@ -128,6 +134,14 @@ class Folder
     protected $documents;
     
     /**
+     * String Cast
+     * @return string
+     */
+    public function __toString() {
+        return (string)$this->getSlug();
+    }
+    
+    /**
      * Get id
      *
      * @return integer 
@@ -204,5 +218,19 @@ class Folder
      */
     public function getDocumentCount() {
         return (integer)count($this->documents);
+    }
+    
+    /**
+     * Gibt an ob Verzeichnis Dokumente und/oder Verzeichnisse enthält
+     * 
+     * @return boolean
+     */
+    public function isEmpty() {
+        if(($this->getChildrenCount() == 0)
+          && ($this->getDocumentCount() == 0)
+        ) {
+            return true;
+        }
+        return false;
     }
 }

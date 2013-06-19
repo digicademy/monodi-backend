@@ -44,27 +44,43 @@ class DocumentController extends FOSRestController
     
     /**
      * 
-     * @ApiDoc()
+     * @ApiDoc(
+     *   ressource=true,   
+     *   output="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document"
+     * )
      * 
      * @Route("/")
      * @Method({"OPTIONS"})
      */
     public function optionsDocumentsAction()
     {
-    }
-    
+    }    
     
     /**
      * Legt ein neues Dokument an
      * 
-     * @ApiDoc() 
+     * @ApiDoc(
+     *   input="Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Form\Type\DocumentFormType",
+     *   statusCodes={
+     *     204="Returned when successful",
+     *     400="Returned when validation faild",
+     *     403="Returned when the user is not authorized to access the document",  
+     *     404="Returned when the document was not found"
+     *   }
+     * ) 
      * 
      * @Route("/")
      * @Method({"POST"})
      */
     public function postDocumentsAction(Request $request) {
         
+        $user = $this->securityContext->getToken()->getUser();
+        
         $document = new Document();
+        
+        $document->setOwner($user);
+        $document->setEditor($user);
+        //$document->setGroup($user->getGroups()->first());
         
         return $this->processForm($document, $request,  201);
     }
@@ -106,16 +122,7 @@ class DocumentController extends FOSRestController
     public function getDocumentAction($id)
     {
         $document = $this->findDocumentById($id);      
-        
-//        $document = new Document();
-//        $document->setRev('cfeacede1212');
-//        $document->setTitle('Test des Titles');
-//        $document->setFilename('fobar.buz.mei');
-//        $document->setProcessNumber(123434);
-//        $document->setCreatedAt(new \DateTime('yesterday'));
-//        $document->setEditedAt(new \DateTime('now'));
-//        $document->setEditionNumber(123456700);
-        
+           
         return $document;
     }
     /**
@@ -126,6 +133,7 @@ class DocumentController extends FOSRestController
      * )
      * 
      * @Route("/{id}.{_format}", 
+     *   name = "monodi_api_document_get",
      *   requirements={
      *     "_format" = "(xml|json)"}, 
      *   defaults={

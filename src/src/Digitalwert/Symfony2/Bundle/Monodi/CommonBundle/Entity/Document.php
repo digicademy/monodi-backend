@@ -96,7 +96,8 @@ class Document
 
     /**
      * @var \DateTime
-     *
+     * 
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updatedAt", type="datetime")
      *
      * @Serializer\Expose
@@ -518,7 +519,7 @@ class Document
     /**
      * Gibt das Verzeichnis in welchem sich das Dokument befindet zurück
      * 
-     * @return Folder
+     * @return \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Folder
      */
     public function getFolder() {
       return $this->folder;  

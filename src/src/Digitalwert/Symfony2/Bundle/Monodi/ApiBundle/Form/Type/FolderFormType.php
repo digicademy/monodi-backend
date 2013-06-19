@@ -7,25 +7,18 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
 /**
- * Description of DocumentFormType
+ * FormularType für den Ordnerzugriff
  *
  * @author digitalwert
  */
-class DocumentFormType 
-  extends AbstractType
+class FolderFormType extends AbstractType
 {
     /**
      * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         
-        $builder->add('title');  
-        $builder->add('filename');  
-        $builder->add('content');
-        //$builder->add('folder');
-        $builder->add('folder', 'entity', array(
-            'class' => 'Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Folder',
-        ) );
+        $builder->add('title');        
     }
     
     /**
@@ -33,7 +26,7 @@ class DocumentFormType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         $resolver->setDefaults(array(
-            'data_class' => 'Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document',
+            'data_class' => 'Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Folder',
             'csrf_protection'   => false,
         ));
     }
@@ -42,7 +35,7 @@ class DocumentFormType
      * {@inheritdoc}
      */
     public function getName() {
-        return 'document';
+        return 'folder';
     }   
 }
 
