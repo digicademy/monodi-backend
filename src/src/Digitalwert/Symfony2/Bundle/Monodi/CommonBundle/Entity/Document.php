@@ -6,6 +6,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Document
@@ -13,6 +14,8 @@ use JMS\Serializer\Annotation as Serializer;
  * @ORM\Table(name="monodi_document")
  * @ORM\Entity(repositoryClass="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\DocumentRepository")
  * @ORM\HasLifecycleCallbacks
+ * 
+ * UniqueEntity({"filename","folder"})
  * 
  * @Gedmo\Loggable
  * 
@@ -171,6 +174,8 @@ class Document
      * 
      * @var string 
      * 
+     * @ORM\Column(type="text")
+     * 
      * @Assert\NotBlank()
      */
     protected $content;
@@ -180,8 +185,9 @@ class Document
      * Konstruktor um defaults zu setzen
      */
     public function __construct() {
-            
-        $this->setContent('<?xml version="1.0" encoding="UTF-8"?>
+        
+        // Default
+        $this->content = '<?xml version="1.0" encoding="UTF-8"?>
 <mei xmlns="http://www.music-encoding.org/ns/mei">
   <meiHead>
     <fileDesc>
@@ -212,7 +218,7 @@ class Document
       </mdiv>
     </body>
   </music>
-</mei>');
+</mei>';
         
     }
 

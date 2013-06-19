@@ -1,6 +1,7 @@
 {% extends 'DigitalwertMonodiFrontendBundle::base.html.twig' %}
 
 {% block body %}
+{#
     <div class="form">  
         <form action="{{ path('fos_oauth_server_authorize', {
                 'client_id': app.request.get('client_id'), 
@@ -21,4 +22,27 @@
             </div>  
         </form>
     </div>
+#}  
+<form action="{{ path('fos_oauth_server_authorize', {
+                'client_id': app.request.get('client_id'), 
+                'response_type': app.request.get('response_type'),
+                'redirect_uri': app.request.get('redirect_uri'),
+                'state': app.request.get('state'),
+                'scope': app.request.get('nscope')
+            }) }}" 
+            {{ form_enctype(form) }} 
+            method="POST" 
+            class="vertical fos_oauth_server_authorize" 
+            style="margin-bottom: 0" >
+    <div class="modal-header">
+        <h3>Grant access to MonodiClient</h3>
+    </div>
+    <div class="modal-body" style="height: 70px">
+        {{ form_widget(form) }}
+    </div>
+    <div class="modal-footer">
+        <button type="submit" id="_submit" name="_submit" class="btn btn-primary">Authorize</button>
+    </div>
+</form>
+
 {% endblock body%}

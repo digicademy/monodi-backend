@@ -109,6 +109,9 @@ class GitEventListener
         // perhaps you only want to act on some "Document" entity
         if ($entity instanceof Document) {
             
+            $this->logger->debug('BEFORE' . __METHOD__);
+            $this->logger->debug($entity->getContent());
+            
             $user = $entity->getEditor();
             if(!$this->manager->existsRepo($user)) {
                 //try to create
@@ -119,6 +122,9 @@ class GitEventListener
             
             $this->manager->add($user, $entity);
             $this->manager->commit($user, 'Systemcommit für ' . $user->getEmail());
+            
+            $this->logger->debug('AFTER' . __METHOD__);
+            $this->logger->debug($entity->getContent());
             
             $this->logger->debug('prePersist Document');
         }
@@ -139,7 +145,13 @@ class GitEventListener
             //throw new \Exception('TEST des GIT');
             $user = $entity->getEditor();
             
+            $this->logger->debug('BEFORE' . __METHOD__);
+            $this->logger->debug($entity->getContent());
+            
             $this->manager->push($user);
+            
+            $this->logger->debug('AFTER' . __METHOD__);
+            $this->logger->debug($entity->getContent());            
         }        
     }
 }

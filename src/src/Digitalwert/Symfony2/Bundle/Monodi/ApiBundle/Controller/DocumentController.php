@@ -5,7 +5,11 @@ namespace Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -14,6 +18,7 @@ use FOS\RestBundle\View\View;
 use FOS\RestBundle\Controller\FOSRestController;
 
 use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document;
+use Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Form\Type\DocumentFormType;
 
 /**
  * 
@@ -214,9 +219,27 @@ class DocumentController extends FOSRestController
         
         if ($form->isValid()) {
             
-            $this->em->persist($document);
-            $this->em->flush();
+            $this->em->getConnection()->beginTransaction(); // suspend auto-commit
+            try {
+                $logger = $this->get('logger');
+                $logger->debug(__METHOD__);
+                $logger->debug($request->getContent());
 
+                $this->em->persist($document);
+                $this->em->flush();
+                
+                $this->em->getConnection()->commit();
+                
+            } catch (Exception $e) {
+                
+                $this->em->getConnection()->rollback();
+                $this->em->close();
+                throw $e;
+            }          
+            
+            $logger->debug('AFTER-FLUSH');
+            $logger->debug($document->getContent());
+            
             $response = new Response();
             $response->setStatusCode($statusCode);
 

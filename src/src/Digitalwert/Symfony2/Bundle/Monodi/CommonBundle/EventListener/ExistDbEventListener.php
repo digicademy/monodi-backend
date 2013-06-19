@@ -123,11 +123,17 @@ class ExistDbEventListener
      * 
      * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
      */
-    public function postLoad(LifecycleEventArgs $args) {
+    public function postLoad(LifecycleEventArgs $args) {        
         $entity = $args->getEntity();        
         // perhaps you only want to act on some "Document" entity
-        if ($entity instanceof Document) {            
-            $entity = $this->existdb->retrieveDocument($entity);            
+        if ($entity instanceof Document) {
+            $this->logger->debug('BEFORE' . __METHOD__);
+            $this->logger->debug($entity->getContent());
+            
+            $entity = $this->existdb->retrieveDocument($entity);
+            
+            $this->logger->debug('AFTER '. __METHOD__);
+            $this->logger->debug($entity->getContent());
         }
     }
     
@@ -155,6 +161,10 @@ class ExistDbEventListener
         $entity = $args->getEntity();
         $entityManager = $args->getEntityManager();
         if ($entity instanceof Document) {
+            
+            $this->logger->debug('BEFORE' . __METHOD__);
+            $this->logger->debug($entity->getContent());
+            
             $this->existdb->storeDocument($entity);            
         }
     }

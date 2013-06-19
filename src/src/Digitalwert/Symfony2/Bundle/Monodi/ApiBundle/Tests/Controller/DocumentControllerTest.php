@@ -4,6 +4,9 @@ namespace Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
+/**
+ * 
+ */
 class DocumentControllerTest extends WebTestCase
 {
     public function testGetdocument()
@@ -19,21 +22,25 @@ class DocumentControllerTest extends WebTestCase
 
         $crawler = $client->request('GET', '/document/{id}');
     }
-
+    
+    /**
+     * Update eines Dokumentes Testen
+     */
     public function testPutdocument()
     {
         $client = static::createClient();
       
         $crawler = $client->request(
             'PUT',
-            '/submit',
+            '/document/{id}',
             array(),
             array(),
             array('CONTENT_TYPE' => 'application/json'),
-            '{"document":"asdfasdf"}'
+            '{"title":"testdocument","content":"<foo>sadfsadf</foo>"}'
         );       
         
-        
+        var_dump($client->getResponse()->isSuccessful());
+        var_dump($client->getResponse()->getContent());
     }
 
     public function testPatchdocument()
