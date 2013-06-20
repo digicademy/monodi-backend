@@ -126,6 +126,7 @@ class Folder
     /**
      *
      * @ORM\OneToMany(targetEntity="Document", mappedBy="folder")
+     * @ORM\OrderBy({"metadataSorting" = "ASC"})
      * 
      * @Serializer\Expose
      * @Serializer\Groups({"list","detail"})

@@ -15,7 +15,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(repositoryClass="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\DocumentRepository")
  * @ORM\HasLifecycleCallbacks
  * 
- * UniqueEntity({"filename","folder"})
+ * @UniqueEntity({"filename","folder"})
  * 
  * @Gedmo\Loggable
  * 
@@ -24,6 +24,11 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  */
 class Document
 {
+    /**
+     * Dateiendung
+     */
+    CONST FILE_EXTENSION = 'mei';
+    
     /**
      * @var integer
      *
@@ -181,6 +186,17 @@ class Document
      */
     protected $content;
     
+    /**
+     * Sortierung der Dokumente innerhalb eines Ordners
+     * 
+     * //mei/meiHead/workDesc/work/n
+     * 
+     * @var integer
+     * 
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    protected $metadataSorting;
+    
     
     /**
      * Konstruktor um defaults zu setzen
@@ -265,7 +281,16 @@ class Document
      */
     public function setFilename($filename)
     {
-        $this->filename = $filename;
+        $this->filename = trim($filename);
+        
+        // .mei anfügen wenn nicht vorhanden
+        if(substr($this->filename, -3) != self::FILE_EXTENSION) {
+            $this->filename .= '.mei';
+        }
+        
+        if(trim($this->getTitle()) == '') {
+            $this->setTitle($filename);
+        }
     
         return $this;
     }
@@ -543,7 +568,42 @@ class Document
      */
     public function setContent($content) {
         $this->content = $content;
+        $this->parseContentMetaData($this->content);
         return $this;
+    }
+    
+    /**
+     * 
+     * @see https://tickets.digitalwert.net/issues/12536
+     * 
+     * @param string $content
+     */
+    protected function parseContentMetaData($content) {
+        if(!empty($content)) {
+
+            libxml_use_internal_errors(true);
+            try {
+                $xml = new \SimpleXMLElement($content);            
+                $xml->registerXPathNamespace('mei', 'http://www.music-encoding.org/ns/mei');
+                
+                // Title (//mei/meiHead/workDesc/work/incip/incipText/p/text())
+                $title = $xml
+                  ->xpath('//mei:meiHead/mei:workDesc/mei:work/mei:incip/mei:incipText/mei:p/text()')
+                ;
+                
+                if($title !== false && count($title) > 0) {
+                   $this->setTitle((string)$title[0]); 
+                }
+                // Sorting (//mei/meiHead/workDesc/work/@n)
+                $sorting = $xml->xpath('//mei:meiHead/mei:workDesc/mei:work/@n');
+                if($sorting !== false && count($sorting) > 0) {
+                    $this->metadataSorting = (string)$sorting[0];
+                }
+                
+            } catch(\Exception $e) {
+                //throw $e;
+            }
+        }
     }
     
 }

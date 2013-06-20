@@ -154,12 +154,19 @@ class DocumentController extends FOSRestController
      * 
      * ApiDoc()
      * 
-     * @Route("/{id}")
+     * @Route("/{id}.{_format}", 
+     *   name = "monodi_api_document_patch",
+     *   requirements={
+     *     "_format" = "(xml|json)"}, 
+     *   defaults={
+     *     "_format" = "xml"
+     *   }
+     * )
      * @Method({"PATCH"})
      */
     public function patchDocumentAction($id)
     {
-        
+        $document = $this->findDocumentById($id);
     }
 
     /**
@@ -173,13 +180,22 @@ class DocumentController extends FOSRestController
      *   }
      * )
      * 
-     * @Route("/{id}")
+     * @Route("/{id}.{_format}", 
+     *   name = "monodi_api_document_delete",
+     *   requirements={
+     *     "_format" = "(xml|json)"}, 
+     *   defaults={
+     *     "_format" = "xml"
+     *   }
+     * )
+     * 
      * @Method({"DELETE"})
      * 
      * @Rest\View(statusCode=204)
      */
-    public function deleteDocumentAction($id)
+    public function deleteDocumentAction(Request $request, $id)
     {
+        $document = $this->findDocumentById($id);
     }
     
     /**
@@ -250,6 +266,7 @@ class DocumentController extends FOSRestController
             
             $response = new Response();
             $response->setStatusCode($statusCode);
+            $response->headers->set('X-RessourceIdent', $document->getId());
 
             // set the `Location` header only when creating new resources
             if (201 === $statusCode) {

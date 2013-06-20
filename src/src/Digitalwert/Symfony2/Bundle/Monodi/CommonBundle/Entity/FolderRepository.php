@@ -14,4 +14,15 @@ use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
 class FolderRepository 
   extends NestedTreeRepository
 {
+    /**
+     * Gibt einen QueryBuilder mit der eingeschränkten auswahl für DocumentFormType zurück
+     *  
+     * @return \Doctrine\ORM\QueryBuilder
+     */
+    public function createQueryBuilderForDocumentFormTypeChoice() {
+       return $this->createQueryBuilder('f')
+         ->where('f.lvl >= 2')
+         ->orderBy('f.slug', 'ASC')
+       ;
+    }
 }

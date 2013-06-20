@@ -2,6 +2,7 @@
 
 namespace Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Form\Type;
 
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -19,13 +20,21 @@ class DocumentFormType
      */
     public function buildForm(FormBuilderInterface $builder, array $options) {
         
-        $builder->add('title');  
+//        $builder->add('title');  
         $builder->add('filename');  
         $builder->add('content');
-        //$builder->add('folder');
+        
         $builder->add('folder', 'entity', array(
             'class' => 'Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Folder',
-        ) );
+            'query_builder' => function(EntityRepository $er) {
+//                return $er->createQueryBuilderForDocumentFormTypeChoice();
+                return $er->createQueryBuilder('f')
+                    ->where('f.lvl >= 2')
+                    ->orderBy('f.slug', 'ASC')
+                ;
+            },
+            'invalid_message' => 'Angegebener Ordner kann nicht verwendet werden.',
+        ));
     }
     
     /**
