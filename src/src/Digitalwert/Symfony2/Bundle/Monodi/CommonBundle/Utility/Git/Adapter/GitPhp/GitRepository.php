@@ -1,0 +1,144 @@
+<?php
+/**
+ * Created by JetBrains PhpStorm.
+ * User: digitalwert
+ * Date: 21.06.13
+ * Time: 13:34
+ * To change this template use File | Settings | File Templates.
+ */
+
+namespace Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\Adapter\GitPhp;
+
+
+/**
+ * Class GitRepository
+ *
+ * ssh-agent nutzen
+ *
+ * @see http://stackoverflow.com/questions/4565700/specify-private-ssh-key-to-use-when-executing-shell-command-with-or-without-ruby
+ * @see http://stackoverflow.com/questions/2419566/best-way-to-use-multiple-ssh-private-keys-on-one-client
+ * @see https://github.com/ccontavalli/ssh-ident/blob/master/ssh-ident
+ *
+ * @package Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\Adapter\GitPhp
+ */
+class GitRepository extends \GitRepo
+{
+    protected $sshAgent = '/usr/bin/ssh-agent';
+
+    protected $sshAdd = '/usr/bin/ssh-agent';
+
+    protected $sshKeyFile;
+
+
+    public function getSshAgent() {
+        return $this->sshAgent;
+    }
+
+    public function getSshAdd() {
+        return $this->sshAdd;
+    }
+
+    public function getSshKeyFile() {
+        return $this->sshKeyFile;
+    }
+
+    public function setSshAgent($sshAgent) {
+        $this->sshAgent = $sshAgent;
+        return $this;
+    }
+
+    public function setSshAdd($sshAdd) {
+        $this->sshAdd = $sshAdd;
+        return $this;
+    }
+
+    public function setSshKeyFile($sshKeyFile) {
+        $this->sshKeyFile = $sshKeyFile;
+        return $this;
+    }
+
+
+    public function isSsh() {
+        return false;
+    }
+
+    /**
+     * Run a git command in the git repository
+     *
+     * Accepts a git command to run
+     *
+     * @access  public
+     * @param   string  command to run
+     * @return  string
+     */
+    public function run($command) {
+        $command = $this->git_path . ' ' . $command;
+
+        if($this->isSsh() && $this->getSshKeyFile()){
+           // ssh-agent (ssh-add /home/christoffer/ssh_keys/theuser; git clone git@github.com:TheUser/TheProject.git)
+           $command = $this->getSshAgent() . ' ( ' . $this->getSshAdd(). ' ' . $this->getSshKeyFile() . ';  ' . $command . ')';
+        }
+
+        var_dump($command);
+
+        return $this->run_command($command);
+    }
+
+
+    /**
+     * Create a new git repository
+     *
+     * Accepts a creation path, and, optionally, a source path
+     *
+     * @access  public
+     * @param   string  repository path
+     * @param   string  directory to source
+     * @param   bool    is the repo a bare one?
+     * @param   string  the 'shared' option as per git init - (false|true|umask|group|all|world|everybody|0xxx)
+     * @return  GitRepo
+     */
+    public static function &create_new($repo_path, $source = null, $bare = false, $shared = false) {
+
+        if (is_dir($repo_path) && ((file_exists($repo_path."/.git") && is_dir($repo_path."/.git")) || (file_exists($repo_path."/HEAD") && is_dir($repo_path."/objects")))) {
+            throw new Exception("'$repo_path' is already a git repository");
+        } else {
+            $shared = (trim($shared));
+
+            // Sanity check the shared option
+            if(!preg_match('/^(true)|(umask)|(group)|(all)|(world)|(everybody)|(0\d{3})$/', $shared)) {
+                $shared = false;
+            }
+
+            $repo = new self($repo_path, true, false, $bare);
+            if (is_string($source)) {
+                $repo->clone_from($source);
+            } else {
+                $args = '';
+                if($bare)
+                    $args .= ' --bare';
+
+                if($shared)
+                    $args .= " --shared=$shared";
+
+                $repo->run("init $args");
+            }
+            return $repo;
+        }
+    }
+
+    /**
+     * Constructor
+     *
+     * Accepts a repository path
+     *
+     * @access  public
+     * @param   string  repository path
+     * @param   bool    create if not exists?
+     * @param   bool    is the repo a bare one?
+     * @return  void
+     */
+    public function __construct($repo_path = null, $create_new = false, $_init = true, $bare = false) {
+        if (is_string($repo_path))
+            $this->set_repo_path($repo_path, $create_new, $_init, $bare);
+    }
+}

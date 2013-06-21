@@ -175,7 +175,7 @@ class DocumentController extends FOSRestController
      * @ApiDoc(
      *   statusCodes={
      *     204="Returned when successful",
-     *     403="Returned when the user is not authorized to access the document",  
+     *     403="Returned when the user is not authorized to delete the document",  
      *     404="Returned when the document was not found"
      *   }
      * )
@@ -195,7 +195,34 @@ class DocumentController extends FOSRestController
      */
     public function deleteDocumentAction(Request $request, $id)
     {
+        /** @var \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\User */
+        $user = $this->securityContext->getToken()->getUser();
         $document = $this->findDocumentById($id);
+        $owner = $document->getOwner();
+
+        /**
+         * @todo mit hilfe von security-annotation abfangen
+         */
+        if(!$user->isUser($owner)) {
+           if(!$user->isSuperAdmin()) {
+                throw new AccessDeniedHttpException('User not allowd to delete the document');
+           }
+        }
+        
+        try {
+            $logger = $this->get('logger');
+            
+            $this->em->remove($document);
+            $this->em->flush();
+                
+            $this->em->getConnection()->commit();
+                
+        } catch (Exception $e) {
+            $this->em->getConnection()->rollback();
+            $this->em->close();
+            throw $e;
+        }
+        
     }
     
     /**

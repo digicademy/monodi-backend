@@ -196,14 +196,28 @@ class Document
      * @ORM\Column(type="integer", nullable=true)
      */
     protected $metadataSorting;
-    
-    
+
+    /**
+     *
+     * @var string
+     */
+    protected $origFilename;
+
+    /**
+     *
+     * @var Folder
+     */
+    protected $origFolder;
+
     /**
      * Konstruktor um defaults zu setzen
      */
     public function __construct() {
         
         // Default
+        $this->origFolder = null;
+        $this->origFilename = null;
+
         $this->content = '<?xml version="1.0" encoding="UTF-8"?>
 <mei xmlns="http://www.music-encoding.org/ns/mei">
   <meiHead>
@@ -571,6 +585,20 @@ class Document
         $this->parseContentMetaData($this->content);
         return $this;
     }
+
+    /**
+     * @return Folder
+     */
+    public function getOrigFolder() {
+        return $this->origFolder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOrigFilename() {
+        return $this->origFilename;
+    }
     
     /**
      * 
@@ -605,5 +633,45 @@ class Document
             }
         }
     }
+
+    /**
+     * Gibt an ob ein Dokument verschoben wurde
+     *
+     * @return bool
+     */
+    public function hasMoved() {
+
+        if(($this->getOrigFilename()
+            && ($this->getFilename() != $this->getOrigFilename())
+          )
+          || (($this->getOrigFolder() instanceof Folder)
+            && ($this->getFolder() instanceof Folder)
+            && ($this->getOrigFolder()->getSlug() != $this->getFolder()->getSlug())
+          )
+        ) {
+            return true;
+        }
+        return false;
+    }
     
+    /**
+     * Setzt orignal daten aus der datenbank für spätere vergleiche
+     *
+     * @ORM\PostLoad 
+     */
+    public function postLoad() {
+        
+        $this->origFilename = $this->getFilename();
+        $this->origFolder = $this->getFolder();
+    }
+
+    /**
+     * Speicherevent
+     *
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function preSave() {
+        $this->editionNumber++;
+    }
 }

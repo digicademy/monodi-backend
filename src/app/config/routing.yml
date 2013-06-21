@@ -6,12 +6,12 @@ digitalwert_monodi_admin:
 digitalwert_monodi_frontend:
     resource: "@DigitalwertMonodiFrontendBundle/Controller/"
     type:     annotation
-    prefix:   /
+    prefix:   /frontend
     
 digitalwert_monodi_client:
     resource: "@DigitalwertMonodiClientBundle/Controller/"
     type:     annotation
-    prefix:   /client
+    prefix:   /
 
 #digitalwert_monodi_api_document:
 #    resource: Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Controller\DocumentController

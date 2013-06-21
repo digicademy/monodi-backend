@@ -7,6 +7,10 @@ use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\VersionControlSystemR
 use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryContainer;
 use Symfony\Component\Filesystem\Filesystem;
 
+
+use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\Adapter\GitPhp\GitPhp as GitHandler;
+
+
 /**
  * Klasse zum
  * DI\Service(name="")
@@ -15,6 +19,8 @@ class RepositoryManager
 {   
     
     const REMOTE_MASTER = 'origin';
+
+    const LOCAL_MASTER = 'master';
     
     protected $logger;
     
@@ -57,9 +63,9 @@ class RepositoryManager
         if($this->filesystem->exists($path)) {
             
             try {
-                $gitRepo = \Git::open($path);
+                $gitRepo = GitHandler::open($path);
                 
-                if(\Git::is_repo($gitRepo)) {
+                if(GitHandler::is_repo($gitRepo)) {
                     return true;
                 }
             } catch(\Exception $e) {
@@ -83,9 +89,9 @@ class RepositoryManager
             $this->filesystem->mkdir($path);
         }
         
-        $gitRepo = \Git::create($path);
+        $gitRepo = GitHandler::create($path);
         
-        if(\Git::is_repo($gitRepo)) {
+        if(GitHandler::is_repo($gitRepo)) {
             $this->configRepo($container);         
             return true;
         }
@@ -93,6 +99,7 @@ class RepositoryManager
     }
 
     /**
+     * Setzt eine Dokument auf die Stage
      * 
      * @param Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryContainer $container
      * @param string|array $files
@@ -117,31 +124,119 @@ class RepositoryManager
               $files = $this->dumpDocumentToRepo($files, $container);
           }
             
-          $gitRepo->add($files);
+          $this->logger->debug($gitRepo->add($files));
         }        
     }
     
     /**
+     * Löscht eine Datei aus dem Dateisystem und dem Git Repo
+     *
+     * <code>
+     *   git rm
+     * </code>
+     * 
+     * @param \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryContainer $container
+     * @param string|array $files
+     */
+    public function delete(RepositoryContainer $container, $files) {
+        $gitRepo = $this->fromEntityToGitRepository($container);
+
+        if(is_array($files)) {
+            foreach($files as $key => $file) {
+                if(!is_string($file)) {
+                    if($file instanceof Document) {
+                        $files[$key] = $this->dumpDocumentToRepo($file, $container);
+                    }
+                }
+            }
+        } elseif($files instanceof Document) {
+            $files = $this->dumpDocumentToRepo($files, $container);
+        }
+
+        if (is_array($files)) $files = '"'.implode('" "', $files).'"';
+
+        if(!empty($files)) {
+            $res = $gitRepo->run("rm $files ");
+            $this->logger->debug($res);
+            var_dump($res);
+        }
+    }
+    
+    /**
+     * Verschiebt die Dokumente innerhalb eine Repo
+     *
+     * <code>
+     *   git mv
+     * </code>
+     *
+     * @param \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryContainer $container
+     * @param string|Document $old
+     * @param string |Document $new
+     */
+    public function move(RepositoryContainer $container, $old, $new) {
+        $gitRepo = $this->fromEntityToGitRepository($container);
+
+        if(empty($old)) {
+          throw new \InvalidArgumentException('Old must be an existing file');
+        }
+
+        if(empty($new)) {
+            throw new \InvalidArgumentException('new could not be empty');
+        }
+
+        if($old instanceof Document) {
+            $old =  $this->getDocumentPathnameInRepo($old, $container);
+        }
+
+        if($new instanceof Document) {
+            $new =  $this->getDocumentPathnameInRepo($new, $container);
+        }
+
+        $res = $gitRepo->run('mv "' . $old . '" "' . $new . '"');
+        $this->logger->debug($res);
+        var_dump($res);
+
+    }
+
+
+    /**
+     * Fügt ein commit in das Lokale Repo aus
      * 
      * @param Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryContainer $container
      * @param string $message
+     * 
+     * @return string reversion des commits
      */
     public function commit(RepositoryContainer $container, $message = '') {
         $gitRepo = $this->fromEntityToGitRepository($container);
         
         if($this->status($container)) {
             $res = $gitRepo->commit($message);
-            //var_dump($res);
+            $this->logger->debug($res);
+            var_dump('COMMIT', $res);
         }
 
     }
     
     public function push(RepositoryContainer $container, $remote = self::REMOTE_MASTER) {
         $gitRepo = $this->fromEntityToGitRepository($container);
-    }  
-    
-    public function pull(RepositoryContainer $container) {
+        //$res = $gitRepo->run('push');
+        //$this->logger->debug($res);
+    }
+
+
+    /**
+     *
+     * <code>
+     *   git pull -f origin master
+     * </code>
+     *
+     * @param RepositoryContainer $container
+     */
+    public function pull(RepositoryContainer $container, $remote = self::REMOTE_MASTER) {
         $gitRepo = $this->fromEntityToGitRepository($container);
+        //$res = $gitRepo->run('pull -f ' . $remote . ' ' . self::LOCAL_MASTER);
+        //$this->logger->debug($res);
     }
     
     public function fetch(RepositoryContainer $container) {
@@ -194,11 +289,15 @@ class RepositoryManager
 //        $gitRepo = new \Git2\Repository($path);
 //        if(!$gitRepo->exists()) {
 //            throw new \RuntimeException("Reposetory does not exists");
-//        }        
-        $gitRepo = \Git::open($path);
-        if(!\Git::is_repo($gitRepo)) {
+//        }
+
+        /** @var \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\Adapter\GitPhp\GitRepository $gitRepo */
+        $gitRepo = GitHandler::open($path);
+        if(!GitHandler::is_repo($gitRepo)) {
             throw new \RuntimeException("Reposetory does not exists");
         }
+
+        $gitRepo->setSshKeyFile('/var/www/dev.symfony2.monodi/src/app/config/ssh/github.rsa');
         
         return $gitRepo;
     }
@@ -237,6 +336,27 @@ class RepositoryManager
         $pathname = realpath($pathname);
         unset($file);
         
+        return $pathname;
+    }
+
+    protected function getDocumentPathnameInRepo(Document $document, RepositoryContainer $container) {
+        // Dateiarbeit
+        $sub = $document->getFolder()->getSlug();
+
+        $base = $this->buildPath($container);
+
+        $path = $base . '/' . $sub;
+
+        $filename = $document->getFilename();
+
+        $pathname = $path . '/' . $filename;
+
+        if(!$this->filesystem->exists($path)) {
+            $this->filesystem->mkdir($path);
+        }
+
+        $pathname = realpath($pathname);
+
         return $pathname;
     }
     

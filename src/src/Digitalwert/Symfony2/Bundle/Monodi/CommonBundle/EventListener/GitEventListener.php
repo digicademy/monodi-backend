@@ -27,8 +27,12 @@ use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryManage
  * @DI\Service
  * @DI\DoctrineListener(
  *   events = {
- *     "prePersist", 
- *     "preUpdate"
+ *    "prePersist", 
+ *    "preUpdate",
+ *    "postPersist", 
+ *    "postUpdate",
+ *    "preRemove",
+ *    "postRemove"
  *   },
  *   connection = "default",
  *   lazy = true,
@@ -36,8 +40,12 @@ use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryManage
  * )
  */
 class GitEventListener 
-{   
-    
+{
+    /**
+     * Handler für den Zugriff auf das GitRepository
+     *
+     * @var \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryManager
+     */
     private $manager;
     
     /**
@@ -49,7 +57,8 @@ class GitEventListener
     private $logger;
         
     /**
-     * 
+     * Konstruktor
+     *
      * @DI\InjectParams({
      *     "manager" = @DI\Inject("digitalwert_monodi_common.git.repositorymanager"),
      *     "logger" = @DI\Inject("logger")
@@ -62,38 +71,83 @@ class GitEventListener
     ) {
         $this->manager = $manager;
         $this->logger = $logger;
-    } 
-    
+    }
+
     /**
-     * 
+     * Event
      * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
      */
     public function prePersist(LifecycleEventArgs $args) {
         $this->preSave($args);
     }
-    
-    
+
+    /**
+     * Event
+     * @param LifecycleEventArgs $args
+     */
     public function preUpdate(LifecycleEventArgs $args) {
         $this->preSave($args);
     }
-    
+
+    /**
+     * Event
+     * @param LifecycleEventArgs $args
+     */
     public function postPersist(LifecycleEventArgs $args) {
         $this->postSave($args);
     }
-    
-    
+
+    /**
+     * Event
+     * @param LifecycleEventArgs $args
+     */
     public function postUpdate(LifecycleEventArgs $args) {
         $this->postSave($args);
     }
     
     
+    /**
+     * Event
+     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+     */
+    public function preRemove(LifecycleEventArgs $args) {
+        $entity = $args->getEntity();
+        $entityManager = $args->getEntityManager();
+
+        // perhaps you only want to act on some "Document" entity
+        if ($entity instanceof Document) {
+            $this->logger->debug('BEFORE' . __METHOD__);
+            $user = $entity->getEditor();
+
+            $this->manager->pull($user);
+
+            $this->manager->delete($user, $entity);
+
+            $this->manager->commit($user, $entity->getFilename() . ' was removed from git');
+
+            $this->logger->debug('AFTER' . __METHOD__);
+        }        
+    }
+
+
+    /**
+     * Event
+     *
+     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+     * @throws \Exception
+     */
     public function postRemove(LifecycleEventArgs $args) {
         $entity = $args->getEntity();
         $entityManager = $args->getEntityManager();
 
         // perhaps you only want to act on some "Document" entity
         if ($entity instanceof Document) {
-            throw new \Exception('TEST des GIT');
+            $this->logger->debug('BEFORE' . __METHOD__);
+
+            $user = $entity->getEditor();            
+            $this->manager->push($user);
+
+            $this->logger->debug('AFTER' . __METHOD__);
         }
     }
     
@@ -120,6 +174,17 @@ class GitEventListener
             
             $this->manager->pull($user);
             
+            //Check for Move
+            if($entity->hasMoved()) {
+                $old = $entity->getOrigFolder()->getSlug() . '/' . $entity->getOrigFilename();
+
+                $this->manager->move($user, $old, $entity);
+                $this->manager->commit($user,
+                    $old . ' moved to ' . $entity->getFolder()->getSlug() . '/' . $entity->getFilename()
+                );
+            }
+
+            // Add the Stuff
             $this->manager->add($user, $entity);
             $this->manager->commit($user, 'Systemcommit für ' . $user->getEmail());
             
