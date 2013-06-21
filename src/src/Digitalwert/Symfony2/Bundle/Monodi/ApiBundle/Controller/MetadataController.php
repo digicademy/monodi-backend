@@ -150,7 +150,7 @@ class MetadataController extends Controller
      * )
      * 
      * @Route("/metadata/{path}.{_format}", 
-     *   name = "monodi_api_metadata_get",
+     *   name = "monodi_api_metadata_post",
      *   requirements={
      *     "_format" = "(xml|json)",
      *     "path" = "[a-z_-\d\/]+"
@@ -174,12 +174,16 @@ class MetadataController extends Controller
     /**
      * Löscht ein Verzeichnis
      * 
-     * ApiDoc(
-     *   
+     * @ApiDoc(
+     *   statusCodes={
+     *     204="Returned when successful",
+     *     403="Returned when the user is not authorized to access the folder or folder not empty",
+     *     404="Returned when the folder was not found"
+     *   }
      * )
      * 
      * @Route("/metadata/{path}.{_format}", 
-     *   name = "monodi_api_metadata_get",
+     *   name = "monodi_api_metadata_delete",
      *   requirements={
      *     "_format" = "(xml|json)",
      *     "path" = "[a-z_-\d\/]+"
@@ -194,20 +198,20 @@ class MetadataController extends Controller
         if(!$folder->isEmpty()) {
             throw new AccessDeniedHttpException('folder is not empty');
         }
-//            try {
-//                $logger = $this->get('logger');
-//
-//                $this->em->remove($folder);
-//                $this->em->flush();
-//                
-//                $this->em->getConnection()->commit();
-//                
-//            } catch (Exception $e) {
-//                
-//                $this->em->getConnection()->rollback();
-//                $this->em->close();
-//                throw $e;
-//            }
+        try {
+            $logger = $this->get('logger');
+
+            $this->em->remove($folder);
+            $this->em->flush();
+
+            $this->em->getConnection()->commit();
+
+        } catch (Exception $e) {
+
+            $this->em->getConnection()->rollback();
+            $this->em->close();
+            throw $e;
+        }
 
         $response = new Response();
         $response->setStatusCode(204);
