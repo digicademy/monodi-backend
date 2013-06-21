@@ -63,7 +63,8 @@ class MetadataController extends Controller
      *   }
      * )
      * 
-     * @Route("/metadata/{path}.{_format}", 
+     * @Route("/metadata/{path}.{_format}",
+     *   name = "monodi_api_metadata_get",
      *   requirements={
      *     "_format" = "(xml|json)",
      *     "path" = "[a-z_-\d\/]+"
@@ -121,7 +122,7 @@ class MetadataController extends Controller
      * @ApiDoc( )
      * 
      * @Route("/metadata.{_format}", 
-     *
+     *   name = "monodi_api_metadata_get_root",
      *   requirements={
      *     "_format" = "(xml|json)"
      *   }, 

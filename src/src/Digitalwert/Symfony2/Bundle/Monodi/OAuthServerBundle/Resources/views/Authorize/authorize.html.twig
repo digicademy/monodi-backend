@@ -38,7 +38,10 @@
         <h3>Grant access to MonodiClient</h3>
     </div>
     <div class="modal-body" style="height: 70px">
-        {{ form_widget(form) }}
+        {{ form_errors(form) }}
+
+        {{ form_row(form.allowAccess) }}
+        {{ form_rest(form) }}
     </div>
     <div class="modal-footer">
         <button type="submit" id="_submit" name="_submit" class="btn btn-primary">Authorize</button>
