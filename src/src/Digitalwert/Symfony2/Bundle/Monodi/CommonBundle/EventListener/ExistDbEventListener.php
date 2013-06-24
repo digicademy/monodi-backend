@@ -164,8 +164,13 @@ class ExistDbEventListener
             
             $this->logger->debug('BEFORE' . __METHOD__);
             $this->logger->debug($entity->getContent());
-            
-            $this->existdb->storeDocument($entity);            
+            if($entity->hasMoved()) {
+                // wenn verschoben alten löschen und neuen speichern
+                $this->existdb->moveDocument($entity);
+            } else {
+                $this->existdb->storeDocument($entity);
+            }
+            $this->logger->debug('AFTER ' . __METHOD__);
         }
     }
 }

@@ -195,10 +195,13 @@ class MetadataController extends Controller
      * Rest\View(statusCode=204)
      */
     public function deleteFolderAction(Request $request, $path) {
+        
         $folder = $this->findFolderByPath($path);
         if(!$folder->isEmpty()) {
             throw new AccessDeniedHttpException('folder is not empty');
         }
+        
+        $this->em->getConnection()->beginTransaction();
         try {
             $logger = $this->get('logger');
 
@@ -297,6 +300,7 @@ class MetadataController extends Controller
             
             $response = new Response();
             $response->setStatusCode($statusCode);
+            $response->headers->set('X-RessourceIdent', $folder->getId());
 
             // set the `Location` header only when creating new resources
             if (201 === $statusCode) {

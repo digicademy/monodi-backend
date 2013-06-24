@@ -156,9 +156,9 @@ class RepositoryManager
         if (is_array($files)) $files = '"'.implode('" "', $files).'"';
 
         if(!empty($files)) {
-            $res = $gitRepo->run("rm $files ");
+            $res = $gitRepo->run("rm -f $files ");
             $this->logger->debug($res);
-            var_dump($res);
+
         }
     }
     
@@ -194,7 +194,6 @@ class RepositoryManager
 
         $res = $gitRepo->run('mv "' . $old . '" "' . $new . '"');
         $this->logger->debug($res);
-        var_dump($res);
 
     }
 
@@ -209,13 +208,15 @@ class RepositoryManager
      */
     public function commit(RepositoryContainer $container, $message = '') {
         $gitRepo = $this->fromEntityToGitRepository($container);
-        
+        $rev = null;
         if($this->status($container)) {
             $res = $gitRepo->commit($message);
             $this->logger->debug($res);
-            var_dump('COMMIT', $res);
+            // [master 91575ee]
+            $rev = substr($res, (strpos($res, ']') - 7));
+            $this->logger->debug($res);
         }
-
+        return $rev;
     }
     
     public function push(RepositoryContainer $container, $remote = self::REMOTE_MASTER) {

@@ -209,6 +209,7 @@ class DocumentController extends FOSRestController
            }
         }
         
+        $this->em->getConnection()->beginTransaction();
         try {
             $logger = $this->get('logger');
             

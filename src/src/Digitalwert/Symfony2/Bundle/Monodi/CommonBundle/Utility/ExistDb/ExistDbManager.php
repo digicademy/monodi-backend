@@ -119,6 +119,31 @@ class ExistDbManager
     }
     
     /**
+     * Verschiebt ein Dokument in der ExistDb indem es das Alte Löscht und neue Hinzufügt
+     * 
+     * @param \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document $document
+     * @param type $collection
+     * @return boolean
+     * @throws \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\ExistDb\ServiceResponseException
+     */
+    public function moveDocument(Document $document, $collection = null) {
+        $collection = $collection ? $collection : $this->defaultCollection; 
+        try {
+            // Create new 
+            
+            // Delete old 
+            
+//            $this->client->remove(array(
+//              'collection' => $collection,
+//              'document'   => $this->buildDocumentIdentification($document),
+//            ));
+        } catch(\Digitalwert\Guzzle\ExistDb\Exception\ServiceResponseException $e) {            
+            throw $e;
+        }    
+        return true; 
+    }
+    
+    /**
      * 
      * @param array $criteria
      */

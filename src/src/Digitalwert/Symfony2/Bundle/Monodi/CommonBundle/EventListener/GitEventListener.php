@@ -174,19 +174,24 @@ class GitEventListener
             
             $this->manager->pull($user);
             
+            $revMove = null;
             //Check for Move
             if($entity->hasMoved()) {
                 $old = $entity->getOrigFolder()->getSlug() . '/' . $entity->getOrigFilename();
 
                 $this->manager->move($user, $old, $entity);
-                $this->manager->commit($user,
+                $revMove = $this->manager->commit($user,
                     $old . ' moved to ' . $entity->getFolder()->getSlug() . '/' . $entity->getFilename()
                 );
             }
 
             // Add the Stuff
-            $this->manager->add($user, $entity);
-            $this->manager->commit($user, 'Systemcommit für ' . $user->getEmail());
+            $this->manager->add($user, $entity);            
+            $rev = $this->manager->commit($user, 'Systemcommit für ' . $user->getEmail());
+            
+            if($rev || $revMove) {
+                $entity->setRev(($rev ? $rev : $revMove));
+            }
             
             $this->logger->debug('AFTER' . __METHOD__);
             $this->logger->debug($entity->getContent());
