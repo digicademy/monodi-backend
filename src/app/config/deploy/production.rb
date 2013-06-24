@@ -17,4 +17,7 @@ role :db,         "#{domain}:7022", :primary => true       # This is where Symfo
 
 server "#{domain}:7022", :app, :web, :primary => true
 
+
+#mopa:bootstrap:symlink:sass
+
 after 'deploy:finalize_update', 'symfony:project:clear_controllers'

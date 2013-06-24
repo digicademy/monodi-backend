@@ -23,32 +23,22 @@ namespace Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\Adapter\Gi
  */
 class GitRepository extends \GitRepo
 {
-    protected $sshAgent = '/usr/bin/ssh-agent';
-
-    protected $sshAdd = '/usr/bin/ssh-agent';
+  
+    protected $ssh = '/usr/bin/ssh';
 
     protected $sshKeyFile;
 
 
-    public function getSshAgent() {
-        return $this->sshAgent;
-    }
-
-    public function getSshAdd() {
-        return $this->sshAdd;
+    public function getSsh() {
+        return $this->ssh;
     }
 
     public function getSshKeyFile() {
         return $this->sshKeyFile;
     }
 
-    public function setSshAgent($sshAgent) {
-        $this->sshAgent = $sshAgent;
-        return $this;
-    }
-
-    public function setSshAdd($sshAdd) {
-        $this->sshAdd = $sshAdd;
+    public function setSsh($ssh) {
+        $this->ssh = $ssh;
         return $this;
     }
 
@@ -56,16 +46,35 @@ class GitRepository extends \GitRepo
         $this->sshKeyFile = $sshKeyFile;
         return $this;
     }
-
-
-    public function isSsh() {
-        return false;
+    
+    /**
+     * 
+     * <code>
+     *   export  
+     *   export
+     * </code>
+     * 
+     * @return array
+     */
+    protected function getEnv() {
+        $env = array();
+        
+        if($this->getSshKeyFile()) {
+            $env['GIT_SSH'] = $this->getSsh();
+            $env['PKEY'] = $this->getSshKeyFile();
+        }
+        
+        return $env;
     }
 
     /**
      * Run a git command in the git repository
      *
      * Accepts a git command to run
+     * 
+     * <code>
+     *  ssh-agent `ssh-add /path/to/file/github.rsa && /usr/bin/git pull /path/to/repo`
+     * </code>
      *
      * @access  public
      * @param   string  command to run
@@ -74,14 +83,49 @@ class GitRepository extends \GitRepo
     public function run($command) {
         $command = $this->git_path . ' ' . $command;
 
-        if($this->isSsh() && $this->getSshKeyFile()){
-           // ssh-agent (ssh-add /home/christoffer/ssh_keys/theuser; git clone git@github.com:TheUser/TheProject.git)
-           $command = $this->getSshAgent() . ' ( ' . $this->getSshAdd(). ' ' . $this->getSshKeyFile() . ';  ' . $command . ')';
+//        if($this->isSsh() && $this->getSshKeyFile()){
+//            
+//           //ssh-agent `ssh-add /var/www/dev.symfony2.monodi/src/app/config/ssh/github.rsa && /usr/bin/git pull /var/www/dev.symfony2.monodi/src/git/tester1` 
+//           
+//           $command = $this->getSshAgent() . '`' . $this->getSshAdd(). ' ' . $this->getSshKeyFile() . ' &&  ' . $command . '`';
+//        }
+        return $this->run_command($command);
+    }
+    
+    /**
+     * Run a command in the git repository
+     *
+     * Accepts a shell command to run
+     *
+     * @access  protected
+     * @param   string  command to run
+     * @return  string
+     */
+    protected function run_command($command) {
+        $descriptorspec = array(
+            1 => array('pipe', 'w'),
+            2 => array('pipe', 'w'),
+        );
+        $pipes = array();
+        $resource = proc_open(
+            $command,
+            $descriptorspec, 
+            $pipes, 
+            $this->repo_path,
+            $this->getEnv()
+        );
+
+        $stdout = stream_get_contents($pipes[1]);
+        $stderr = stream_get_contents($pipes[2]);
+        foreach ($pipes as $pipe) {
+            fclose($pipe);
         }
 
-        var_dump($command);
+        $status = trim(proc_close($resource));
+        if ($status)
+            throw new Exception($stderr);
 
-        return $this->run_command($command);
+        return $stdout;
     }
 
 
