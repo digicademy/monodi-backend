@@ -42,6 +42,7 @@ class LoadOAuth extends AbstractFixture implements OrderedFixtureInterface, Cont
         ;
         
         $redirectUris = array(
+          'https://monodi.corpus-monodicum.de/',
           'https://adwserv9.adwmainz.net/',
           'http://notengrafik.dw-dev.de/',
           'http://monodi.symfony2.dev/',
