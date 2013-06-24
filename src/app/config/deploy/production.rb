@@ -2,7 +2,7 @@
 # Production
 #
 set :domain,      "adwserv9.adwmainz.net"
-set :deploy_to,   "/var/www/vhosts/adwserv9.adwmainz.net/symfony2"
+set :deploy_to,   "/var/www/vhosts/monodi.corpus-monodicum.de/symfony2"
 
 set :user,          "petzold"
 set :port,          "7022"
