@@ -144,7 +144,9 @@ class DocumentController extends FOSRestController
      */
     public function putDocumentAction(Request $request, $id) {
         
-        $document = $this->findDocumentById($id);
+        $user = $this->securityContext->getToken()->getUser();
+        $document = $this->findDocumentById($id);        
+        $document->setEditor($user);
         
         return $this->processForm($document, $request,  204);
     }
