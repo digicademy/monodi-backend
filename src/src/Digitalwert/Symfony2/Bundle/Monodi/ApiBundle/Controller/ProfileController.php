@@ -60,9 +60,9 @@ class ProfileController extends FOSRestController
     private $securityContext;
     
     /**
-     * Gibt die Liste der Profile zurück
+     * Gibt das Profil dem Nutzer zurück
      * 
-     * ApiDoc(
+     * @ApiDoc(
      * )
      * 
      * @Route("/")
@@ -71,6 +71,28 @@ class ProfileController extends FOSRestController
     public function getProfilesAction()
     {
         //$userManager = $container->get('fos_user.user_manager');
+        $user = $this->securityContext->getToken()->getUser();
+        
+        $response = new Response();
+        $response->setStatusCode(302);       
+        $response->headers->set('Location',
+            $this->generateUrl(
+                'monodi_api_profile_get', array(
+                    'slug' => $user->getUsername()
+                ),
+                true // absolute
+            )
+        );        
+        
+        $response = $this->forward('DigitalwertMonodiApiBundle:Profile:getProfile', 
+            array(
+                'slug' => $user->getUsername(),
+            )
+        );
+        
+
+        
+        return $response;
     }
 
     /**
