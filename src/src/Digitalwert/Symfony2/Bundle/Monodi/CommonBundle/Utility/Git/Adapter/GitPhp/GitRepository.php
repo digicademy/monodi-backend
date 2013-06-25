@@ -123,7 +123,7 @@ class GitRepository extends \GitRepo
 
         $status = trim(proc_close($resource));
         if ($status)
-            throw new Exception($stderr);
+            throw new GitException($stderr);
 
         return $stdout;
     }

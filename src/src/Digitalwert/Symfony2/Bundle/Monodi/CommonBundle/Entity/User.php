@@ -4,6 +4,7 @@ namespace Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity;
 
 use FOS\UserBundle\Entity\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as Serializer;
 
@@ -146,6 +147,20 @@ class User extends BaseUser implements RepositoryContainer
      * @ORM\JoinColumn(name="version_control_system_repos_id", referencedColumnName="id")
      */
     protected $versionControlSystemRepos;
+    
+    /**
+     * Slug des Usernames
+     * 
+     * @var sting
+     * 
+     * @Gedmo\Slug(fields={"username"}, separator="-", updatable=true)
+     * @ORM\Column(length=255, unique=true, nullable=true)
+     * 
+     * @Serializer\Expose
+     * @Serializer\Groups({"list","detail","profile"})
+     * @Serializer\XmlAttribute
+     */
+    protected $slug;
     
     /**
      * Gibt die Möglichen Anreden zurück
@@ -306,5 +321,14 @@ class User extends BaseUser implements RepositoryContainer
     
     public function getRepositoryPath() {
         return $this->getUsernameCanonical();
+    }
+    
+    /**
+     * Gibt den Slug zurück
+     * 
+     * @return string
+     */
+    public function getSlug() {
+        return $this->slug;
     }
 }

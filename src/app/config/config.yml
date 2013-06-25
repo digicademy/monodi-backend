@@ -149,9 +149,9 @@ fos_rest:
         force_redirects:
             html: true
         failed_validation: HTTP_BAD_REQUEST
-#    format_listener:
+    format_listener:
 #        default_priorities: ['application/json']
-#        fallback_format: json
+        fallback_format: json
 #        prefer_extension: true
 #    body_listener:
 #        decoders:

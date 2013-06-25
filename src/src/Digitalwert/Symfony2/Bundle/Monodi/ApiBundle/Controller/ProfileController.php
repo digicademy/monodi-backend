@@ -65,7 +65,9 @@ class ProfileController extends FOSRestController
      * @ApiDoc(
      * )
      * 
-     * @Route("/")
+     * @Route("/",
+     *   defaults={"_format" = "xml"}
+     * )
      * @Method({"GET"})
      */
     public function getProfilesAction()
@@ -78,7 +80,7 @@ class ProfileController extends FOSRestController
         $response->headers->set('Location',
             $this->generateUrl(
                 'monodi_api_profile_get', array(
-                    'slug' => $user->getUsername()
+                    'slug' => $user->getSlug()
                 ),
                 true // absolute
             )
@@ -86,7 +88,7 @@ class ProfileController extends FOSRestController
         
         $response = $this->forward('DigitalwertMonodiApiBundle:Profile:getProfile', 
             array(
-                'slug' => $user->getUsername(),
+                'slug' => $user->getSlug(),
             )
         );
         
@@ -263,7 +265,7 @@ class ProfileController extends FOSRestController
         $user = $this->securityContext->getToken()->getUser();
         
         $userManager = $this->getUserManager();
-        $profile = $userManager->findUserBy(array('username' => $slug));
+        $profile = $userManager->findUserBy(array('slug' => $slug));
         
         if(!$profile) {
             throw new NotFoundHttpException('Profile not found');
@@ -308,7 +310,7 @@ class ProfileController extends FOSRestController
             if (201 === $statusCode) {
                 $response->headers->set('Location',
                     $this->generateUrl(
-                        'monodi_api_profile_get', array('slug' => $profile->getUsername()),
+                        'monodi_api_profile_get', array('slug' => $profile->getSlug()),
                         true // absolute
                     )
                 );
