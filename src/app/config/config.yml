@@ -150,7 +150,7 @@ fos_rest:
             html: true
         failed_validation: HTTP_BAD_REQUEST
     format_listener:
-#        default_priorities: ['application/json']
+        default_priorities: ['json', 'xml', html, '*/*']
         fallback_format: json
 #        prefer_extension: true
 #    body_listener:
