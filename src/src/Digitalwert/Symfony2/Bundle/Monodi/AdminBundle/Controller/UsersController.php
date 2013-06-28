@@ -7,9 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use JMS\DiExtraBundle\Annotation as DI;
 
 use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\User;
-
 use Digitalwert\Symfony2\Bundle\Monodi\AdminBundle\Form\UserType;
 
 /**
@@ -19,6 +19,13 @@ use Digitalwert\Symfony2\Bundle\Monodi\AdminBundle\Form\UserType;
  */
 class UsersController extends Controller
 {
+    /** 
+     * NutzerManager
+     * @var 
+     * @DI\Inject("fos_user.user_manager")
+     */
+    protected $userManager;
+    
     /**
      * Lists all User entities.
      *
@@ -46,14 +53,17 @@ class UsersController extends Controller
      */
     public function createAction(Request $request)
     {
-        $entity  = new User();
+//        $entity  = new User();
+        $entity = $this->userManager->createUser();
+        
         $form = $this->createForm(new UserType(), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-            $em->persist($entity);
-            $em->flush();
+//            $em = $this->getDoctrine()->getManager();
+//            $em->persist($entity);
+//            $em->flush();
+            $this->userManager->updateUser($entity, true);
 
             return $this->redirect($this->generateUrl('users_show', array('id' => $entity->getId())));
         }
@@ -156,8 +166,10 @@ class UsersController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-            $em->persist($entity);
-            $em->flush();
+            
+//            $em->persist($entity);
+//            $em->flush();
+            $this->userManager->updateUser($entity, true);
 
             return $this->redirect($this->generateUrl('users_edit', array('id' => $id)));
         }
@@ -208,5 +220,9 @@ class UsersController extends Controller
             ->add('id', 'hidden')
             ->getForm()
         ;
+    }
+    
+    protected function findById($id) {
+        
     }
 }

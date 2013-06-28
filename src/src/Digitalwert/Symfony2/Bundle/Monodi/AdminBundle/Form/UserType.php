@@ -13,21 +13,25 @@ class UserType
     {
         $builder
             ->add('username')
-            ->add('usernameCanonical')
+//            ->add('usernameCanonical')
             ->add('email')
-            ->add('emailCanonical')
+//            ->add('emailCanonical')
 //            ->add('salt')
-            ->add('password')
+            ->add('plainPassword')
+            ->add('title')
+            ->add('salutation')
+            ->add('firstname')
+            ->add('lastname')
             ->add('enabled')
 //            ->add('lastLogin')
-            ->add('locked')
-            ->add('expired')
-            ->add('expiresAt', 'date', 
-              array(
+            ->add('locked',null, array('required' => false))
+//            ->add('expired')
+//            ->add('expiresAt', 'date', 
+//              array(
 //                'widget' => 'single_text', 
 //                'datepicker' => true
-              )
-            )
+//              )
+//            )
 //            ->add('confirmationToken')
 //            ->add('passwordRequestedAt')
             ->add('roles', 
@@ -46,15 +50,15 @@ class UserType
                 )
               )
             )
-            ->add('credentialsExpired')
-            ->add('credentialsExpireAt')
+//            ->add('credentialsExpired')
+//            ->add('credentialsExpireAt')
             ->add('groups')
-            ->add('versionControlSystemRepos', 
-              new VersionControlSystemReposType(), 
-              array(
-                'label' => 'vcs' 
-              )
-            )
+//            ->add('versionControlSystemRepos', 
+//              new VersionControlSystemReposType(), 
+//              array(
+//                'label' => 'vcs' 
+//              )
+//            )
         ;
     }
 
