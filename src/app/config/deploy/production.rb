@@ -20,4 +20,18 @@ server "#{domain}:7022", :app, :web, :primary => true
 
 #mopa:bootstrap:symlink:sass
 
+desc "Spezielle Monodi SSH"
+namespace :monodi do
+  
+  namespace :ssh do
+    desc "-- SSH-KeyFile-Rechte setzen für Zugriff des Webservers"
+    task :enable do
+      puts "Rechte setzen für Zugriff"
+      try_sudo "chmod 600 #{latest_release}/#{app_path}/config/ssh/* && chown -R www-data:www-data #{latest_release}/#{app_path}/config/ssh/webserver.rsa"
+    end
+  end
+
+end
+
+after 'deploy:update_code', 'monodi:ssh:enable'
 after 'deploy:finalize_update', 'symfony:project:clear_controllers'

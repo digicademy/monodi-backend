@@ -14,6 +14,8 @@
         
         <parameter key="digitalwert_monodi_common.git.remote.uri" />
         <parameter key="digitalwert_monodi_common.git.local.base" />
+        <parameter key="digitalwert_monodi_common.git.ssh.cmd" />
+        <parameter key="digitalwert_monodi_common.git.ssh.key_file" />
                 
         <parameter key="digitalwert_monodi_common.git.repositorymanager.class">Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryManager</parameter>  
         <parameter key="digitalwert_monodi_common.existdb.manager.class">Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\ExistDb\ExistDbManager</parameter>
@@ -25,6 +27,8 @@
         <service id="digitalwert_monodi_common.git.repositorymanager" class="%digitalwert_monodi_common.git.repositorymanager.class%">
             <argument>%digitalwert_monodi_common.git.local.base%</argument>
             <argument>%digitalwert_monodi_common.git.remote.uri%</argument>
+            <argument>%digitalwert_monodi_common.git.ssh.cmd%</argument>
+            <argument>%digitalwert_monodi_common.git.ssh.key_file%</argument>
             <argument type="service" id="logger" />           
         </service>
         

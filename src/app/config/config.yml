@@ -216,6 +216,9 @@ digitalwert_monodi_common:
             uri: "ssh://petzold@adwserv9.adwmainz.net:7022/var/git/test.git"
         local:
           base: "%kernel.root_dir%/../git"
+        ssh:
+          cmd: "%kernel.root_dir%/Resources/sh/git-ssh.sh"
+          key_file: "%kernel.root_dir%/config/ssh/webserver.rsa"
     existdb:
         uri: "https://adwserv9.adwmainz.net/exist/rest/db/"
         username: monodi

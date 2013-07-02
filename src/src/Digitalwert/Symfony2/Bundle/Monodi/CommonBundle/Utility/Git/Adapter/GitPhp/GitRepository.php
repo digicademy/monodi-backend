@@ -50,7 +50,7 @@ class GitRepository extends \GitRepo
     /**
      * 
      * <code>
-     *   export  
+     *   export GIT_SSH=~/ssh-git.sh
      *   export
      * </code>
      * 
@@ -61,7 +61,7 @@ class GitRepository extends \GitRepo
         
         if($this->getSshKeyFile()) {
             $env['GIT_SSH'] = $this->getSsh();
-            $env['PKEY'] = $this->getSshKeyFile();
+           // $env['PKEY'] = $this->getSshKeyFile();
         }
         
         return $env;
@@ -83,12 +83,9 @@ class GitRepository extends \GitRepo
     public function run($command) {
         $command = $this->git_path . ' ' . $command;
 
-//        if($this->isSsh() && $this->getSshKeyFile()){
-//            
-//           //ssh-agent `ssh-add /var/www/dev.symfony2.monodi/src/app/config/ssh/github.rsa && /usr/bin/git pull /var/www/dev.symfony2.monodi/src/git/tester1` 
-//           
-//           $command = $this->getSshAgent() . '`' . $this->getSshAdd(). ' ' . $this->getSshKeyFile() . ' &&  ' . $command . '`';
-//        }
+        if($this->getSshKeyFile()){           
+           $command = 'export GIT_MERGE_AUTOEDIT=no && export GIT_SSH=' . $this->getSsh() . ' && PKEY=' . $this->getSshKeyFile() . ' ' . $command ;
+        }
         return $this->run_command($command);
     }
     
@@ -123,7 +120,7 @@ class GitRepository extends \GitRepo
 
         $status = trim(proc_close($resource));
         if ($status)
-            throw new GitException($stderr);
+            throw new GitException($command . "\n" . $stdout . "\n" . $stderr . "\n" . var_export($this->getEnv(), true));
 
         return $stdout;
     }

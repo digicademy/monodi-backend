@@ -38,6 +38,8 @@ class DigitalwertMonodiCommonExtension extends Extension
          * - digitalwert_monodi_common.existdb.password
          * - digitalwert_monodi_common.git.remote.uri
          * - digitalwert_monodi_common.git.local.base
+         * - digitalwert_monodi_common.git.ssh.cmd
+         * - digitalwert_monodi_common.git.ssh.key_file
          */
         $container->setParameter(
             'digitalwert_monodi_common.existdb.username',
@@ -63,6 +65,14 @@ class DigitalwertMonodiCommonExtension extends Extension
         $container->setParameter(
             'digitalwert_monodi_common.git.remote.uri',
             $config['git']['remote']['uri']
+        );
+        $container->setParameter(
+            'digitalwert_monodi_common.git.ssh.cmd',
+            $config['git']['ssh']['cmd']
+        );
+        $container->setParameter(
+            'digitalwert_monodi_common.git.ssh.key_file',
+            $config['git']['ssh']['key_file']
         );
     }
 }

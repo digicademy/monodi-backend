@@ -7,13 +7,11 @@ use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\VersionControlSystemR
 use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryContainer;
 use Symfony\Component\Filesystem\Filesystem;
 
-
 use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\Adapter\GitPhp\GitPhp as GitHandler;
 
-
 /**
- * Klasse zum
- * DI\Service(name="")
+ * Klasse steuert den Zugriff auf die Repositories der Nutzer
+ * 
  */
 class RepositoryManager
 {   
@@ -22,14 +20,44 @@ class RepositoryManager
 
     const LOCAL_MASTER = 'master';
     
+    /**
+     * Loggerinstanz
+     * 
+     * @var \Psr\Log\LoggerInterface
+     */
     protected $logger;
     
+    /**
+     * Remote-Uri
+     * 
+     * @var string
+     */
     protected $remote;
     
+    /**
+     * Base-Verzeichnis der Lokalen Gits
+     * 
+     * @var string
+     */
     protected $localBase;
     
     /**
-     *
+     * Pfad zum SSH-Command
+     * 
+     * @var string
+     */
+    protected $sshCmd;
+    
+    /**
+     * Pfad zur SSH-Schlüssel-Datei
+     * 
+     * @var string
+     */
+    protected $sshKeyFile;
+    
+    /**
+     * Dateisystemhelper
+     * 
      * @var \Symfony\Component\Filesystem\Filesystem
      */
     protected $filesystem;
@@ -38,12 +66,17 @@ class RepositoryManager
      * 
      * @param type $localBase
      * @param type $remote
-     * @param type $logger
+     * @param type $ssh
+     * @param type $keyFile
+     * @param \Psr\Log\LoggerInterface $logger
      */
-    public function __construct($localBase, $remote, $logger) {
-        //$this->adapter;  
+    public function __construct($localBase, $remote, $sshCmd, $keyFile, $logger) {
+         
         $this->localBase = $localBase;
         $this->remote = $remote;
+        $this->sshCmd = $sshCmd;
+        $this->sshKeyFile = $keyFile;
+        
         $this->logger = $logger;
         
         $this->filesystem = new Filesystem();
@@ -213,16 +246,24 @@ class RepositoryManager
             $res = $gitRepo->commit($message);
             $this->logger->debug($res);
             // [master 91575ee]
-            $rev = substr($res, (strpos($res, ']') - 7));
+            $rev = substr($res, strpos($res, ']'), -7);
             $this->logger->debug($res);
         }
         return $rev;
     }
     
+    /**
+     * 
+     * @param \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryContainer $container
+     * @param type $remote
+     */
     public function push(RepositoryContainer $container, $remote = self::REMOTE_MASTER) {
         $gitRepo = $this->fromEntityToGitRepository($container);
-        //$res = $gitRepo->run('push');
-        //$this->logger->debug($res);
+        
+        $cmd = 'push';
+        $this->logger->debug('PUSH');
+        $res = $gitRepo->run($cmd);
+        $this->logger->debug($res);
     }
 
 
@@ -234,10 +275,13 @@ class RepositoryManager
      *
      * @param RepositoryContainer $container
      */
-    public function pull(RepositoryContainer $container, $remote = self::REMOTE_MASTER) {
+    public function pull(RepositoryContainer $container, $remote = self::REMOTE_MASTER) {        
         $gitRepo = $this->fromEntityToGitRepository($container);
-        //$res = $gitRepo->run('pull -f ' . $remote . ' ' . self::LOCAL_MASTER);
-        //$this->logger->debug($res);
+        
+        $cmd = 'pull -f ' . $remote . ' ' . self::LOCAL_MASTER;
+        $this->logger->debug('GIT-PULL ' . $cmd );        
+        $res = $gitRepo->run($cmd);
+        $this->logger->debug($res);
     }
     
     public function fetch(RepositoryContainer $container) {
@@ -284,21 +328,17 @@ class RepositoryManager
      * @throws \RuntimeException
      */
     protected function fromEntityToGitRepository(RepositoryContainer $container) {
-//        $path = $container->getRepository()->getPath();
+
         $path = $this->buildPath($container);
-        
-//        $gitRepo = new \Git2\Repository($path);
-//        if(!$gitRepo->exists()) {
-//            throw new \RuntimeException("Reposetory does not exists");
-//        }
 
         /** @var \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\Adapter\GitPhp\GitRepository $gitRepo */
         $gitRepo = GitHandler::open($path);
         if(!GitHandler::is_repo($gitRepo)) {
             throw new \RuntimeException("Reposetory does not exists");
         }
-
-        $gitRepo->setSshKeyFile('/var/www/dev.symfony2.monodi/src/app/config/ssh/github.rsa');
+        
+        $gitRepo->setSsh($this->sshCmd);
+        $gitRepo->setSshKeyFile($this->sshKeyFile);
         
         return $gitRepo;
     }
