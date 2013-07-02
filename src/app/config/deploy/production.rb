@@ -8,7 +8,7 @@ set :user,          "petzold"
 set :port,          "7022"
 ssh_options[:port] = 7022
 
-set :shared_children,   [app_path + "/logs", web_path + "/uploads", "vendor", "git", web_path + "/status", web_path + "/dbmgm"]
+set :shared_children,   [app_path + "/logs", web_path + "/uploads", "vendor", "git", web_path + "/status", web_path + "/dbmgm", app_path + "/config/ssh"]
 set :shared_files,      [ web_path + "/.htaccess"]
 
 role :web,        "#{domain}:7022"                         # Your HTTP server, Apache/etc
@@ -27,7 +27,7 @@ namespace :monodi do
     desc "-- SSH-KeyFile-Rechte setzen für Zugriff des Webservers"
     task :enable do
       puts "Rechte setzen für Zugriff"
-      try_sudo "chmod 600 #{latest_release}/#{app_path}/config/ssh/* && chown -R www-data:www-data #{latest_release}/#{app_path}/config/ssh/webserver.rsa"
+      try_sudo "chmod 600 #{latest_release}/#{app_path}/config/ssh/*" # && chown -R www-data:www-data #{latest_release}/#{app_path}/config/ssh/webserver.rsa"
     end
   end
 

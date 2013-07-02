@@ -262,7 +262,7 @@ class RepositoryManager
         
         $cmd = 'push';
         $this->logger->debug('PUSH');
-        $res = $gitRepo->run($cmd);
+//        $res = $gitRepo->run($cmd);
         $this->logger->debug($res);
     }
 
@@ -280,7 +280,7 @@ class RepositoryManager
         
         $cmd = 'pull -f ' . $remote . ' ' . self::LOCAL_MASTER;
         $this->logger->debug('GIT-PULL ' . $cmd );        
-        $res = $gitRepo->run($cmd);
+//        $res = $gitRepo->run($cmd);
         $this->logger->debug($res);
     }
     
