@@ -33,5 +33,5 @@ namespace :monodi do
 
 end
 
-after 'deploy:update_code', 'monodi:ssh:enable'
+#after 'deploy:update_code', 'monodi:ssh:enable'
 after 'deploy:finalize_update', 'symfony:project:clear_controllers'
