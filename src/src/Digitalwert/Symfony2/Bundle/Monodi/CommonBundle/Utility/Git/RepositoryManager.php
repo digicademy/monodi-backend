@@ -140,9 +140,9 @@ class RepositoryManager
     public function add(RepositoryContainer $container, $files = null) {
         $gitRepo = $this->fromEntityToGitRepository($container);
         
-        if($files === null) {
-            
-          $gitRepo->add();
+        if($files === null) {           
+          
+          $this->logger->debug('ADD ALL FILES To REPO: ' . $gitRepo->add());
           
         } else {
           if(is_array($files)) {
@@ -156,7 +156,10 @@ class RepositoryManager
           } elseif($files instanceof Document) {
               $files = $this->dumpDocumentToRepo($files, $container);
           }
-            
+          $this->logger->debug('ADD filelist: ' . var_export($files, true));
+          if(empty($files)) {
+              $this->logger->error('FILELIST is empty');
+          }  
           $this->logger->debug($gitRepo->add($files));
         }        
     }
@@ -278,9 +281,20 @@ class RepositoryManager
     public function pull(RepositoryContainer $container, $remote = self::REMOTE_MASTER) {        
         $gitRepo = $this->fromEntityToGitRepository($container);
         
-        $cmd = 'pull -f ' . $remote . ' ' . self::LOCAL_MASTER;
-        $this->logger->debug('GIT-PULL ' . $cmd );        
+        /**
+         * http://stackoverflow.com/questions/1125968/force-git-to-overwrite-local-files-on-pull
+         */
+        $cmd = 'clean -fd';
+        $this->logger->debug('GIT-PULL (1) ' . $cmd );  
         $res = $gitRepo->run($cmd);
+        /**
+         * this will be better "git stash --include-untracked" 
+         */
+        
+        $cmd = 'pull -f ' . $remote . ' ' . self::LOCAL_MASTER;
+        $this->logger->debug('GIT-PULL (2) ' . $cmd );        
+        $res = $gitRepo->run($cmd);
+        
         $this->logger->debug($res);
     }
     
