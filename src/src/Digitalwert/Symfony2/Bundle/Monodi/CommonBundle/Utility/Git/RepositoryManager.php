@@ -154,11 +154,17 @@ class RepositoryManager
               }
             }
           } elseif($files instanceof Document) {
+              $document = $files;  
               $files = $this->dumpDocumentToRepo($files, $container);
           }
+          
           $this->logger->debug('ADD filelist: ' . var_export($files, true));
+          
           if(empty($files)) {
               $this->logger->error('FILELIST is empty');
+              $this->logger->debug(
+                 \Doctrine\Common\Util\Debug::export($document, 2)
+              );
           }  
           $this->logger->debug($gitRepo->add($files));
         }        
@@ -189,12 +195,15 @@ class RepositoryManager
             $files = $this->dumpDocumentToRepo($files, $container);
         }
 
-        if (is_array($files)) $files = '"'.implode('" "', $files).'"';
+        if (is_array($files)) {
+          $files = '"'.implode('" "', $files).'"';
+        }
 
         if(!empty($files)) {
             $res = $gitRepo->run("rm -f $files ");
             $this->logger->debug($res);
-
+        } else {
+            $this->logger->error('GIT DELETE $files are empty');
         }
     }
     
@@ -263,7 +272,7 @@ class RepositoryManager
     public function push(RepositoryContainer $container, $remote = self::REMOTE_MASTER) {
         $gitRepo = $this->fromEntityToGitRepository($container);
         
-        $cmd = 'push';
+        $cmd = 'push -v';
         $this->logger->debug('PUSH');
         $res = $gitRepo->run($cmd);
         $this->logger->debug($res);
