@@ -299,7 +299,7 @@ class RepositoryManager
         $cmdStack[] = 'clean -f -d';
         
         $cmdStack[] = 'fetch ' . $remote . ' ' . self::LOCAL_MASTER;        
-        $cmdStack[] = 'merge -v -s recursive -X theirs ' . $remote . '/' . self::LOCAL_MASTER;
+        $cmdStack[] = 'merge -v -s recursive -X theirs ' . self::LOCAL_MASTER;
                 
         /**
          * this will be better "git stash --include-untracked" 
