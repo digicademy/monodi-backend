@@ -293,7 +293,7 @@ class RepositoryManager
         /**
          * http://stackoverflow.com/questions/1125968/force-git-to-overwrite-local-files-on-pull
          */
-        $cmd = 'git reset --hard HEAD';
+        $cmd = 'reset --hard HEAD';
         $this->logger->debug('GIT-PULL (1) ' . $cmd );  
         $res = $gitRepo->run($cmd);
         $this->logger->debug($res);
