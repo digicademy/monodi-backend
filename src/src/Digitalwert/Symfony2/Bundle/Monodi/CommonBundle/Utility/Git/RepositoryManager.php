@@ -296,6 +296,8 @@ class RepositoryManager
         $cmd = 'clean -fd';
         $this->logger->debug('GIT-PULL (1) ' . $cmd );  
         $res = $gitRepo->run($cmd);
+        $this->logger->debug($res);
+        
         /**
          * this will be better "git stash --include-untracked" 
          */
