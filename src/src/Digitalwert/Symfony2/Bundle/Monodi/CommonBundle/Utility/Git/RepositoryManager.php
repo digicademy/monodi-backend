@@ -290,46 +290,32 @@ class RepositoryManager
     public function pull(RepositoryContainer $container, $remote = self::REMOTE_MASTER) {        
         $gitRepo = $this->fromEntityToGitRepository($container);
         
+        $cmdStack = array();
         /**
          * http://stackoverflow.com/questions/1125968/force-git-to-overwrite-local-files-on-pull
          */  
-        /*
-        $cmd = 'fetch ' . $remote . ' ' . self::LOCAL_MASTER;
-        $this->logger->debug('GIT-PULL (1) ' . $cmd );  
-        $res = $gitRepo->run($cmd);
-        $this->logger->debug($res);
+        $cmdStack[] = 'fetch ' . $remote . ' ' . self::LOCAL_MASTER;
         
-        $cmd = 'reset --hard HEAD';
-        $this->logger->debug('GIT-PULL (2) ' . $cmd );  
-        $res = $gitRepo->run($cmd);
-        $this->logger->debug($res);
+        $cmdStack[] = 'reset --hard HEAD';
         
-        $cmd = 'clean -f -d';
-        $this->logger->debug('GIT-PULL (3) ' . $cmd );  
-        $res = $gitRepo->run($cmd);
-        $this->logger->debug($res);
+        $cmdStack[] = 'clean -f -d';
         
-        $cmd = 'merge -s recursive -X theirs ' . $remote . '/' . self::LOCAL_MASTER;
-        $this->logger->debug('GIT-PULL (4) ' . $cmd );  
-        $res = $gitRepo->run($cmd);
-        $this->logger->debug($res);   
- 
-        */
-        
-        $cmd = 'stash --include-untracked';
-        $this->logger->debug('GIT-PULL (1) ' . $cmd );  
-        $res = $gitRepo->run($cmd);
-        $this->logger->debug($res);
-        
+        $cmdStack[] = 'merge -s recursive -X theirs ' . $remote . '/' . self::LOCAL_MASTER;
+                
         /**
          * this will be better "git stash --include-untracked" 
          */
+        //$cmdStack[] = 'stash --include-untracked';
         
-        $cmd = 'pull -f ' . $remote . ' ' . self::LOCAL_MASTER;
-        $this->logger->debug('GIT-PULL (n) ' . $cmd );        
-        $res = $gitRepo->run($cmd);
+        $cmdStack[] = 'pull -f ' . $remote . ' ' . self::LOCAL_MASTER;
         
-        $this->logger->debug($res);
+        foreach($cmdStack as $k => $cmd) {
+            
+            $this->logger->debug('GIT-PULL (' . $k . ') ' . $cmd );        
+            $res = $gitRepo->run($cmd);
+
+            $this->logger->debug($res);
+        }
     }
     
     public function fetch(RepositoryContainer $container) {
