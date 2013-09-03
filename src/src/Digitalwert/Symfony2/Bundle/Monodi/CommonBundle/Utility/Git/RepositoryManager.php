@@ -293,14 +293,13 @@ class RepositoryManager
         $cmdStack = array();
         /**
          * http://stackoverflow.com/questions/1125968/force-git-to-overwrite-local-files-on-pull
-         */  
-        $cmdStack[] = 'fetch ' . $remote . ' ' . self::LOCAL_MASTER;
-        
+         */          
         $cmdStack[] = 'reset --hard HEAD';
         
         $cmdStack[] = 'clean -f -d';
         
-        $cmdStack[] = 'merge -s recursive -X theirs ' . $remote . '/' . self::LOCAL_MASTER;
+        $cmdStack[] = 'fetch ' . $remote . ' ' . self::LOCAL_MASTER;        
+        $cmdStack[] = 'merge -v -s recursive -X theirs ' . $remote . '/' . self::LOCAL_MASTER;
                 
         /**
          * this will be better "git stash --include-untracked" 
