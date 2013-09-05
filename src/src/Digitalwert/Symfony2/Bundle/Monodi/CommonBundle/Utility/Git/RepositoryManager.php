@@ -156,6 +156,7 @@ class RepositoryManager
           } elseif($files instanceof Document) {
               $document = $files;  
               $files = $this->dumpDocumentToRepo($files, $container);
+              $files = '"' . $files . '"';
           }
           
           $this->logger->debug('ADD filelist: ' . var_export($files, true));
@@ -193,6 +194,7 @@ class RepositoryManager
             }
         } elseif($files instanceof Document) {
             $files = $this->dumpDocumentToRepo($files, $container);
+            $files = '"' . $files . '"';
         }
 
         if (is_array($files)) {
