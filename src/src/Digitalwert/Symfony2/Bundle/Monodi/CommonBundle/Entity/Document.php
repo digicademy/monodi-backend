@@ -297,6 +297,10 @@ class Document
     {
         $this->filename = trim($filename);
         
+        if(stristr($this->filename, ' ')){
+            $this->filename = str_replace(' ', '-', $this->filename);
+        }
+        
         // .mei anfügen wenn nicht vorhanden
         if(substr($this->filename, -3) != self::FILE_EXTENSION) {
             $this->filename .= '.mei';
@@ -587,6 +591,8 @@ class Document
     }
 
     /**
+     * Tempwert für hasMoved-Prüfung
+     * 
      * @return Folder
      */
     public function getOrigFolder() {
@@ -594,6 +600,8 @@ class Document
     }
 
     /**
+     * Tempwert für hasMoved-Prüfung
+     * 
      * @return string
      */
     public function getOrigFilename() {
