@@ -24,7 +24,7 @@
         <tbody>
         {% for entity in entities %}
             <tr>
-                <td><a href="{{ path('documents_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
+                <td><a href="{{ path('admin_documents_show', { 'id': entity.id }) }}">{{ entity.id }}</a></td>
                 <td>{{ entity.filename }}</td>
                 <td>{{ entity.rev }}</td>
                 <td>{{ entity.title }}</td>
@@ -36,10 +36,10 @@
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path('documents_show', { 'id': entity.id }) }}">show</a>
+                        <a href="{{ path('admin_documents_show', { 'id': entity.id }) }}">show</a>
                     </li>
                     <li>
-                        <a href="{{ path('documents_edit', { 'id': entity.id }) }}">edit</a>
+                        <a href="{{ path('admin_documents_edit', { 'id': entity.id }) }}">edit</a>
                     </li>
                 </ul>
                 </td>
@@ -50,7 +50,7 @@
 
     <ul>
         <li>
-            <a href="{{ path('documents_new') }}">
+            <a href="{{ path('admin_documents_new') }}">
                 Create a new entry
             </a>
         </li>

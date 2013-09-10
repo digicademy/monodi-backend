@@ -9,7 +9,7 @@
     <form
       class="form-horizontal" 
       id="userFormNew" 
-      action="{{ path('users_create') }}" 
+      action="{{ path('admin_users_create') }}" 
       method="post" 
       {{ form_enctype(form) }}
     >
@@ -22,7 +22,7 @@
 
     <ul class="record_actions">
     <li>
-        <a class="btn" href="{{ path('users') }}">
+        <a class="btn" href="{{ path('admin_users') }}">
             Zurück zur Übersicht
         </a>
     </li>

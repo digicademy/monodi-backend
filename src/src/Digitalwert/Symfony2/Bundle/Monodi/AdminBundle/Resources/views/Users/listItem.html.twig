@@ -1,6 +1,6 @@
 {# empty Twig template #}
 <tr>
-    <td><a href="{{ path('users_show', { 'id': user.id }) }}">{{ user.username }}</a></td>
+    <td><a href="{{ path('admin_users_show', { 'id': user.id }) }}">{{ user.username }}</a></td>
     <td>{{ user.email }}</td>
     <td>{{ user.enabled }}</td>
     <td>{% if user.lastLogin %}{{ user.lastLogin|date('Y-m-d H:i:s') }}{% endif %}</td>
@@ -14,18 +14,13 @@
     #}
     <td>{{ user.id }}</td>
     <td>
-        <ul>
-            <li>
-                <a class="btn" href="{{ path('users_show', { 'id': user.id }) }}">
-                    <i class="icon icon-search"></i>
-                    details
-                </a>
-            </li>
-            <li>
-                <a class="btn" href="{{ path('users_edit', { 'id': user.id }) }}">
-                    <i class="icon icon-pencil"></i>bearbeiten
-                </a>
-            </li>
-        </ul>
+        <div class="btn-group">
+            <a class="btn" href="{{ path('admin_users_show', { 'id': user.id }) }}">
+                <i class="icon icon-search"></i>details
+            </a>
+            <a class="btn" href="{{ path('admin_users_edit', { 'id': user.id }) }}">
+                <i class="icon icon-pencil"></i>bearbeiten
+            </a>
+        </div>
     </td>
 </tr>

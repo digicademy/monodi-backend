@@ -10,36 +10,30 @@
                 <th>Username</th>
                 <td>{{ entity.username }}</td>
             </tr>
-{#
-            <tr>
-                <th>Usernamecanonical</th>
-                <td>{{ entity.usernameCanonical }}</td>
-            </tr>
-#}
             <tr>
                 <th>Email</th>
                 <td>{{ entity.email }}</td>
             </tr>
-{#
             <tr>
-                <th>Emailcanonical</th>
-                <td>{{ entity.emailCanonical }}</td>
+                <th>Title</th>
+                <td>{{ entity.title }}</td>
             </tr>
-#}
+            <tr>
+                <th>Salutation</th>
+                <td>{{ entity.salutation }}</td>
+            </tr>
+            <tr>
+                <th>Fristname</th>
+                <td>{{ entity.firstname }}</td>
+            </tr>
+            <tr>
+                <th>Lastname</th>
+                <td>{{ entity.lastname }}</td>
+            </tr>
             <tr>
                 <th>Enabled</th>
                 <td>{{ entity.enabled }}</td>
             </tr>
-{#
-            <tr>
-                <th>Salt</th>
-                <td>{{ entity.salt }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ entity.password }}</td>
-            </tr>
-#}
             <tr>
                 <th>Lastlogin</th>
                 <td>{{ entity.lastLogin|date('Y-m-d H:i:s') }}</td>
@@ -95,19 +89,19 @@
         </tbody>
     </table>
 
-    <ul class="record_actions">
+    <ul class="btn-group record_actions">
         <li>
-            <a class="btn btn-info"href="{{ path('users') }}">
-                Zurück zur Übersicht
+            <a class="btn btn-info"href="{{ path('admin_users') }}">
+                <i class="icon icon-pencil"></i>Zurück zur Übersicht
             </a>
         </li>
         <li>
-            <a class="btn btn-primary" href="{{ path('users_edit', { 'id': entity.id }) }}">
-                Edit
+            <a class="btn btn-primary" href="{{ path('admin_users_edit', { 'id': entity.id }) }}">
+                <i class="icon icon-pencil"></i>Edit
             </a>
         </li>
         <li>
-            <form action="{{ path('users_delete', { 'id': entity.id }) }}" method="post">
+            <form action="{{ path('admin_users_delete', { 'id': entity.id }) }}" method="post">
                 <input type="hidden" name="_method" value="DELETE" />
                 {{ form_widget(delete_form) }}
                 <button type="submit" class="btn btn-danger">Delete</button>

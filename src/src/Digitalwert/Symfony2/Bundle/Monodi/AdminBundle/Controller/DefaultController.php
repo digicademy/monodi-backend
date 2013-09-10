@@ -18,7 +18,7 @@ class DefaultController extends Controller
     /**
      * Dashboard
      * 
-     * @Route("/")
+     * @Route("/", name="admin_dashboard")
      * @Template()
      */
     public function indexAction()

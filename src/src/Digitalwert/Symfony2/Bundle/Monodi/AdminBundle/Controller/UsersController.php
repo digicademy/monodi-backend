@@ -29,7 +29,7 @@ class UsersController extends Controller
     /**
      * Lists all User entities.
      *
-     * @Route("/", name="users")
+     * @Route("/", name="admin_users")
      * @Method("GET")
      * @Template()
      */
@@ -47,22 +47,19 @@ class UsersController extends Controller
     /**
      * Creates a new User entity.
      *
-     * @Route("/", name="users_create")
+     * @Route("/", name="admin_users_create")
      * @Method("POST")
-     * @Template("DigitalwertMonodiCommonBundle:User:new.html.twig")
+     * @Template("DigitalwertMonodiAdminBundle:Users:new.html.twig")
      */
     public function createAction(Request $request)
     {
-//        $entity  = new User();
         $entity = $this->userManager->createUser();
         
         $form = $this->createForm(new UserType(), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
-//            $em = $this->getDoctrine()->getManager();
-//            $em->persist($entity);
-//            $em->flush();
+
             $this->userManager->updateUser($entity, true);
 
             return $this->redirect($this->generateUrl('users_show', array('id' => $entity->getId())));
@@ -77,7 +74,7 @@ class UsersController extends Controller
     /**
      * Displays a form to create a new User entity.
      *
-     * @Route("/new", name="users_new")
+     * @Route("/new", name="admin_users_new")
      * @Method("GET")
      * @Template()
      */
@@ -95,7 +92,7 @@ class UsersController extends Controller
     /**
      * Finds and displays a User entity.
      *
-     * @Route("/{id}", name="users_show")
+     * @Route("/{id}", name="admin_users_show")
      * @Method("GET")
      * @Template()
      */
@@ -120,7 +117,7 @@ class UsersController extends Controller
     /**
      * Displays a form to edit an existing User entity.
      *
-     * @Route("/{id}/edit", name="users_edit")
+     * @Route("/{id}/edit", name="admin_users_edit")
      * @Method("GET")
      * @Template()
      */
@@ -147,9 +144,9 @@ class UsersController extends Controller
     /**
      * Edits an existing User entity.
      *
-     * @Route("/{id}", name="users_update")
+     * @Route("/{id}", name="admin_users_update")
      * @Method("PUT")
-     * @Template("DigitalwertMonodiCommonBundle:User:edit.html.twig")
+     * @Template("DigitalwertMonodiAdminBundle:Users:edit.html.twig")
      */
     public function updateAction(Request $request, $id)
     {
@@ -166,9 +163,7 @@ class UsersController extends Controller
         $editForm->bind($request);
 
         if ($editForm->isValid()) {
-            
-//            $em->persist($entity);
-//            $em->flush();
+
             $this->userManager->updateUser($entity, true);
 
             return $this->redirect($this->generateUrl('users_edit', array('id' => $id)));
@@ -184,7 +179,7 @@ class UsersController extends Controller
     /**
      * Deletes a User entity.
      *
-     * @Route("/{id}", name="users_delete")
+     * @Route("/{id}", name="admin_users_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
@@ -217,6 +212,7 @@ class UsersController extends Controller
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder(array('id' => $id))
+            ->setAttribute('show_legend', false)
             ->add('id', 'hidden')
             ->getForm()
         ;

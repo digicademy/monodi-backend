@@ -20,7 +20,7 @@ class DocumentsController extends Controller
     /**
      * Lists all Document entities.
      *
-     * @Route("/", name="documents")
+     * @Route("/", name="admin_documents")
      * @Method("GET")
      * @Template()
      */
@@ -38,7 +38,7 @@ class DocumentsController extends Controller
     /**
      * Creates a new Document entity.
      *
-     * @Route("/", name="documents_create")
+     * @Route("/", name="admin_documents_create")
      * @Method("POST")
      * @Template("DigitalwertMonodiCommonBundle:Document:new.html.twig")
      */
@@ -65,7 +65,7 @@ class DocumentsController extends Controller
     /**
      * Displays a form to create a new Document entity.
      *
-     * @Route("/new", name="documents_new")
+     * @Route("/new", name="admin_documents_new")
      * @Method("GET")
      * @Template()
      */
@@ -83,7 +83,7 @@ class DocumentsController extends Controller
     /**
      * Finds and displays a Document entity.
      *
-     * @Route("/{id}", name="documents_show")
+     * @Route("/{id}", name="admin_documents_show")
      * @Method("GET")
      * @Template()
      */
@@ -108,7 +108,7 @@ class DocumentsController extends Controller
     /**
      * Displays a form to edit an existing Document entity.
      *
-     * @Route("/{id}/edit", name="documents_edit")
+     * @Route("/{id}/edit", name="admin_documents_edit")
      * @Method("GET")
      * @Template()
      */
@@ -135,7 +135,7 @@ class DocumentsController extends Controller
     /**
      * Edits an existing Document entity.
      *
-     * @Route("/{id}", name="documents_update")
+     * @Route("/{id}", name="admin_documents_update")
      * @Method("PUT")
      * @Template("DigitalwertMonodiAdminBundle:Documents:edit.html.twig")
      */
@@ -170,7 +170,7 @@ class DocumentsController extends Controller
     /**
      * Deletes a Document entity.
      *
-     * @Route("/{id}", name="documents_delete")
+     * @Route("/{id}", name="admin_documents_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)

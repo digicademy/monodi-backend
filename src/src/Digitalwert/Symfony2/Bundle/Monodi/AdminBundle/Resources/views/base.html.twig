@@ -71,10 +71,10 @@
                 <div class="span2">
                     {% block content_sidebar %}
                        <ul class="nav nav-tabs nav-stacked">                                                 
-                         <li><a href="/app_dev.php/admin"><i class="icon-wrench"></i> Dashboard</a></li>  
-                         <li><a href="/app_dev.php/admin/users"><i class="icon-user"></i> Nutzer</a></li>  
-                         <li><a href="/app_dev.php/admin/groups"><i class="icon-group"></i> Gruppen</a></li>  
-                         <li><a href="{{ path('documents') }}"><i class="icon-document"></i> Dokumente</a></li>  
+                         <li><a href="{{ path('admin_dashboard') }}"><i class="icon-wrench"></i> Dashboard</a></li>  
+                         <li><a href="{{ path('admin_users') }}"><i class="icon-user"></i> Nutzer</a></li>  
+                         <li><a href="{{ path('admin_groups') }}"><i class="icon-group"></i> Gruppen</a></li>  
+                         <li><a href="{{ path('admin_documents') }}"><i class="icon-document"></i> Dokumente</a></li>  
                        </ul>                        
                     {% endblock content_sidebar %}
                 </div>

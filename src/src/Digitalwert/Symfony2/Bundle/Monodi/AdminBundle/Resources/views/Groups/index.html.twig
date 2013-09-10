@@ -18,7 +18,7 @@
         <tbody>
         {% for group in groups %}
             <tr>
-                <td><a href="{{ path('groups_show', { 'id': group.id }) }}">{{ group.name }}</a></td>
+                <td><a href="{{ path('admin_groups_show', { 'id': group.id }) }}">{{ group.name }}</a></td>
                 <td>
                 {% for role in group.roles %} 
                     {{ role }}
@@ -28,10 +28,10 @@
                 <td>
                 <ul>
                     <li>
-                        <a href="{{ path('groups_show', { 'id': group.id }) }}">show</a>
+                        <a href="{{ path('admin_groups_show', { 'id': group.id }) }}">show</a>
                     </li>
                     <li>
-                        <a href="{{ path('groups_edit', { 'id': group.id }) }}">edit</a>
+                        <a href="{{ path('admin_groups_edit', { 'id': group.id }) }}">edit</a>
                     </li>
                 </ul>
                 </td>
@@ -42,7 +42,7 @@
 
      <ul>
         <li>
-            <a class="btn" href="{{ path('groups_new') }}">
+            <a class="btn" href="{{ path('admin_groups_new') }}">
                 <i class="icon-group icon"></i>Neue Gruppe erstellen
             </a>
         </li>

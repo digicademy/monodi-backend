@@ -3,7 +3,7 @@
 {% block body -%}
     <h1>Document creation</h1>
 
-    <form action="{{ path('documents_create') }}" method="post" {{ form_enctype(form) }}>
+    <form action="{{ path('admin_documents_create') }}" method="post" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <p>
             <button type="submit">Create</button>
@@ -12,7 +12,7 @@
 
         <ul class="record_actions">
     <li>
-        <a href="{{ path('documents') }}">
+        <a href="{{ path('admin_documents') }}">
             Back to the list
         </a>
     </li>

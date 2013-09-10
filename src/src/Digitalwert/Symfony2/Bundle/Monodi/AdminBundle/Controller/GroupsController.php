@@ -25,7 +25,7 @@ class GroupsController extends Controller
     /**
      * Lists all Group entities.
      *
-     * @Route("/", name="groups")
+     * @Route("/", name="admin_groups")
      * @Method("GET")
      * @Template()
      */
@@ -41,7 +41,7 @@ class GroupsController extends Controller
     /**
      * Creates a new Group entity.
      *
-     * @Route("/", name="groups_create")
+     * @Route("/", name="admin_groups_create")
      * @Method("POST")
      * @Template("DigitalwertMonodiAdminBundle:Groups:new.html.twig")
      */
@@ -76,7 +76,7 @@ class GroupsController extends Controller
     /**
      * Displays a form to create a new Group entity.
      *
-     * @Route("/new", name="groups_new")
+     * @Route("/new", name="admin_groups_new")
      * @Method("GET")
      * @Template()
      */
@@ -94,7 +94,7 @@ class GroupsController extends Controller
     /**
      * Finds and displays a Group entity.
      *
-     * @Route("/{id}", name="groups_show")
+     * @Route("/{id}", name="admin_groups_show")
      * @Method("GET")
      * @Template()
      */
@@ -113,7 +113,7 @@ class GroupsController extends Controller
     /**
      * Displays a form to edit an existing Group entity.
      *
-     * @Route("/{id}/edit", name="groups_edit")
+     * @Route("/{id}/edit", name="admin_groups_edit")
      * @Method("GET")
      * @Template()
      */
@@ -140,7 +140,7 @@ class GroupsController extends Controller
     /**
      * Edits an existing Group entity.
      *
-     * @Route("/{id}", name="groups_update")
+     * @Route("/{id}", name="admin_groups_update")
      * @Method("PUT")
      * @Template("DigitalwertMonodiCommonBundle:Group:edit.html.twig")
      */
@@ -178,7 +178,7 @@ class GroupsController extends Controller
     /**
      * Deletes a Group entity.
      *
-     * @Route("/{id}", name="groups_delete")
+     * @Route("/{id}", name="admin_groups_delete")
      * @Method("DELETE")
      */
     public function deleteAction(Request $request, $id)
