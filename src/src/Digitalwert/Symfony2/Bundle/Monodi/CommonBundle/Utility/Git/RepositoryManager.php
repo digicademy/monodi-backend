@@ -392,11 +392,17 @@ class RepositoryManager
      */
     protected function dumpDocumentToRepo(Document $document, RepositoryContainer $container) {
         // Dateiarbeit
-        $sub = $document->getFolder()->getSlug();
-        
         $base = $this->buildPath($container);
         
-        $path = $base . '/' . $sub;
+        $path = $base;
+        
+        if($document->getFolder()) {
+            
+          $sub = $document->getFolder()->getSlug();
+          
+          $path .= '/' . $sub;
+          
+        }        
         
         $filename = $document->getFilename();
         
