@@ -6,10 +6,12 @@
 {% block content_content %}
     <h1>Gruppe bearbeiten</h1>
     
-    {% for key, message in app.session.getFlashes() %}
-    <div class="{{ key }}">
-      {{ message|trans({}, 'FOSUserBundle') }}
-    </div>
+    {% for type, flashMessages in app.session.flashbag.all() %}
+        {% for flashMessage in flashMessages %}
+            <div class="alert alert-{{ type }}">
+                {{ flashMessage|trans({}, 'FOSUserBundle') }}
+            </div>
+        {% endfor %}
     {% endfor %}
     
     <form
@@ -26,10 +28,9 @@
             <button type="reset" class="btn">Abbrechen</button>
         </div>
     </form>
-
-    <ul class="record_actions">
+    <ul class="btn-group record_actions">
         <li>
-            <a href="{{ path('admin_groups') }}">
+            <a class="btn btn-info" href="{{ path('admin_groups') }}">
                 Zurück zur Übersicht
             </a>
         </li>
@@ -37,8 +38,9 @@
             <form action="{{ path('admin_groups_delete', { 'id': group.id }) }}" method="post">
                 <input type="hidden" name="_method" value="DELETE" />
                 {{ form_widget(delete_form) }}
-                <button type="submit" class="btn btn-danger">Delete</button>
+                <button type="submit" class="btn btn-danger"><i class="icon icon-trash"></i>Delete</button>
             </form>
         </li>
     </ul>
+
 {% endblock %}

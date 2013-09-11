@@ -11,6 +11,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 
 use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\User;
 use Digitalwert\Symfony2\Bundle\Monodi\AdminBundle\Form\UserType;
+use Digitalwert\Symfony2\Bundle\Monodi\AdminBundle\Form\NewUserType;
 
 /**
  * User controller.
@@ -21,7 +22,7 @@ class UsersController extends Controller
 {
     /** 
      * NutzerManager
-     * @var 
+     * @var \FOS\UserBundle\Doctrine\UserManager
      * @DI\Inject("fos_user.user_manager")
      */
     protected $userManager;
@@ -55,14 +56,14 @@ class UsersController extends Controller
     {
         $entity = $this->userManager->createUser();
         
-        $form = $this->createForm(new UserType(), $entity);
+        $form = $this->createForm(new NewUserType(), $entity);
         $form->bind($request);
 
         if ($form->isValid()) {
 
             $this->userManager->updateUser($entity, true);
 
-            return $this->redirect($this->generateUrl('users_show', array('id' => $entity->getId())));
+            return $this->redirect($this->generateUrl('admin_users_show', array('id' => $entity->getId())));
         }
 
         return array(
@@ -81,7 +82,7 @@ class UsersController extends Controller
     public function newAction()
     {
         $entity = new User();
-        $form   = $this->createForm(new UserType(), $entity);
+        $form   = $this->createForm(new NewUserType(), $entity);
 
         return array(
             'entity' => $entity,
@@ -166,7 +167,7 @@ class UsersController extends Controller
 
             $this->userManager->updateUser($entity, true);
 
-            return $this->redirect($this->generateUrl('users_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_users_edit', array('id' => $id)));
         }
 
         return array(
@@ -190,16 +191,16 @@ class UsersController extends Controller
         if ($form->isValid()) {
             $em = $this->getDoctrine()->getManager();
             $entity = $em->getRepository('DigitalwertMonodiCommonBundle:User')->find($id);
-
+            
             if (!$entity) {
                 throw $this->createNotFoundException('Unable to find User entity.');
             }
+            
+            $this->userManager->deleteUser($entity);
 
-            $em->remove($entity);
-            $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('users'));
+        return $this->redirect($this->generateUrl('admin_users'));
     }
 
     /**

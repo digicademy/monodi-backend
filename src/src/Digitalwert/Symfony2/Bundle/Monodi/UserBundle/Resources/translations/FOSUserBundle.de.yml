@@ -57,6 +57,7 @@ registration:
 
 # Password resetting
 resetting:
+    link_title: Passwort vergessen?
     password_already_requested: Für diesen Benutzer wurde in den vergangenen 24 Stunden bereits ein neues Passwort beantragt.
     check_email: Eine E-Mail wurde an %email% gesendet. Sie enthält einen Link, den Du anklicken musst, um Dein Passwort zurückzusetzen.
     request:

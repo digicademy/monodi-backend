@@ -6,6 +6,14 @@
 {% block content_content %}
     <h1>Nutzererstellung</h1>
     
+    {% for type, flashMessages in app.session.flashbag.all() %}
+        {% for flashMessage in flashMessages %}
+            <div class="alert alert-{{ type }}">
+                {{ flashMessage|trans({}, 'FOSUserBundle') }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    
     <form
       class="form-horizontal" 
       id="userFormNew" 
@@ -21,10 +29,10 @@
     </form>
 
     <ul class="record_actions">
-    <li>
-        <a class="btn" href="{{ path('admin_users') }}">
-            Zurück zur Übersicht
-        </a>
-    </li>
-</ul>
+        <li>
+            <a class="btn" href="{{ path('admin_users') }}">
+                Zurück zur Übersicht
+            </a>
+        </li>
+    </ul>
 {% endblock content_content %}

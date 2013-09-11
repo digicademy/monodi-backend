@@ -36,7 +36,7 @@
             </tr>
             <tr>
                 <th>Lastlogin</th>
-                <td>{{ entity.lastLogin|date('Y-m-d H:i:s') }}</td>
+                <td>{% if entity.lastLogin %}{{ entity.lastLogin|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
             <tr>
                 <th>Locked</th>
@@ -48,7 +48,7 @@
             </tr>
             <tr>
                 <th>Expiresat</th>
-                <td>{{ entity.expiresAt|date('Y-m-d H:i:s') }}</td>
+                <td>{% if entity.expiresAt %}{{ entity.expiresAt|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
             <tr>
                 <th>Confirmationtoken</th>
@@ -56,7 +56,7 @@
             </tr>
             <tr>
                 <th>Passwordrequestedat</th>
-                <td>{{ entity.passwordRequestedAt|date('Y-m-d H:i:s') }}</td>
+                <td>{% if entity.passwordRequestedAt %}{{ entity.passwordRequestedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
             <tr>
                 <th>Rollen</th>
@@ -80,7 +80,7 @@
             </tr>
             <tr>
                 <th>Credentialsexpireat</th>
-                <td>{{ entity.credentialsExpireAt|date('Y-m-d H:i:s') }}</td>
+                <td>{% if entity.credentialsExpireAt %}{{ entity.credentialsExpireAt|date('Y-m-d H:i:s') }}{% endif %}</td>
             </tr>
             <tr>
                 <th>Id</th>
@@ -104,7 +104,7 @@
             <form action="{{ path('admin_users_delete', { 'id': entity.id }) }}" method="post">
                 <input type="hidden" name="_method" value="DELETE" />
                 {{ form_widget(delete_form) }}
-                <button type="submit" class="btn btn-danger">Delete</button>
+                <button type="submit" class="btn btn-danger"><i class="icon icon-trash"></i>Delete</button>
             </form>
         </li>
     </ul>

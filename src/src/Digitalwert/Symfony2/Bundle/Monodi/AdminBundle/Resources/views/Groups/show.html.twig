@@ -5,7 +5,15 @@
 {% block content_content -%}    
     
     <h1>Gruppe - {{ group.name }}</h1>
-
+    
+    {% for type, flashMessages in app.session.flashbag.all() %}
+        {% for flashMessage in flashMessages %}
+            <div class="alert alert-{{ type }}">
+                {{ flashMessage|trans({}, 'FOSUserBundle') }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+    
     <table class="table table-striped table-bordered record_properties">
         <tbody>
             <tr>
@@ -27,23 +35,23 @@
         </tbody>
     </table>
 
-        <ul class="record_actions">
-    <li>
-        <a href="{{ path('admin_groups') }}">
-            Back to the list
-        </a>
-    </li>
-    <li>
-        <a href="{{ path('admin_groups_edit', { 'id': group.id }) }}">
-            Edit
-        </a>
-    </li>
-    <li>
-        <form action="{{ path('admin_groups_delete', { 'id': group.id }) }}" method="post">
-            <input type="hidden" name="_method" value="DELETE" />
-            {{ form_widget(delete_form) }}
-            <button type="submit">Delete</button>
-        </form>
-    </li>
-</ul>
+    <ul class="btn-group record_actions">
+        <li>
+            <a class="btn btn-info"href="{{ path('admin_groups') }}">
+                <i class="icon icon-pencil"></i>Zurück zur Übersicht
+            </a>
+        </li>
+        <li>
+            <a class="btn btn-primary" href="{{ path('admin_groups_edit', { 'id': group.id }) }}">
+                <i class="icon icon-pencil"></i>Edit
+            </a>
+        </li>
+        <li>
+            <form action="{{ path('admin_groups_delete', { 'id': group.id }) }}" method="post">
+                <input type="hidden" name="_method" value="DELETE" />
+                {{ form_widget(delete_form) }}
+                <button type="submit" class="btn btn-danger"><i class="icon icon-trash"></i>Delete</button>
+            </form>
+        </li>
+    </ul>
 {% endblock %}

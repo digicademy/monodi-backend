@@ -47,10 +47,6 @@ class GroupsController extends Controller
      */
     public function createAction(Request $request)
     {
-//        $entity  = new Group();
-//        $form = $this->createForm(new GroupType(), $entity);
-//        $form->bind($request);
-//        $form = new GroupType();
         
         $form = $this->container->get('fos_user.group.form');
         $formHandler = $this->container->get('fos_user.group.form.handler');
@@ -63,7 +59,7 @@ class GroupsController extends Controller
                 'id' => $form->getData('group')->getId(),
             );
             
-            $url = $this->container->get('router')->generate('groups_show', $parameters);
+            $url = $this->container->get('router')->generate('admin_groups_show', $parameters);
 
             return new RedirectResponse($url);
         }
@@ -165,7 +161,7 @@ class GroupsController extends Controller
             $em->persist($group);
             $em->flush();
 
-            return $this->redirect($this->generateUrl('groups_edit', array('id' => $id)));
+            return $this->redirect($this->generateUrl('admin_groups_edit', array('id' => $id)));
         }
 
         return array(
@@ -194,7 +190,7 @@ class GroupsController extends Controller
             $em->flush();
         }
 
-        return $this->redirect($this->generateUrl('groups'));
+        return $this->redirect($this->generateUrl('admin_groups'));
     }
 
     /**

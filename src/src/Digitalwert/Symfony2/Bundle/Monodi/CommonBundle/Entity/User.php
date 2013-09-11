@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 use JMS\Serializer\Annotation as Serializer;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryContainer;
 
@@ -17,6 +18,9 @@ use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryContai
  *
  * @ORM\Table(name="fos_user")
  * @ORM\Entity(repositoryClass="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\UserRepository")
+ * 
+ * @UniqueEntity("username")
+ * @UniqueEntity("email")
  * 
  * @Serializer\ExclusionPolicy("ALL")
  * @Serializer\XmlRoot(name="profile")

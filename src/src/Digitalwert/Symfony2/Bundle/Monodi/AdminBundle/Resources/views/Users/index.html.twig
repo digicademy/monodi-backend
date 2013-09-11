@@ -5,6 +5,14 @@
 
 {% block content_content %}
 
+    {% for type, flashMessages in app.session.flashbag.all() %}
+        {% for flashMessage in flashMessages %}
+            <div class="alert alert-{{ type }}">
+                {{ flashMessage|trans({}, 'FOSUserBundle') }}
+            </div>
+        {% endfor %}
+    {% endfor %}
+
     <table class="table table-striped table-bordered records_list">
         <caption>Nutzerübersicht</caption>
         <thead>
@@ -32,11 +40,9 @@
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a class="btn" href="{{ path('admin_users_new') }}">
-                <i class="icon-user icon"></i>Neuen Nutzer erstellen
-            </a>
-        </li>
-    </ul>
+    <div class="btn-group">
+        <a class="btn btn-success" href="{{ path('admin_users_new') }}">
+            <i class="icon-file icon"></i>Neuen Nutzer erstellen
+        </a>
+    </div>
 {% endblock content_content %}

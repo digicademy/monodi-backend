@@ -4,10 +4,13 @@ namespace Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity;
 
 use FOS\UserBundle\Entity\Group as BaseGroup;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="fos_group")
+ * 
+ * @UniqueEntity("name")
  */
 class Group extends BaseGroup
 {

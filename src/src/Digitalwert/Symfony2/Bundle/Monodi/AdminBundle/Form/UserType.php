@@ -5,6 +5,7 @@ namespace Digitalwert\Symfony2\Bundle\Monodi\AdminBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\User;
 
 class UserType extends AbstractType
 {
@@ -12,10 +13,7 @@ class UserType extends AbstractType
     {
         $builder
             ->add('username')
-//            ->add('usernameCanonical')
             ->add('email')
-//            ->add('emailCanonical')
-//            ->add('salt')
             ->add('plainPassword', 'password', 
               array(
                 'label' => 'Password',
@@ -23,12 +21,18 @@ class UserType extends AbstractType
               )
             )
             ->add('title')
-            ->add('salutation')
+            ->add('salutation',  'choice', 
+              array(
+                'choices'   => array(
+                  User::SALUTATION_Mr  => User::SALUTATION_Mr,
+                  User::SALUTATION_Ms  => User::SALUTATION_Ms,
+                )
+              )
+            )
             ->add('firstname')
             ->add('lastname')
-            ->add('enabled')
-//            ->add('lastLogin')
-            ->add('locked',null, array('required' => false))
+            ->add('enabled', null, array('required' => false))
+            ->add('locked', null, array('required' => false))
 //            ->add('expired')
 //            ->add('expiresAt', 'date', 
 //              array(
@@ -36,8 +40,6 @@ class UserType extends AbstractType
 //                'datepicker' => true
 //              )
 //            )
-//            ->add('confirmationToken')
-//            ->add('passwordRequestedAt')
             ->add('roles', 
               null,
               array(
