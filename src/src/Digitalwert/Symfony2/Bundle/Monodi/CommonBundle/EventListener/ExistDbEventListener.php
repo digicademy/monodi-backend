@@ -128,12 +128,12 @@ class ExistDbEventListener
         // perhaps you only want to act on some "Document" entity
         if ($entity instanceof Document) {
             $this->logger->debug('BEFORE' . __METHOD__);
-            $this->logger->debug($entity->getContent());
+            //$this->logger->debug($entity->getContent());
             
             $entity = $this->existdb->retrieveDocument($entity);
             
             $this->logger->debug('AFTER '. __METHOD__);
-            $this->logger->debug($entity->getContent());
+           // $this->logger->debug($entity->getContent());
         }
     }
     
@@ -163,7 +163,7 @@ class ExistDbEventListener
         if ($entity instanceof Document) {
             
             $this->logger->debug('BEFORE' . __METHOD__);
-            $this->logger->debug($entity->getContent());
+            //$this->logger->debug($entity->getContent());
             if($entity->hasMoved()) {
                 // wenn verschoben alten löschen und neuen speichern
                 $this->existdb->moveDocument($entity);

@@ -216,11 +216,11 @@ class GitEventListener
             $user = $entity->getEditor();
             
             $this->logger->debug('BEFORE' . __METHOD__);
-            $this->logger->debug($entity->getContent());
+            //$this->logger->debug($entity->getContent());
             
             $this->manager->push($user);
             
-            $this->logger->debug('AFTER' . __METHOD__);
+            //$this->logger->debug('AFTER' . __METHOD__);
             $this->logger->debug($entity->getContent());            
         }        
     }

@@ -15,10 +15,10 @@
     <td>{{ user.id }}</td>
     <td>
         <div class="btn-group">
-            <a class="btn" href="{{ path('admin_users_show', { 'id': user.id }) }}">
+            <a class="btn btn-info" href="{{ path('admin_users_show', { 'id': user.id }) }}">
                 <i class="icon icon-search"></i>details
             </a>
-            <a class="btn" href="{{ path('admin_users_edit', { 'id': user.id }) }}">
+            <a class="btn btn-primary" href="{{ path('admin_users_edit', { 'id': user.id }) }}">
                 <i class="icon icon-pencil"></i>bearbeiten
             </a>
         </div>
