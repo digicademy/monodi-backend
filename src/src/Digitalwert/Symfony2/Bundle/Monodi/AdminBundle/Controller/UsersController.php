@@ -211,7 +211,7 @@ class UsersController extends Controller
      */
     private function createDeleteForm($id)
     {
-        return $this->createFormBuilder(array('id' => $id))
+        return $this->createsourFormBuilder(array('id' => $id))
             ->setAttribute('show_legend', false)
             ->add('id', 'hidden')
             ->getForm()
