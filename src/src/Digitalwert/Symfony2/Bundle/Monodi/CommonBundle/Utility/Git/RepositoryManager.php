@@ -293,22 +293,29 @@ class RepositoryManager
         $gitRepo = $this->fromEntityToGitRepository($container);
         
         $cmdStack = array();
-        /**
-         * http://stackoverflow.com/questions/1125968/force-git-to-overwrite-local-files-on-pull
-         */          
-        $cmdStack[] = 'reset --hard HEAD';
         
-        $cmdStack[] = 'clean -f -d';
+        $refs = $this->showRef($container);
         
-        $cmdStack[] = 'fetch ' . $remote;
-        $cmdStack[] = 'reset --hard ' . $remote . '/' . self::LOCAL_MASTER;
-        $cmdStack[] = 'merge -v -s recursive -X theirs ' . self::LOCAL_MASTER;
-                
+        if(empty($refs)) {
+            
+            $cmdStack[] = 'pull -f ' . $remote . ' ' . self::LOCAL_MASTER;
+            
+        } else {
+            /**
+             * http://stackoverflow.com/questions/1125968/force-git-to-overwrite-local-files-on-pull
+             */          
+            $cmdStack[] = 'reset --hard HEAD';
+
+            $cmdStack[] = 'clean -f -d';
+
+            $cmdStack[] = 'fetch ' . $remote;
+            $cmdStack[] = 'reset --hard ' . $remote . '/' . self::LOCAL_MASTER;
+            $cmdStack[] = 'merge -v -s recursive -X theirs ' . self::LOCAL_MASTER;
+        }        
         /**
          * this will be better "git stash --include-untracked" 
          */
         //$cmdStack[] = 'stash --include-untracked';
-        //$cmdStack[] = 'pull -f ' . $remote . ' ' . self::LOCAL_MASTER;
         
         foreach($cmdStack as $k => $cmd) {
             
@@ -325,6 +332,34 @@ class RepositoryManager
     
     public function tag(RepositoryContainer $container) {
         $gitRepo = $this->fromEntityToGitRepository($container);
+    } 
+    
+    /**
+     * 
+     * @param \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryContainer $container
+     */
+    public function showRef(RepositoryContainer $container) {
+        $refs = array();
+        
+        $gitRepo = $this->fromEntityToGitRepository($container);
+        
+        $cmd = 'show-ref';
+        $this->logger->debug('GIT-SHOW-REF '. $cmd );   
+        $res = $gitRepo->run($cmd);
+        $this->logger->debug($res);
+        
+        if($res) {
+            $lines = explode("\n", $res);
+            foreach($lines as $line) {
+                if(trim($line)) {
+                    list($key,$value) = explode(' ', $line);
+                    $refs[$key] = $value;
+                }  
+            }
+        }
+        $this->logger->debug(var_export($res, true));
+        
+        return $refs;
     } 
     
     /**
