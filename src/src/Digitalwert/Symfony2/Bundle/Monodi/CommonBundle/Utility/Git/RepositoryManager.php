@@ -345,8 +345,17 @@ class RepositoryManager
         
         $cmd = 'show-ref';
         $this->logger->debug('GIT-SHOW-REF '. $cmd );   
-        $res = $gitRepo->run($cmd);
-        $this->logger->debug($res);
+        
+        $res = null;
+        // show-ref retrun error code 1 if no ref ist found
+        try {
+            
+          $res = $gitRepo->run($cmd);
+          $this->logger->debug($res);
+          
+        } catch(\Exception $e) {
+          $this->logger->warning('No Refs found maybe a new repo'); 
+        }
         
         if($res) {
             $lines = explode("\n", $res);
