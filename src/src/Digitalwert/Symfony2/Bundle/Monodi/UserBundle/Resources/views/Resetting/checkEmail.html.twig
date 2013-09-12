@@ -1,0 +1,12 @@
+{% extends "DigitalwertMonodiUserBundle::layout.angular.html.twig" %}
+
+{% block fos_user_content %}
+    <div class="modal-header">
+        <h3>{{ 'resetting.request.title'|trans({}, 'FOSUserBundle') }}</h3>
+    </div>
+    <div class="modal-body">
+        <p>
+        {{ 'resetting.check_email'|trans({'%email%': email}, 'FOSUserBundle') }}
+        </p>
+    </div>
+{% endblock %}
