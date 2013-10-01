@@ -169,6 +169,8 @@ class Document
      * 
      * @var Folder
      * 
+     * @Assert\NotBlank(message="Document must be in a folder")
+     * 
      * @ORM\ManyToOne(targetEntity="Folder", inversedBy="folder_id")
      * @ORM\JoinColumn(name="folder_id", referencedColumnName="id")
      */

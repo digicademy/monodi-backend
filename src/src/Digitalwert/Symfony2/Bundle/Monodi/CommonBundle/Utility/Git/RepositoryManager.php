@@ -188,13 +188,18 @@ class RepositoryManager
             foreach($files as $key => $file) {
                 if(!is_string($file)) {
                     if($file instanceof Document) {
-                        $files[$key] = $this->dumpDocumentToRepo($file, $container);
+                        $tmp = $this->dumpDocumentToRepo($file, $container);
+                        if(file_exists($tmp)) {
+                            $files[$key] = $tmp;
+                        }
                     }
                 }
             }
         } elseif($files instanceof Document) {
             $files = $this->dumpDocumentToRepo($files, $container);
-            $files = '"' . $files . '"';
+            if(file_exists($files)) {
+              $files = '"' . $files . '"';
+            }
         }
 
         if (is_array($files)) {
@@ -311,6 +316,7 @@ class RepositoryManager
             $cmdStack[] = 'fetch ' . $remote;
             $cmdStack[] = 'reset --hard ' . $remote . '/' . self::LOCAL_MASTER;
             $cmdStack[] = 'merge -v -s recursive -X theirs ' . self::LOCAL_MASTER;
+            $cmdStack[] = 'pull -f ' . $remote . ' ' . self::LOCAL_MASTER;
         }        
         /**
          * this will be better "git stash --include-untracked" 
