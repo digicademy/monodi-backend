@@ -142,7 +142,7 @@ class RepositoryManager
         
         if($files === null) {           
           
-          $this->logger->debug('ADD ALL FILES To REPO: ' . $gitRepo->add());
+          $this->logger->debug('GIT {' . $container->getEmail() . '} ADD ALL FILES To REPO: ' . $gitRepo->add());
           
         } else {
           if(is_array($files)) {
@@ -159,7 +159,7 @@ class RepositoryManager
               $files = '"' . $files . '"';
           }
           
-          $this->logger->debug('ADD filelist: ' . var_export($files, true));
+          $this->logger->debug('GIT {' . $container->getEmail() . '} filelist: ' . var_export($files, true));
           
           if(empty($files)) {
               $this->logger->error('FILELIST is empty');
@@ -208,9 +208,10 @@ class RepositoryManager
 
         if(!empty($files)) {
             $res = $gitRepo->run("rm -f $files ");
+            $this->logger->debug('GIT DELETE  {' . $container->getEmail() . '} ');
             $this->logger->debug($res);
         } else {
-            $this->logger->error('GIT DELETE $files are empty');
+            $this->logger->error('GIT  {' . $container->getEmail() . '} DELETE $files are empty');
         }
     }
     
@@ -280,7 +281,7 @@ class RepositoryManager
         $gitRepo = $this->fromEntityToGitRepository($container);
         
         $cmd = 'push -f -v';
-        $this->logger->debug('PUSH');
+        $this->logger->debug('PUSH  {' . $container->getEmail() . '} ');
         $res = $gitRepo->run($cmd);
         $this->logger->debug($res);
     }
@@ -325,7 +326,7 @@ class RepositoryManager
         
         foreach($cmdStack as $k => $cmd) {
             
-            $this->logger->debug('GIT-PULL (' . $k . ') ' . $cmd );        
+            $this->logger->debug('GIT-PULL {' . $container->getEmail() . '} (' . $k . ') ' . $cmd );        
             $res = $gitRepo->run($cmd);
 
             $this->logger->debug($res);
@@ -391,7 +392,9 @@ class RepositoryManager
       
       $gitRepo->run('config user.name "' . $name . '"');
       $gitRepo->run('config user.email "' . $email . '"');
-       
+      // Share the repo
+      $gitRepo->run('config core.sharedRepository 1');
+      
       //$url = 'git@github.com:mischka/monodi-test.git';
       $gitRepo->run('remote add ' . self::REMOTE_MASTER . ' ' . $this->remote);
     }
