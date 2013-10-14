@@ -279,7 +279,7 @@ class RepositoryManager
     public function push(RepositoryContainer $container, $remote = self::REMOTE_MASTER) {
         $gitRepo = $this->fromEntityToGitRepository($container);
         
-        $cmd = 'push -v';
+        $cmd = 'push -f -v';
         $this->logger->debug('PUSH');
         $res = $gitRepo->run($cmd);
         $this->logger->debug($res);
