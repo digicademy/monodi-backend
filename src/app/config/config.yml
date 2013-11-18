@@ -25,6 +25,7 @@ framework:
 twig:
     debug:            %kernel.debug%
     strict_variables: %kernel.debug%
+#    exception_controller: 'FOS\RestBundle\Controller\ExceptionController::showAction'
 
 # Assetic Configuration
 assetic:
@@ -104,6 +105,12 @@ swiftmailer:
     username:  %mailer_user%
     password:  %mailer_password%
     spool:     { type: memory }
+# Services    
+services:
+    kernel.listener.monodi_api_exception_listener:
+        class: Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\EventListener\ApiExceptionListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
 # Twitter-Bootstrap
 mopa_bootstrap:
     form:
