@@ -10,6 +10,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Doctrine\DBAL\LockMode;
+use Doctrine\ORM\PessimisticLockException;
 
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -178,7 +180,8 @@ class DocumentController extends FOSRestController
      *   statusCodes={
      *     204="Returned when successful",
      *     403="Returned when the user is not authorized to delete the document",  
-     *     404="Returned when the document was not found"
+     *     404="Returned when the document was not found",
+     *     423="Returned when the document is locked"
      *   }
      * )
      * 
@@ -207,19 +210,25 @@ class DocumentController extends FOSRestController
          */
         if(!$user->isUser($owner)) {
            if(!$user->isSuperAdmin()) {
-                throw new AccessDeniedHttpException('User not allowd to delete the document');
+                throw new AccessDeniedHttpException('User(' . (string)$user . ') not allowd to delete the document (owned by '. (string)$owner .')');
            }
         }
         
         $this->em->getConnection()->beginTransaction();
         try {
-            $logger = $this->get('logger');
+            $logger = $this->get('logger');            
             
+            $this->em->lock($document, LockMode::PESSIMISTIC_WRITE);
+                    
             $this->em->remove($document);
             $this->em->flush();
                 
             $this->em->getConnection()->commit();
                 
+        } catch(PessimisticLockException $e) {
+            
+            throw new HttpException(423, 'Sorry, but someone else has already changed this entity. Please apply the changes again!');
+            
         } catch (Exception $e) {
             $this->em->getConnection()->rollback();
             $this->em->close();
@@ -310,7 +319,8 @@ class DocumentController extends FOSRestController
 
             return $response;
         }
-
+        $logger->debug('400 Bad Request - Validation error: ' . $form->getErrorsAsString());
+        
         return View::create($form, 400);
     }
 }
