@@ -280,11 +280,13 @@ class DocumentController extends FOSRestController
 
         $form->bind($request);
         
+        $logger = $this->get('logger');
+        
         if ($form->isValid()) {
             
             $this->em->getConnection()->beginTransaction(); // suspend auto-commit
             try {
-                $logger = $this->get('logger');
+                
                 $logger->debug(__METHOD__);
                 $logger->debug($request->getContent());
 
