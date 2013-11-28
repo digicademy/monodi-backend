@@ -431,7 +431,13 @@ class RepositoryManager
         return $gitRepo;
     }
     
-    protected function buildPath(RepositoryContainer $container) {        
+    /**
+     * Gibt das Wurzelverzeichnis des Containers zurück
+     * 
+     * @param \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryContainer $container
+     * @return string
+     */
+    public function buildPath(RepositoryContainer $container) {        
 //        $path = $container->getRepository()->getPath();
 //        $slug = str_replace(' ', '.', strtolower($container->getDisplayName()));  
         $slug = $container->getRepositoryPath();
@@ -473,8 +479,15 @@ class RepositoryManager
         
         return $pathname;
     }
-
-    protected function getDocumentPathnameInRepo(Document $document, RepositoryContainer $container) {
+    
+    /**
+     * Gibt den Dateipath zu einem Dokument zurück
+     * 
+     * @param \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document $document
+     * @param \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Utility\Git\RepositoryContainer $container
+     * @return string
+     */
+    public function getDocumentPathnameInRepo(Document $document, RepositoryContainer $container) {
         // Dateiarbeit
         $sub = $document->getFolder()->getSlug();
 
