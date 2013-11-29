@@ -15,6 +15,22 @@ use JMS\DiExtraBundle\Annotation as DI;
  */
 class RepoCheckCommand extends ContainerAwareCommand
 {
+    const FIX_STRATEGY_GIT = 'git';
+    
+    const FIX_STRATEGY_DB = 'db';
+    
+    const FIX_STRATEGY_EXISTDB = 'existdb';
+    
+    const FIX_STRATEGY_2OF3 = '2of3';
+    
+    const FIX_ACTION_RESTORE = 'r';
+    
+    const FIX_ACTION_DELETE = 'd';
+    
+    const FIX_MODE_AUTO = 'auto';
+    
+    const FIX_MODE_ASK = 'ask';
+    
     /**
      *
      * @var type 
@@ -86,6 +102,7 @@ EOT
         $display = array(
             'id' => 5,
             'file' => 20, 
+            'folder' => 20,
             'database' => 10,
             'git' => 10,
             'existdb' => 10,
@@ -93,19 +110,28 @@ EOT
         
         $user = $this->userManager->findUserByUsername($input->getArgument('username'));
         if($user) {
-            $output->writeln('User for test is: ' . $user);            
+            $output->writeln('User for check is: ' . $user);            
             
+            /*
+             *  Update lokal git
+             */
+            if(!$this->gitRepositoryManager->existsRepo($user)) {
+               $this->gitRepositoryManager->createRepo($user); 
+            }
+            $this->gitRepositoryManager->pull($user);
+            
+            /*
+             *  Check database
+             */
             $q = $this->em->createQuery('SELECT d.id, d.filename FROM Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Document d');
-            $results = $q->getArrayResult();
+            $results = $q->getArrayResult();                    
             
-            \Doctrine\Common\Util\Debug::dump($results);
-            
-            // Check database
             foreach($results as $row) {           
                 
                 $status = array(
                     'id' => $row['id'],
-                    'file' => '', 
+                    'file' => '',
+                    'folder' => '',
                     'database' => 'OK',
                     'git' => 'OK',
                     'existdb' => 'OK',
@@ -124,25 +150,42 @@ EOT
                     $filelist[] = $filepath;
                     
                     $display['file'] = (strlen($filepath) > $display['file']) ?  
-                            strlen($filepath) + 2 : $display['file'];                    
+                            strlen($filepath) + 2 : $display['file'];  
+                    // check folderentity
+                    if(null === $document->getFolder()) {
+                        $status['folder'] = 'NULL'; 
+                    }
                     
                 } catch (\Digitalwert\Guzzle\ExistDb\Exception\DocumentNotFoundException $e) {
+                    
                     $output->writeln('ExistDb-Error:' . $e->getMessage() );
                     $status['existdb'] = 'ERROR';
                     $status['git'] = 'NONE';
+                    
+                } catch (\Symfony\Component\Filesystem\Exception\IOException $e) {
+                    
+                    $output->writeln('GIT-Error:' . $e->getMessage() );
+                    $status['git'] = 'ERROR';
+                    
+                } catch (\Exception $e) {                    
+                    $output->writeln('Error (' . get_class($e) . '):' . $e->getMessage() );
                 }
                 
                 $report[] = $status;
             }
+            
             // check GIT
             $repoRoot = $this->gitRepositoryManager->buildPath($user);
             
             // check ExistDB
             
+            // fix data
+            
             // echo data
             foreach($report as $line) {
                 $str = '|' . str_pad($line['id'], $display['id'], " ", STR_PAD_BOTH);
-                $str .= '|' . str_pad($line['file'], $display['file'], " ", STR_PAD_BOTH);
+                $str .= '| ' . str_pad($line['file'], $display['file'], " ", STR_PAD_LEFT);
+                $str .= '|' . str_pad($line['folder'], $display['folder'], " ", STR_PAD_BOTH);
                 $str .= '|' . str_pad($line['database'], $display['database'], " ", STR_PAD_BOTH);
                 $str .= '|' . str_pad($line['git'], $display['git'], " ", STR_PAD_BOTH);
                 $str .= '|' . str_pad($line['existdb'], $display['existdb'], " ", STR_PAD_BOTH) . '|';
@@ -154,6 +197,10 @@ EOT
         //$output->writeln(sprintf('Added a new client with name <info>%s</info> and public id <info>%s</info>.', $client->getName(), $client->getPublicId()));        
     }
     
+    protected function fix() {
+        
+    }
+
     protected function logMessages() {
         
     }

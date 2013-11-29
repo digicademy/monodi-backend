@@ -489,12 +489,16 @@ class RepositoryManager
      */
     public function getDocumentPathnameInRepo(Document $document, RepositoryContainer $container) {
         // Dateiarbeit
-        $sub = $document->getFolder()->getSlug();
-
         $base = $this->buildPath($container);
-
-        $path = $base . '/' . $sub;
-
+        
+        $path = $base;
+        
+        if(null !== ($folder = $document->getFolder())) {
+            $path = $path . '/' . $folder->getSlug();
+        } else {
+            $this->logger->error('Document (' . $document->getId(). ') "' . $document->getFilename() . '" has no folder!');
+        }
+        
         $filename = $document->getFilename();
 
         $pathname = $path . '/' . $filename;
