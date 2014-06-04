@@ -95,7 +95,7 @@ class Document
      * @ORM\Column(name="editedAt", type="datetime")
      * 
      * @Serializer\Expose
-     * @Serializer\Groups({"list", "detail"})
+     * @Serializer\Groups({"detail"})
      */
     protected $editedAt;
 

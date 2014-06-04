@@ -232,13 +232,24 @@ misd_guzzle:
 digitalwert_monodi_common:
     git:
         remote:
-            uri: "ssh://petzold@adwserv9.adwmainz.net:7022/var/git/test.git"
+#            uri: "ssh://petzold@adwserv9.adwmainz.net:7022/var/git/test.git"
+            uri: %monodi_git_remote_uri%
         local:
           base: "%kernel.root_dir%/../git"
         ssh:
           cmd: "%kernel.root_dir%/Resources/sh/git-ssh.sh"
           key_file: "%kernel.root_dir%/config/ssh/webserver.rsa"
     existdb:
-        uri: "https://adwserv9.adwmainz.net/exist/rest/db/"
-        username: monodi
-        password: tLZ5BölTwq!qdUög
+        uri: %monodi_existdb_uri%
+        username: %monodi_existdb_username%
+        password: %monodi_existdb_password%
+#
+#        uri: "https://adwserv9.adwmainz.net/exist/rest/db/"
+#        username: monodi
+#        password: tLZ5BölTwq!qdUög
+
+
+#ornicar_apc:
+#      host: http://192.168.33.100/
+#      web_dir: %kernel.root_dir%/../web
+#      mode: curl

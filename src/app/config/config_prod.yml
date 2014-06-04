@@ -16,12 +16,14 @@ doctrine:
         port:     %database_port%
         dbname:   %database_name%
         user:     %database_user%
-        password: 68M4ZLQHrbD6WjZA
+        password: %database_password%
+#        user:     root
+#        password: 68M4ZLQHrbD6WjZA
         charset:  UTF8
-#    orm:
-#        metadata_cache_driver: apc
-#        result_cache_driver: apc
-#        query_cache_driver: apc
+    orm:
+        metadata_cache_driver: apc
+        result_cache_driver: apc
+        query_cache_driver: apc
 
 monolog:
     handlers:
@@ -30,6 +32,6 @@ monolog:
             action_level: debug
             handler:      nested
         nested:
-            type:  stream
+            type:  rotating_file
             path:  %kernel.logs_dir%/%kernel.environment%.log
             level: debug

@@ -23,6 +23,8 @@ use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Folder;
 //use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\FolderRepository;
 use Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Form\Type\FolderFormType;
 
+use Doctrine\Common\Cache\ApcCache;
+use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\EventListener\DoctrineCacheEventListener as MonodiCache;
 
 /**
  * Klasse 
@@ -89,7 +91,6 @@ class MetadataController extends Controller
                 ),
             ),
         );
-//        \Doctrine\Common\Util\Debug::dump($folder);
         $data = $folder;
         
 //        /** @var \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\FolderRepository */
@@ -133,8 +134,32 @@ class MetadataController extends Controller
      * @Rest\View(serializerGroups={"list"})
      */
     public function getRootAction() {
-        
-        return $this->getAction(null);
+
+        $cacheDriver = new ApcCache();
+        $cacheId = MonodiCache::CACHE_KEY_CONTROLLER_FOLDER;
+
+        if($cacheDriver->contains($cacheId)) {
+            return $cacheDriver->fetch($cacheId);
+        }
+
+        /** @var \Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\FolderRepository */
+        $folderRepository = $this
+            ->em
+            ->getRepository('Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Folder')
+        ;
+
+        $nodesHierarchy = $folderRepository->getNodesHierarchy();
+        $folders = $folderRepository->buildTreeArrayMapped($nodesHierarchy);
+
+        $metadata = array(
+            'metadata' => array(
+                'folders' => $folders,
+            ),
+        );
+
+        $cacheDriver->save($cacheId, $folders, MonodiCache::DEFAULT_TTL);
+
+        return $folders;
     }    
         
     /**
@@ -242,7 +267,7 @@ class MetadataController extends Controller
            
             //$folderRepository->getChildren($folder);
         }
-        
+
         return $folderRepository->getChildren($folder, true, null, 'asc', false);
     }
     

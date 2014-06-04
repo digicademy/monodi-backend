@@ -1,0 +1,45 @@
+---
+# file: lamp.yml
+- hosts: all
+  roles:
+    - common
+    - {
+      role: mysql,
+      root_db_pass: root,
+      mysql_db: [{ name: symfony2_yoursafe24}],
+      mysql_users: [{ name: symfony2_user, pass: password#123, priv: "*.*:ALL", host: "%"}]
+    }
+    - php
+    - {
+      role: apache,
+      apache_host: "*",
+      apache_vhost_sites: [{ host: 'localhost', user: 'vagrant', group: 'vagrant', document_root: 'web' }],
+      apache_vhost_sites_deleted: []
+    }
+ #   - logstash
+#
+#- hosts: webservers
+#  pre_tasks:
+#    - shell: echo 'hello'
+#  roles:
+#    - { role: some_role }
+  tasks:
+    - name: Install Ruby and Gem
+      apt: name={{ item }} state=installed update_cache=yes
+      with_items:
+        - ruby-full
+        - rubygems1.8
+        - ruby-compass
+      when: ansible_os_family == 'Debian'
+    - name: Install Gems
+      gem: name={{ item }} state=latest user_install=no
+      with_items:
+        - sass
+        - compass
+        - zen-grids
+        - sassy-buttons
+
+#    - name: Import MYSQL data
+#      mysql_db: name=myapp_db state=import target=''
+#  post_tasks:
+#    - shell: echo 'goodbye'
