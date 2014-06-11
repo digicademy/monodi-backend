@@ -6,10 +6,13 @@
     - {
       role: mysql,
       root_db_pass: root,
-      mysql_db: [{ name: symfony2_yoursafe24}],
+      mysql_db: [{ name: symfony2_monodi}],
       mysql_users: [{ name: symfony2_user, pass: password#123, priv: "*.*:ALL", host: "%"}]
     }
-    - php
+    - {
+      role: php,
+      php_version: 5.5
+    }
     - {
       role: apache,
       apache_host: "*",
