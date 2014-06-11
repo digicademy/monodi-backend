@@ -221,7 +221,7 @@ class GitEventListener
             $this->manager->push($user);
             
             //$this->logger->debug('AFTER' . __METHOD__);
-            $this->logger->debug($entity->getContent());            
+            $this->logger->debug($entity->getContent());
         }        
     }
 }

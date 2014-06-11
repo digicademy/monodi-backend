@@ -16,6 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Entity(
  *   repositoryClass="Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\FolderRepository"
  * )
+ * @ORM\HasLifecycleCallbacks
  *
  * ORM\Cache(region="folder_test_annotation")
  * ORM\EntityResult

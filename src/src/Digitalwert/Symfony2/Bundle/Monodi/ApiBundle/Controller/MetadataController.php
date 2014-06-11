@@ -2,6 +2,7 @@
 
 namespace Digitalwert\Symfony2\Bundle\Monodi\ApiBundle\Controller;
 
+use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\EventListener\DoctrineCacheEventListener;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -244,6 +245,35 @@ class MetadataController extends Controller
 
         $response = new Response();
         $response->setStatusCode(204);
+        return $response;
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @Route("/metadata.{_format}",
+     *   name = "monodi_api_metadata_purge_root",
+     *   requirements={
+     *     "_format" = "(xml|json)"
+     *   },
+     *   defaults={"_format" = "xml"}
+     * )
+     * @Method({"PURGE"})
+     */
+    public function purgeRootAction(Request $request)
+    {
+        //
+        $this->em
+            ->getConfiguration()
+            ->getResultCacheImpl()
+            ->delete(DoctrineCacheEventListener::CACHE_KEY_DOCTRINE_FOLDER_NODES_ARRAY)
+        ;
+
+        $cacheDriver = new ApcCache();
+        $cacheDriver->delete(DoctrineCacheEventListener::CACHE_KEY_CONTROLLER_FOLDER);
+
+        $response = new Response();
+        $response->setStatusCode(204, 'Result-Cache purged');
         return $response;
     }
     

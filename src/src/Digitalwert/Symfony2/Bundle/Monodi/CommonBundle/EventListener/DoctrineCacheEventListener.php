@@ -10,6 +10,7 @@ namespace Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\EventListener;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 // for doctrine 2.4: Doctrine\Common\Persistence\Event\LifecycleEventArgs;
+use Doctrine\ORM\Event\PreUpdateEventArgs;
 use JMS\DiExtraBundle\Annotation as DI;
 use Psr\Log\LoggerInterface;
 use Digitalwert\Symfony2\Bundle\Monodi\CommonBundle\Entity\Folder;
@@ -43,19 +44,43 @@ class DoctrineCacheEventListener
     const CACHE_KEY_CONTROLLER_FOLDER = '_folder_metadata_path_';
 
     /**
+     * Monolog des Systems
      *
-     * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
+     * @var \Psr\Log\LoggerInterface
+     * DI\Inject("logger")
      */
-    public function prePersist(LifecycleEventArgs $args)
-    {
-        $this->flush($args);
+    private $logger;
+
+    /**
+     * @DI\InjectParams({
+     *     "logger" = @DI\Inject("logger")
+     * })
+     */
+    public function __construct(LoggerInterface $logger) {
+
+        $this->logger = $logger;
+
     }
 
     /**
      *
      * @param \Doctrine\ORM\Event\LifecycleEventArgs $args
      */
-    public function preUpdate(LifecycleEventArgs $args)
+    public function prePersist(LifecycleEventArgs $args)
+    {
+        $entity = $args->getEntity();
+        if($entity instanceof Document
+            || $entity instanceof Folder
+        ){
+           $this->flush($args, true);
+        }
+    }
+
+    /**
+     *
+     * @param \Doctrine\ORM\Event\PreUpdateEventArgs $args
+     */
+    public function preUpdate(PreUpdateEventArgs $args)
     {
         $this->flush($args);
     }
@@ -66,45 +91,59 @@ class DoctrineCacheEventListener
      */
     public function preRemove(LifecycleEventArgs $args)
     {
-        $this->flush($args);
+        $this->flush($args, true);
     }
 
-    protected function flush(LifecycleEventArgs $args)
+    /**
+     * Löschen des Folder-Cache im APC
+     *
+     * @param LifecycleEventArgs $args
+     * @param bool $force
+     */
+    protected function flush(LifecycleEventArgs $args, $force = false)
     {
         $em = $args->getEntityManager();
         $uow = $em->getUnitOfWork();
         $entity = $args->getEntity();
 
-        $flush = false;
+        $flush = $force;
 
         if($entity instanceof Folder) {
             $flush = true;
         }
 
         if($entity instanceof Document) {
-            $changeSet = $uow->getEntityChangeSet($entity);
-            if($changeSet['folder']
-                || $changeSet['title']
-                || $changeSet['rev']
-                || $changeSet['filename']
-            ) {
-                $flush = true;
+            // Update-Regeln
+            if($args instanceof PreUpdateEventArgs) {
+                $changeSet = $args->getEntityChangeSet();
+
+                if($changeSet['folder']
+                    || $changeSet['title']
+                    || $changeSet['rev']
+                    || $changeSet['filename']
+                ) {
+                    $flush = true;
+                }
             }
+
         }
 
         if($flush) {
-
             /**
              * http://docs.doctrine-project.org/en/2.0.x/reference/caching.html
              */
-            $em
+            $ormDeleted = $em
                 ->getConfiguration()
                 ->getResultCacheImpl()
-                ->delete(static::CACHE_KEY_DOCTRINE_FOLDER_NODES_ARRAY . '*')
+                ->delete(static::CACHE_KEY_DOCTRINE_FOLDER_NODES_ARRAY)
+
             ;
 
             $cacheDriver = new ApcCache();
-            $cacheDriver->delete(static::CACHE_KEY_CONTROLLER_FOLDER . '*');
+            $deleted = $cacheDriver
+                ->delete(static::CACHE_KEY_CONTROLLER_FOLDER)
+            ;
+            $this->logger->info('Flush CACHE via Event');
         }
     }
 
