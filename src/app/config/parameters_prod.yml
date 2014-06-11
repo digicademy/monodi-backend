@@ -1,0 +1,18 @@
+parameters:
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: symfony2_monodi
+    database_user: symfony2_user
+    database_password: password#123
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    locale: en
+    secret: e2669818e3134c10add6bdfec1a65c90d
+    database_path: null
+    monodi_git_remote_uri: "git@github.com:mischka/monodi-test.git"
+    monodi_existdb_uri: "http://192.168.33.100:8080/exist/rest/db/"
+    monodi_existdb_username: monodi
+    monodi_existdb_password: tLZ5BölTwq!qdUög
