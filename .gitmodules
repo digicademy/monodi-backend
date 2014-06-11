@@ -1,6 +1,6 @@
 [submodule "src/src/Digitalwert/Symfony2/Bundle/Monodi/ClientBundle"]
 	path = src/src/Digitalwert/Symfony2/Bundle/Monodi/ClientBundle
-	url = https://digitalwert@bitbucket.org/digitalwert/monodi-client.git
+	url = git@bitbucket.org:digitalwert/monodi-client.git
 [submodule "provisioning/roles"]
 	path = provisioning/roles
 	url = git@bitbucket.org:digitalwert/ansible-playbook-roles.git
