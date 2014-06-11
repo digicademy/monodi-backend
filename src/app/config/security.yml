@@ -55,6 +55,7 @@ security:
                 check_path: /oauth/v2/auth_login_check
                 login_path: /oauth/v2/auth_login
                 use_referer: true
+#                default_target_path: fos_oauth_server_authorize
             anonymous: true
         api_v1:
             pattern:    ^/api/v1
