@@ -81,8 +81,14 @@
         "kbjr/git-php": "*",
         
         "digitalwert/guzzle-existdb": "dev-master",
-        "misd/guzzle-bundle": "~1.1"
+        "misd/guzzle-bundle": "~1.1",
 
+        "ornicar/apc-bundle": "1.0.*",
+        "stealth35/apc-profiler-bundle": "dev-master"
+
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
     },
     "scripts": {
         "post-install-cmd": [
