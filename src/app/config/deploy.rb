@@ -34,7 +34,7 @@ set :webserver_user,    "www-data"
 # Symfony2
 set :use_composer, true
 #set :update_vendors,   true
-set :composer_options,      "--no-scripts --no-dev --verbose --optimize-autoloader"
+set :composer_options,      "--no-dev --verbose --optimize-autoloader"
 
 set :assets_symlinks, true
 set :console_options, "-verbose"
